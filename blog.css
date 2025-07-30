@@ -1,0 +1,878 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    overscroll-behavior: none;
+    padding: 0px;
+    font-family: "Montserrat", serif;
+}
+
+.header {
+    background: white;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background 0.3s ease;
+}
+
+.imgggg{
+    transform: scale(1.9);
+    border-radius: 15px;
+    margin-right: 220px;
+}
+
+.header.scrolled {
+    background: rgba(82, 52, 42, 0.9);
+}
+
+.navbar-brand img {
+    max-height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.1);
+}
+
+.nav-link {
+    color: black !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #FFD700 !important;
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+.dropdown-item {
+    transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.social-icons .btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.social-icons .btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.664);
+        border-radius: 10px;
+        padding: 20px;
+    }
+}
+
+/* Custom styles for the mobile toggle button */
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: none;
+    
+}
+
+.navbar-toggler::after {
+    content: "\f0c9"; /* Font Awesome bars icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: black;
+    font-size: 1.5rem;
+}
+
+/* Additional styles for the header */
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-item {
+    position: relative;
+    color: #090b0c;
+}
+.social-icons{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: blue;
+    left: 50%;
+    bottom: -5px;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .social-icons {
+        margin-top: 15px;
+        gap: 10px;
+    }
+    .navbar ul.lists {
+        display: none;
+        position: relative;
+        top: 2px;
+        left: -30%;
+        width: 100%;
+        color: blue;
+        background: rgba(0, 0, 0, 0.555) ;
+        
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1049;
+        transition: transform 0.3s ease;
+    }
+    .nav-link{
+        color: wheat;
+    }
+    .navbar ul  li a{
+        color: white;
+    }
+    
+    .imgggg{
+        position: relative;
+        transform: scale(1.2);
+      
+    }
+}
+
+@media(max-width: 480px){
+    html body{
+        overflow-x: hidden;
+        width: 100%;
+    }
+    footer{
+        height: 800px;
+        font-size: 16px;
+    }
+    .navbar ul.lists{
+        left: -120%;
+        top: 50px;
+    }
+    .mobile-toggle{
+        position: relative;
+        left: 83%;
+    }
+}
+
+/* Additional animations for dropdowns */
+.dropdown-menu.show {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+ul.categories li{
+height: 40px;
+line-height: 40px;
+}
+
+
+footer .list-unstyled a {
+    color: #FFD700; /* Gold color for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer .list-unstyled a:hover {
+    text-decoration: underline; /* Underline on hover for better UX */
+}
+
+/* Style for social media icons */
+footer .d-flex a {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+footer .d-flex a:hover {
+    transform: scale(1.2); /* Slight zoom on hover */
+}
+
+footer .fa-instagram {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+footer .fa-facebook {
+    color: #1877F2; /* Facebook blue */
+}
+
+footer .fa-whatsapp {
+    color: #25D366; 
+}
+footer .primary h2, footer h3 {
+    color: #FFD700; 
+    font-weight: bold;
+}
+
+
+.about h2{
+margin-top: 20px;
+margin-bottom: 20px;
+}
+.about p{
+font-family: "Playwrite IT Moderna", serif;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    background-image: url(imgg/COAST.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin: 0;
+}
+main{
+    flex: 1;
+}
+.blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.blog-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.blog-header h1 {
+    font-size: 3rem;
+    color: #FF6B35;
+}
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.blog-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.blog-card:hover {
+    transform: translateY(-10px);
+}
+.blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.blog-card h4 {
+    font-size: 1.5rem;
+    margin: 20px;
+    color: #FF6B35;
+}
+.blog-card p {
+    margin: 0 20px 20px;
+    color: #666;
+}
+.blog-card button {
+    display: block;
+    width: 80%;
+    margin: 0 auto 20px;
+    padding: 10px;
+    background-color: #FF6B35;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.blog-card button:hover {
+    background-color: #e65a2e;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}.featured-posts {
+    margin: 40px 0;
+}
+
+.featured-posts h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #FF6B35;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.featured-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-10px);
+}
+
+.featured-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.featured-card h3 {
+    font-size: 1.5rem;
+    margin: 20px;
+    color: #FF6B35;
+}
+
+.featured-card p {
+    margin: 0 20px 20px;
+    color: #666;
+}
+
+
+.featured-card button {
+    display: block;
+    width: 80%;
+    margin: 0 auto 20px;
+    padding: 10px;
+    background-color: #FF6B35;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.featured-card button:hover {
+    background-color: #e65a2e;
+}
+
+/* Existing styles remain unchanged */
+
+/* Improved featured post card styles */
+.featured-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.featured-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.featured-card:hover img {
+    transform: scale(1.05);
+}
+
+.featured-card h3 {
+    font-size: 1.5rem;
+    margin: 20px 20px 10px;
+    color: #FF6B35;
+}
+
+.featured-card .card-content {
+    padding: 0 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-card p {
+    margin: 0 0 20px;
+    color: #666;
+    overflow: hidden;
+    position: relative;
+    max-height: 100px;
+    transition: max-height 0.3s ease;
+}
+
+.featured-card p.expanded {
+    max-height: 1000px;
+}
+
+.featured-card .fade-out {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(transparent, white);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.featured-card p.expanded + .fade-out {
+    opacity: 0;
+}
+
+.featured-card button {
+    align-self: center;
+    width: 80%;
+    margin: 0 auto 20px;
+    padding: 10px;
+    background-color: #FF6B35;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-card button:hover {
+    background-color: #e65a2e;
+    transform: translateY(-2px);
+}
+
+.featured-card button:active {
+    transform: translateY(0);
+}
+
+/* Responsive design for featured cards */
+@media (max-width: 768px) {
+    .featured-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+}
+
+/* Blog grid improvements */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+}
+
+
+/* Empty state styling */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state h3 {
+    color: #FF6B35;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #666;
+}
+
+/* Modal improvements */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10vh auto;
+    padding: 30px;
+    border: none;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-content h4 {
+    color: #FF6B35;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.modal-content img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.close:hover, .close:focus {
+    color: #FF6B35;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Improved Blog Card Styling */
+.blog-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: none;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card .image-container {
+    position: relative;
+    overflow: hidden;
+    height: 240px;
+}
+
+.blog-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.blog-card:hover img {
+    transform: scale(1.05);
+}
+
+.blog-card .card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-card h4 {
+    font-size: 1.3rem;
+    margin: 0 0 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+.blog-card p {
+    margin: 0 0 20px;
+    color: #666;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Modern Button Styling */
+.blog-card .read-more-btn {
+    align-self: flex-start;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #3f87a6, #4a6d8c);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-card .read-more-btn:hover {
+    background: linear-gradient(135deg, #4a6d8c, #3f87a6);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.blog-card .read-more-btn:active {
+    transform: translateY(0);
+}
+
+/* Creative Featured Posts Styling */
+.featured-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    height: 100%;
+    position: relative;
+    border: none;
+}
+
+.featured-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.featured-card .image-container {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+}
+
+.featured-card .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.featured-card:hover .image-container img {
+    transform: scale(1.08);
+}
+
+.featured-card .card-content {
+    padding: 25px;
+}
+
+.featured-card h3 {
+    font-size: 1.6rem;
+    margin: 0 0 15px;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.featured-card:hover h3 {
+    color: #3f87a6;
+}
+
+.featured-card .content-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-card .feature-text {
+    margin: 0;
+    color: #555;
+    line-height: 1.7;
+    height: 105px;
+    overflow: hidden;
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-card .feature-text.expanded {
+    height: auto;
+    max-height: 1000px;
+}
+
+.featured-card .read-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/* Modern Read More Toggle */
+.featured-card .read-more-toggle {
+    background: none;
+    border: none;
+    color: #3f87a6;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.featured-card .read-more-toggle:hover {
+    background: rgba(63, 135, 166, 0.1);
+}
+
+.featured-card .read-more-toggle:focus {
+    outline: none;
+}
+
+.featured-card .read-more-toggle i {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.featured-card .read-more-toggle.expanded i {
+    transform: rotate(180deg);
+}
+
+.featured-card .gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(transparent, white);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.featured-card .feature-text.expanded ~ .gradient-overlay {
+    opacity: 0;
+}
+
+/* Empty state styling */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state h3 {
+    color: #3f87a6;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+}
+
+.empty-state p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.empty-state .illustration {
+    max-width: 200px;
+    margin: 0 auto 20px;
+    opacity: 0.8;
+}

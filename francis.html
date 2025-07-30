@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .last {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 5%;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+.last .vida{
+    height: 100%;
+}
+
+.review-form, .vida {
+    flex: 1 1 45%;
+    min-width: 300px;
+}
+
+.vida {
+    position: relative;
+    padding-top: 15%; /* Maintain aspect ratio (adjust based on video ratio) */
+    min-width: 100px;
+    min-height: 540px;
+    top: 90px;
+}
+
+.vida video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Prevent stretching while maintaining aspect ratio */
+    border-radius: 8px;
+    
+}
+
+.autoplay-video {
+
+    width: 100%;
+
+    height: auto;
+
+    object-fit: cover; /* Maintain aspect ratio while filling container */
+
+    transition: transform 0.3s ease; /* Smooth scaling animation */
+
+}
+.autoplay-video:hover {
+
+    transform: scale(1.05);
+
+}
+    </style>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+IT+Moderna:wght@100..400&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+        </style>
+    <script src="https://kit.fontawesome.com/b6021ddfae.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="francis.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.jpg" type="image">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap@5.0.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/bootstrap@5.2.3/dist/js/bootstrap.bundler.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="travel,tour,lion,camp,zebra,Kenya,journey">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roaming Nomads Tour-About us</title>
+    <script>
+        function translatePage(language) {
+            const googleTranslateElementInit = () => {
+                new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: language}, 'google_translate_element');
+            };
+            const script = document.createElement('script');
+            script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+            document.body.appendChild(script);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="introh">
+            <div class="contacts">
+                <ul>
+                    <li>
+                        <span style="margin-right: 15px;"><i class="fa-solid fa-envelope"></i></span>
+                        gilbertkamau644@gmail.com
+                    </li>
+                    <li>
+                        <span style="margin-right: 15px;"><i class="fa-solid fa-phone"></i></span>
+                        +254703266941
+                    </li>
+                </ul>
+            </div>
+            <div class="handle">
+                <ul>
+                    <li>
+                        <a href=""><i class="fa-brands fa-tiktok"></i></a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa-brands fa-instagram"></i></a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa-brands fa-facebook"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="section2">
+            <div class="titles">
+                <img src="img/IMG-20250222-WA0014.jpg" alt="" style="height: 60px; width: 140px;">
+                <div class="heading">
+                 
+                </div>
+            </div>
+            <ul class="lists">
+                <li class="active">
+                    <a href="">Home</a>
+                </li>
+                <li class="dropdown" style="cursor: pointer; position: relative;">
+                    <span style="font-weight: bold;">Packages</span>
+                    <ul class="categories">
+                        <li><a href="" style="color: white; font-weight: normal;">Day trip travel</a></li>
+                        <li><a href="" style="color: white; font-weight: normal;">Group joining Travels</a></li>
+                        <li><a href="" style="color: white; font-weight: normal;">Corporate joining travel</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">About us</a>
+                </li>
+                <li>
+                    <a href="">Blog</a>
+                </li>
+                <li>
+                    <a href="">Contacts</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-search" id="search-btn"></i>
+                </li>
+            </ul>
+        </div>
+        <div class="searchbox">
+            <div>
+            <input type="text" placeholder="Search">
+            <div class="ico">
+                <i class="fa-solid fa-search"></i>
+                <i class="fa-solid fa-times" id="cancel"></i>
+            </div>
+            </div>
+        </div>
+    </header>
+    <script>
+        var box=document.querySelector(".searchbox");
+        var searchbtn=document.querySelector("#search-btn");
+        searchbtn.addEventListener("click",()=>{
+            box.style.visibility="visible"
+        });
+        document.querySelector("#cancel").addEventListener("click",()=>{
+            box.style.visibility="hidden";
+        })
+    </script>
+    <main>
+       <div class="first"> 
+            <h1>Noteworthy Adventures</h1>
+            <p>
+                We excel in creating personalized travel experiences tailored to your individual interests and passions.
+            </p>
+            <p>
+                Each journey is meticulously designed to ensure it perfectly aligns with your unique 
+            </p>
+            <p>
+                desires and preferences. 
+            </p>
+            <a href="">
+                <button>ABOUT US</button>
+            </a>
+        </div>
+        <section class="second">
+            <div>
+                <h5 class="h5">popular destinations</h5>
+                <h2 class="h2">Day trip Packages</h2>
+            </div>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$2999</span>
+                            <img src="imgg/MAASAI MARA 4.jpg" class="tour-image" alt="Luxury Resort">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★☆</div>
+                                <h3 class="tour-title">Golden Retreat</h3>
+                                <p class="tour-description">Experience ultimate luxury in our 5-star beachfront villas with private butler service</p>
+                                <button class="book-now">Reserve Suite</button>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/COAST 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/HIDDEN GEM 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/FIRE PLACE 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/CRECENT ISLAND.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-starss">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+            
+                    <!-- Add 8 more slides following the same pattern -->
+                    <!-- Continue adding slides 3-10 with unique content -->
+            
+                </div>
+            
+                <!-- Navigation buttons -->
+                <div class="but"><div class="swiperr-button-prev"> <i class="fa-solid fa-arrow-left"></i></div>
+                <div class="swiperr-button-next"> <i class="fa-solid fa-arrow-right"></i></div></div>
+                <div class="swiperr-pagination"></div>
+            
+                <!-- Autoplay progress -->
+                <div class="autoplay-progress">
+                    <svg viewBox="0 0 48 48">
+                        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" 
+                                stroke-width="4" stroke-dasharray="125.6" 
+                                stroke-dashoffset="125.6"></circle>
+                    </svg>
+                </div>
+            </div>
+
+        </section>
+        <section class="third">
+            <div>
+                <h5 class="h5">popular destinations</h5>
+                <h2 class="h2">Group Joining Travel Packages</h2>
+            </div>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$2999</span>
+                            <img src="imgg/MAASAI MARA 4.jpg" class="tour-image" alt="Luxury Resort">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★☆</div>
+                                <h3 class="tour-title">Golden Retreat</h3>
+                                <p class="tour-description">Experience ultimate luxury in our 5-star beachfront villas with private butler service</p>
+                                <button class="book-now">Reserve Suite</button>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/COAST 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/HIDDEN GEM 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/FIRE PLACE 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/CRECENT ISLAND.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-starss">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            
+                <div class="but"><div class="swiperr-button-prev"> <i class="fa-solid fa-arrow-left"></i></div>
+                <div class="swiperr-button-next"> <i class="fa-solid fa-arrow-right"></i></div></div>
+                <div class="swiperr-pagination"></div>
+            
+                <div class="autoplay-progress">
+                    <svg viewBox="0 0 48 48">
+                        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" 
+                                stroke-width="4" stroke-dasharray="125.6" 
+                                stroke-dashoffset="125.6"></circle>
+                    </svg>
+                </div>
+            </div>
+           
+        </section>
+        <section class="fourth">
+            <div>
+                <h5 class="h5">popular destinations</h5>
+                <h2 class="h2">Corporate group joining</h2>
+            </div>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$2999</span>
+                            <img src="imgg/MAASAI MARA 4.jpg" class="tour-image" alt="Luxury Resort">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★☆</div>
+                                <h3 class="tour-title">Golden Retreat</h3>
+                                <p class="tour-description">Experience ultimate luxury in our 5-star beachfront villas with private butler service</p>
+                                <button class="book-now">Reserve Suite</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/COAST 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/HIDDEN GEM 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/FIRE PLACE 2.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/CRECENT ISLAND.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-stars">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="tour-card">
+                            <span class="price-tag">$4599</span>
+                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
+                            <div class="tour-content">
+                                <div class="rating-starss">★★★★★</div>
+                                <h3 class="tour-title">Royal Tour</h3>
+                                <p class="tour-description">Explore historic castles and vineyards across Europe's most picturesque landscapes</p>
+                                <button class="book-now">Book Tour</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+            
+                </div>
+
+                <div class="but"><div class="swiperr-button-prev"><i class="fa-solid fa-arrow-left"></i></div>
+                <div class="swiperr-button-next"><i class="fa-solid fa-arrow-right"></i></div></div>
+                <div class="swiperr-pagination"></div>
+            
+                <div class="autoplay-progress">
+                    <svg viewBox="0 0 48 48">
+                        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" 
+                                stroke-width="4" stroke-dasharray="125.6" 
+                                stroke-dashoffset="125.6"></circle>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section class="about">
+            <h3>About us</h3>
+            <h2>
+                We are Kenya's foremost and <br> most reliable travel agency.
+            </h2>
+            <p>
+                Roaming Nomad Tours and Travels Limited is a comprehensive Tours & Travel company dedicated to providing all the information and assistance you need to uncover the stunning beauty of Kenya through our meticulously planned itineraries. We are your ultimate destination for travel information, advice, and the latest tourism trends that inspire you to travel or even dream about your next adventure. We promise you the finest safari experience to the top destinations, including the renowned Masai Mara, famous for the great wildebeest migration, as well as Samburu, Amboseli, Tsavo, Lake Nakuru, and many more.
+            </p>
+        </section>
+        <div class="container">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Initial Reviews -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3>John Smith</h3>
+                            <p>Excellent service! The team was professional and delivered beyond expectations.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★☆</div>
+                            <h3>Oliver Thompson</h3>
+                            <p>Overall, a fantastic 8-day trip! The Mara conservancy safari was unreal, and the Nairobi food tour delicious. However, our transfer van to Amboseli arrived 45 mins late, and one lodge’s AC struggled. Nomad compensated with free spa credits though. 4 stars – would recommend with minor tweaks!</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3>Patel Malik</h3>
+                            <p>"Our multi-gen family trip with Nomad was flawless! They balanced adventure (hell’s Gate biking!) with culture (Lamu Island Swahili tour). Grandma loved the Samburu beadwork workshop, and the kids adored feeding giraffes at Giraffe Manor. Seamless COVID testing coordination too. Jambo Kenya, thanks to Nomad!"</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3> Emily Carter</h3>
+                            <p> Nomad crafted the perfect 10-day Kenyan safari for our family! From the Maasai Mara balloon ride to tracking rhinos in Ol Pejeta, every moment was magical. Our guide, Joseph, shared incredible insights about the Big Five. The luxury tented camp had Wi-Fi (a lifesaver for teens!). Best vacation ever – thank you, Nomad!</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3> Wei Zhang</h3>
+                            <p> As a wildlife photographer, I’m picky – but Nomad Tours delivered! They arranged sunrise game drives in Amboseli (Kilimanjaro views!), a private Maasai village visit, and even a DSLR-friendly vehicle. Special shoutout to guide Samuel, who knew exactly where lions would hunt. 5 stars – will return for the Great Migration!</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3> Wanjiku Mwangi</h3>
+                            <p> I’ve lived here 30 years but saw Kenya anew with Nomad Travellers! Their 7-day "Hidden Gems" tour took us to Lake Turkana’s singing wells and Kakamega Forest. Eco-friendly lodges, support for local conservancies – this company gets sustainable tourism. Asante sana for reigniting my Kenyan pride!</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="stars">★★★★★</div>
+                            <h3>Lerato Nkosi </h3>
+                            <p> Nomad Tours made our Kenyan honeymoon unforgettable! Private beach dinners in Diani, a hot-air balloon proposal setup in the Mara (yes, he proposed mid-air!), and a surprise bush breakfast with elephants. Their attention to detail rivals South Africa’s best. African luxury at its finest!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+    
+            <!-- Review Form -->
+            <form class="review-form" id="reviewForm">
+                <h2>Leave a Review</h2>
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <div class="rating-stars" id="ratingStars">
+                        <span class="rating-star" data-rating="1">★</span>
+                        <span class="rating-star" data-rating="2">★</span>
+                        <span class="rating-star" data-rating="3">★</span>
+                        <span class="rating-star" data-rating="4">★</span>
+                        <span class="rating-star" data-rating="5">★</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="review" rows="4" placeholder="Your review..." required></textarea>
+                </div>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </div>
+    </main>
+    <footer>
+        <div class="mwanzo" style="color: white;flex: 1; ">
+            <h2>
+                Roaming Nomads Tour Info
+            </h2>
+            <p>
+                One of the great advantages of Kenyan tours is that you effortlessly gain enriching experiences, often without even realizing it. 
+            </p>
+
+            <div class="logo-image">
+                <img src="img/IMG-20250222-WA0014.jpg" alt="logo">
+            </div>
+        </div>
+        <div class="pili" style="flex: 1;">
+            <h3>Contact Us</h3>
+            <ul>
+                <li><a href="tel:+"><i class="fa-solid fa-phone"></i>0712345678 </a></li>
+                <li><a href="mailto:"><i class="fa-solid fa-square-envelope"></i> nomad@gail.com </a></li>
+                <li><i class="fa-solid fa-location-dot"></i> Nairobi, Ruaraka, Outering Rd</i></li>
+            </ul>
+            <div class="icons">
+                <div class="cont">
+                    <a href=""><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="cont">
+                    <a href=""><i class="fa-brands fa-facebook"></i></a>
+                </div>
+                <div class="cont">
+                    <a href=""><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tatu" style="flex: 1;">
+            <h3>
+                Latest Tours
+            </h3>
+            <div class="imag">
+                <img src="img/white.jpg" alt="">
+                <img src="img/white.jpg" alt="">
+                <img src="img/white.jpg" alt="">
+                <img src="img/white.jpg" alt="">
+                <img src="img/white.jpg" alt="">
+                <img src="img/white.jpg" alt="">
+            </div>
+        </div>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            centeredSlides: true,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            }
+        });
+
+        // Star Rating System
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.rating-star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                stars.forEach((s, index) => {
+                    s.classList.toggle('active', index < selectedRating);
+                });
+            });
+        });
+
+        // Form Submission
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const reviewText = document.getElementById('review').value.trim();
+
+            if (!name || !email || !reviewText || selectedRating === 0) {
+                alert('Please fill all fields and select a rating!');
+                return;
+            }
+
+            // Create new review slide
+            const newSlide = document.createElement('div');
+            newSlide.className = 'swiper-slide';
+            newSlide.innerHTML = `
+                <div class="review-card">
+                    <div class="stars">${'★'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)}</div>
+                    <h3>${name}</h3>
+                    <p>${reviewText}</p>
+                </div>
+            `;
+
+            // Add new slide to carousel
+            swiper.appendSlide(newSlide);
+            swiper.slideTo(swiper.slides.length - 1);
+            
+            // Reset form
+            document.getElementById('reviewForm').reset();
+            stars.forEach(star => star.classList.remove('active'));
+            selectedRating = 0;
+        });
+
+       
+
+        const swiperr = new Swiper('.swiper', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiperr-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiperr-button-next',
+            prevEl: '.swiperr-button-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            }
+        },
+        on: {
+            autoplayTimeLeft(s, time, progress) {
+                const circle = document.querySelector('circle');
+                if(circle) {
+                    circle.style.strokeDashoffset = 125.6 * (1 - progress);
+                }
+            }
+        }
+    });
+    </script>
+</body>
+</html>

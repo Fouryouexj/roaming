@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Explorer Pro</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+    <style>
+        :root {
+            --wildlife-primary: #FF6B35;
+            --wildlife-secondary: #4ECDC4;
+            --wildlife-dark: #2D3436;
+            --wildlife-light: #FFFFFF;
+            --wildlife-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --wildlife-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .wildlife-slider-container {
+            max-width: 1600px;
+            margin: 4rem auto;
+            padding: 0 20px;
+            position: relative;
+            isolation: isolate;
+        }
+
+        .wildlife-main-swiper {
+            height: 80vh;
+            padding: 4rem 0;
+            overflow: visible;
+            position: relative;
+        }
+
+        .wildlife-slide {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: var(--wildlife-transition);
+            perspective: 1500px;
+            box-shadow: var(--wildlife-shadow-lg);
+            background: var(--wildlife-light);
+        }
+
+        .wildlife-main-swiper .swiper-slide {
+            transform: scale(0.85) rotateY(15deg) rotateX(5deg);
+            filter: brightness(0.8);
+            width: calc(100% / 3 - 40px) !important;
+            margin: 0 20px !important;
+            opacity: 0.7;
+            transition: var(--wildlife-transition);
+        }
+
+        .wildlife-main-swiper .swiper-slide-active {
+            transform: scale(1) rotateY(0) rotateX(0) !important;
+            filter: brightness(1) !important;
+            z-index: 2;
+            opacity: 1;
+        }
+
+        .wildlife-slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: rotateZ(-2deg) translateY(10px);
+            transition: var(--wildlife-transition);
+            will-change: transform;
+        }
+
+        .wildlife-main-swiper .swiper-slide-active .wildlife-slide-image {
+            transform: rotateZ(0) translateY(0);
+        }
+
+        .wildlife-slide-content {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 1rem;
+            text-align: center;
+            color: var(--wildlife-light);
+            backdrop-filter: blur(10px);
+            transition: var(--wildlife-transition);
+            opacity: 0.9;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .wildlife-main-swiper .swiper-slide-active .wildlife-slide-content {
+            opacity: 1;
+            bottom: 15%;
+        }
+
+        .wildlife-thumbnail-swiper {
+            height: 150px;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .wildlife-thumbnail-slide {
+            width: 180px !important;
+            height: 120px;
+            border-radius: 1rem;
+            overflow: hidden;
+            opacity: 0.6;
+            transition: var(--wildlife-transition);
+            cursor: pointer;
+            transform: rotateZ(-5deg);
+            border: 2px solid transparent;
+        }
+
+        .wildlife-thumbnail-slide:hover,
+        .wildlife-thumbnail-slide.swiper-slide-thumb-active {
+            opacity: 1;
+            transform: rotateZ(0) scale(1.1);
+            z-index: 2;
+            border-color: var(--wildlife-primary);
+        }
+
+        .wildlife-button-next,
+        .wildlife-button-prev {
+            color: var(--wildlife-primary) !important;
+            background: rgba(255, 255, 255, 0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--wildlife-transition);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        .wildlife-button-next:hover,
+        .wildlife-button-prev:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .wildlife-species-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--wildlife-primary);
+            color: var(--wildlife-light);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .wildlife-eco-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: url('eco-icon.svg') no-repeat center/contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .wildlife-hotspot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--wildlife-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            animation: wildlife-pulse 2s infinite;
+            z-index: 10;
+            transition: var(--wildlife-transition);
+        }
+
+        @keyframes wildlife-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .wildlife-slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--wildlife-primary), var(--wildlife-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .wildlife-fact-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--wildlife-shadow-lg);
+            z-index: 1000;
+            max-width: 400px;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .wildlife-fact-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--wildlife-dark);
+            transition: var(--wildlife-transition);
+        }
+
+        .wildlife-fact-close:hover {
+            color: var(--wildlife-primary);
+        }
+
+        @media (max-width: 1200px) {
+            .wildlife-main-swiper .swiper-slide {
+                width: calc(50% - 30px) !important;
+                transform: scale(0.85) rotateY(10deg);
+            }
+            
+            .wildlife-thumbnail-slide {
+                width: 160px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .wildlife-slider-container {
+                margin: 2rem auto;
+            }
+
+            .wildlife-main-swiper {
+                height: 60vh;
+                padding: 2rem 0;
+            }
+
+            .wildlife-main-swiper .swiper-slide {
+                width: 85% !important;
+                margin: 0 7.5% !important;
+                transform: scale(0.85) rotateY(5deg);
+            }
+
+            .wildlife-thumbnail-swiper {
+                height: 120px;
+                padding: 1rem 0;
+            }
+
+            .wildlife-thumbnail-slide {
+                width: 120px !important;
+                height: 80px;
+            }
+
+            .wildlife-slide-content {
+                padding: 1.5rem;
+                bottom: 8%;
+            }
+
+            .wildlife-slide-content h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wildlife-main-swiper {
+                height: 50vh;
+            }
+
+            .wildlife-slide-content {
+                padding: 1rem;
+                bottom: 5%;
+            }
+
+            .wildlife-slide-content h2 {
+                font-size: 1.75rem;
+            }
+
+            .wildlife-species-tag {
+                font-size: 0.8rem;
+                padding: 6px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wildlife-slider-container">
+        <!-- Main Slider -->
+        <div class="swiper wildlife-main-swiper">
+            <div class="swiper-wrapper">
+                <!-- Add as many slides as needed -->
+                <div class="swiper-slide wildlife-slide">
+                    <div class="wildlife-species-tag">African Elephant</div>
+                    <img src="elephant.jpg" class="wildlife-slide-image" alt="Elephant">
+                    <div class="wildlife-slide-content">
+                        <h2>Amboseli Park</h2>
+                        <p>Home to majestic elephants with Kilimanjaro backdrop</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide wildlife-slide">
+                    <div class="wildlife-species-tag">Lion Pride</div>
+                    <img src="lion.jpg" class="wildlife-slide-image" alt="Lion">
+                    <div class ```html
+="wildlife-slide-content">
+                        <h2>Savanna Kingdom</h2>
+                        <p>Witness the kings of the jungle in action</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide wildlife-slide">
+                    <div class="wildlife-species-tag">Black Rhino</div>
+                    <img src="rhino.jpg" class="wildlife-slide-image" alt="Rhino">
+                    <div class="wildlife-slide-content">
+                        <h2>Rhino Sanctuary</h2>
+                        <p>Protecting endangered species</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide wildlife-slide">
+                    <div class="wildlife-species-tag">Giraffe</div>
+                    <img src="giraffe.jpg" class="wildlife-slide-image" alt="Giraffe">
+                    <div class="wildlife-slide-content">
+                        <h2>Hells Gate</h2>
+                        <p>Giraffe Habitat</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide wildlife-slide">
+                    <div class="wildlife-species-tag">Zebra</div>
+                    <img src="zebra.jpg" class="wildlife-slide-image" alt="Zebra">
+                    <div class="wildlife-slide-content">
+                        <h2>Zebra Plains</h2>
+                        <p>Migration Corridor</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-button-next wildlife-button-next"></div>
+            <div class="swiper-button-prev wildlife-button-prev"></div>
+        </div>
+
+        <!-- Thumbnail Slider -->
+        <div class="swiper wildlife-thumbnail-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide wildlife-thumbnail-slide">
+                    <img src="elephant-thumb.jpg" alt="Elephant">
+                </div>
+                <div class="swiper-slide wildlife-thumbnail-slide">
+                    <img src="lion-thumb.jpg" alt="Lion">
+                </div>
+                <div class="swiper-slide wildlife-thumbnail-slide">
+                    <img src="rhino-thumb.jpg" alt="Rhino">
+                </div>
+                <div class="swiper-slide wildlife-thumbnail-slide">
+                    <img src="giraffe-thumb.jpg" alt="Giraffe">
+                </div>
+                <div class="swiper-slide wildlife-thumbnail-slide">
+                    <img src="zebra-thumb.jpg" alt="Zebra">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wildlife-fact-popup">
+        <span class="wildlife-fact-close" onclick="closeFact()">×</span>
+        <div class="fact-content"></div>
+    </div>
+
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const wildlifeMain = new Swiper('.wildlife-main-swiper', {
+            loop: true,
+            slidesPerView: 3,
+            spaceBetween: 30,
+            centeredSlides: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
+            navigation: {
+                nextEl: '.wildlife-button-next',
+                prevEl: '.wildlife-button-prev'
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 1
+                }
+            }
+        });
+
+        const wildlifeThumbs = new Swiper('.wildlife-thumbnail-swiper', {
+            loop: true,
+            slidesPerView: 5,
+            spaceBetween: 20,
+            centeredSlides: true,
+            slideToClickedSlide: true
+        });
+
+        wildlifeMain.controller.control = wildlifeThumbs;
+        wildlifeThumbs.controller.control = wildlifeMain;
+
+        document.querySelectorAll('.wildlife-slide').forEach(slide => {
+            slide.addEventListener('mouseenter', () => {
+                wildlifeMain.autoplay.stop();
+            });
+            slide.addEventListener('mouseleave', () => {
+                wildlifeMain.autoplay.start();
+            });
+        });
+
+        const wildlifeFactPopup = document.querySelector('.wildlife-fact-popup');
+        const wildlifeFactClose = document.querySelector('.wildlife-fact-close');
+
+        function showFact(text) {
+            wildlifeFactPopup.querySelector('.fact-content').textContent = text;
+            wildlifeFactPopup.style.display = 'block';
+        }
+
+        function closeFact() {
+            wildlifeFactPopup.style.display = 'none';
+        }
+
+        wildlifeFactClose.addEventListener('click', closeFact);
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                closeFact();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Horizons - Luxury Travel Collection</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-secondary: #D4AF37;
+            --gold-accent: #FFF2A8;
+            --gold-dark: #3E2723;
+            --gold-bg: linear-gradient(45deg, #FFF9E6, #FFE082);
+            --gold-font: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--gold-bg);
+            font-family: var(--gold-font);
+            color: var(--gold-dark);
+            min-height: 100vh;
+        }
+
+        .gold-swiper-container {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .gold-swiper {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gold-slide {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.1);
+            display: flex;
+            height: 550px;
+            overflow: hidden;
+        }
+
+        .slide-image-container {
+            flex: 1;
+            min-width: 50%;
+            position: relative;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gold-price-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold-primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gold-tour-title {
+            font-size: 2.2rem;
+            color: var(--gold-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        .gold-tour-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gold-primary);
+        }
+
+        .gold-tour-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 2rem 0;
+            color: #555;
+        }
+
+        .gold-book-now {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+        }
+
+        .gold-book-now:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .gold-swiper-button-prev,
+        .gold-swiper-button-next {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--gold-primary);
+            color: var(--gold-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .gold-swiper-button-prev:hover,
+        .gold-swiper-button-next:hover {
+            background: var(--gold-primary);
+            color: white;
+        }
+
+        .gold-swiper-pagination {
+            bottom: 20px !important;
+        }
+
+        .gold-swiper-pagination .swiper-pagination-bullet {
+            width: 8px;
+            height: 8px;
+            margin: 0 6px !important;
+            background: var(--gold-primary);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .gold-swiper-pagination .swiper-pagination-bullet-active {
+            opacity: 1;
+            transform: scale(1.8);
+            background: var(--gold-secondary);
+        }
+
+        @media (max-width: 1200px) {
+            .gold-slide {
+                height: 500px;
+            }
+            .gold-tour-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .gold-slide {
+                flex-direction: column;
+                height: auto;
+            }
+            .slide-image-container {
+                height: 400px;
+            }
+            .slide-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gold-swiper {
+                width: 95%;
+            }
+            .gold-tour-title {
+                font-size: 1.6rem;
+            }
+            .gold-tour-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="gold-swiper-container">
+    <div class="gold-swiper swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?luxury-resort" class="slide-image" alt="Luxury Resort">
+                    <div class="gold-price-tag">$2999</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Golden Beach Retreat</h2>
+                    <p class="gold-tour-description">
+                        Experience unparalleled luxury in our private oceanfront villas with 24/7 butler service, 
+                        infinity pools, and Michelin-star dining. Perfect for romantic getaways or family vacations.
+                    </p>
+                    <button class="gold-book-now">Book Now</button>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?european-castle" class="slide-image" alt="European Castle">
+                    <div class="gold-price-tag">$4599</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Royal Castle Experience</h2>
+                    <p class="gold-tour-description">
+                        Live like royalty in historic castles with guided tours, medieval banquets, 
+                        and luxury accommodations. Includes private access to exclusive historical sites.
+                    </p>
+                    <button class="gold-book-now">Explore</button>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?luxury-yacht" class="slide-image" alt="Luxury Yacht">
+                    <div class="gold-price-tag">$5999</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Mediterranean Cruise</h2>
+                    <p class="gold-tour-description">
+                        Sail the Mediterranean in style aboard our luxury yacht with personal chef, 
+                        water sports equipment, and private island stops. All-inclusive premium package.
+                    </p>
+                    <button class="gold-book-now">Sail Away</button>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?mountain-resort" class="slide-image" alt="Mountain Resort">
+                    <div class="gold-price-tag">$3499</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Alpine Escape</h2>
+                    <p class="gold-tour-description">
+                        Luxury ski-in/ski-out resort with private slopes access, spa treatments, 
+                        and gourmet mountain cuisine. Includes equipment rental and personal instructor.
+                    </p>
+                    <button class="gold-book-now">Ski Package</button>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?safari-lodge" class="slide-image" alt="Safari Lodge">
+                    <div class="gold-price-tag">$4999</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">African Safari</h2>
+                    <p class="gold-tour-description">
+                        Premium 7-day safari experience with luxury lodges, guided tours, and wildlife encounters. Includes all meals and private transportation.
+                    </p>
+                    <button class="gold-book-now">Join the Adventure</button>
+                </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?beach-resort" class="slide-image" alt="Beach Resort">
+                    <div class="gold-price-tag">$2799</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Tropical Paradise Getaway</h2>
+                    <p class="gold-tour-description">
+                        Relax in our beachfront bungalows with all-inclusive amenities, 
+                        water sports, and sunset dinners on the beach. Perfect for couples and families.
+                    </p>
+                    <button class="gold-book-now">Getaway Now</button>
+                </div>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?luxury-spa" class="slide-image" alt="Luxury Spa">
+                    <div class="gold-price-tag">$1999</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Spa Retreat</h2>
+                    <p class="gold-tour-description">
+                        Indulge in a week of relaxation with spa treatments, yoga classes, 
+                        and healthy gourmet meals in a serene environment. Rejuvenate your body and mind.
+                    </p>
+                    <button class="gold-book-now">Relax & Unwind</button>
+                </div>
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?city-tour" class="slide-image" alt="City Tour">
+                    <div class="gold-price-tag">$1599</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Cultural City Tour</h2>
+                    <p class="gold-tour-description">
+                        Explore the rich history and culture of major cities with guided tours, 
+                        culinary experiences, and exclusive access to local attractions.
+                    </p>
+                    <button class="gold-book-now">Discover More</button>
+                </div>
+            </div>
+
+            <!-- Slide 9 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?adventure" class="slide-image" alt="Adventure Tour">
+                    <div class="gold-price-tag">$3499</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Adventure Expedition</h2>
+                    <p class="gold-tour-description">
+                        Join us for an adrenaline-filled adventure with activities like zip-lining, 
+                        rock climbing, and white-water rafting in breathtaking locations.
+                    </p>
+                    <button class="gold-book-now">Join the Expedition</button>
+                </div>
+            </div>
+
+            <!-- Slide 10 -->
+            <div class="swiper-slide gold-slide">
+                <div class="slide-image-container">
+                    <img src="https://source.unsplash.com/800x600?cruise" class="slide-image" alt="Luxury Cruise">
+                    <div class="gold-price-tag">$6999</div>
+                </div>
+                <div class="slide-content">
+                    <h2 class="gold-tour-title">Luxury World Cruise</h2>
+                    <p class="gold-tour-description">
+                        Experience the world like never before on our luxury cruise with gourmet dining, 
+                        entertainment, and exotic ports of call. All-inclusive luxury awaits.
+                    </p>
+                    <button class="gold-book-now">Book Your Cruise</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="gold-swiper-button-prev"></div>
+        <div class="gold-swiper-button-next"></div>
+        
+        <!-- Pagination -->
+        <div class="gold-swiper-pagination"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const goldSwiper = new Swiper('.gold-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.gold-swiper-pagination',
+            clickable: true,
+            type: 'bullets',
+        },
+        navigation: {
+            nextEl: '.gold-swiper-button-next',
+            prevEl: '.gold-swiper-button-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
+            768: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

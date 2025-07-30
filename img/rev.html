@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Carousel</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --text-light: #ecf0f1;
+            --background-dark: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--background-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .swiper-container {
+            padding: 3rem 0;
+            overflow: hidden;
+        }
+
+        .review-card {
+            background: var(--primary-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stars {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-form {
+            background: var(--primary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.1);
+            color: var(--text-light);
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230,126,34,0.4);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .rating-star {
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: rgba(230,126,34,0.3);
+            transition: all 0.2s ease;
+        }
+
+        .rating-star.active {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: var(--accent-color) !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: rgba(255,255,255,0.3) !important;
+            opacity: 1 !important;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--accent-color) !important;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .review-card {
+                padding: 1.5rem;
+            }
+            
+            .swiper-button-next,
+            .swiper-button-prev {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Review Carousel -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Initial Reviews -->
+                <div class="swiper-slide">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <h3>John Smith</h3>
+                        <p>Excellent service! The team was professional and delivered beyond expectations.</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="review-card">
+                        <div class="stars">★★★★☆</div>
+                        <h3>Emma Wilson</h3>
+                        <p>Great experience overall, would definitely recommend to others.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Review Form -->
+        <form class="review-form" id="reviewForm">
+            <h2>Leave a Review</h2>
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <div class="rating-stars" id="ratingStars">
+                    <span class="rating-star" data-rating="1">★</span>
+                    <span class="rating-star" data-rating="2">★</span>
+                    <span class="rating-star" data-rating="3">★</span>
+                    <span class="rating-star" data-rating="4">★</span>
+                    <span class="rating-star" data-rating="5">★</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea id="review" rows="4" placeholder="Your review..." required></textarea>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            centeredSlides: true,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            }
+        });
+
+        // Star Rating System
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.rating-star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                stars.forEach((s, index) => {
+                    s.classList.toggle('active', index < selectedRating);
+                });
+            });
+        });
+
+        // Form Submission
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const reviewText = document.getElementById('review').value.trim();
+
+            if (!name || !email || !reviewText || selectedRating === 0) {
+                alert('Please fill all fields and select a rating!');
+                return;
+            }
+
+            // Create new review slide
+            const newSlide = document.createElement('div');
+            newSlide.className = 'swiper-slide';
+            newSlide.innerHTML = `
+                <div class="review-card">
+                    <div class="stars">${'★'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)}</div>
+                    <h3>${name}</h3>
+                    <p>${reviewText}</p>
+                </div>
+            `;
+
+            // Add new slide to carousel
+            swiper.appendSlide(newSlide);
+            swiper.slideTo(swiper.slides.length - 1);
+            
+            // Reset form
+            document.getElementById('reviewForm').reset();
+            stars.forEach(star => star.classList.remove('active'));
+            selectedRating = 0;
+        });
+    </script>
+</body>
+</html>

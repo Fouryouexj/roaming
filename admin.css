@@ -1,0 +1,207 @@
+/* admin.css - Modern UI for Admin Panel */
+
+:root {
+  --primary: #6f42c1;
+  --secondary: #f8f9fa;
+  --dark: #23272b;
+  --light: #fff;
+  --success: #28a745;
+  --warning: #ffc107;
+  --error: #dc3545;
+}
+
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #e9ecef 100%);
+  min-height: 100vh;
+  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #6f42c1 0%, #ff6b35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.nav-pills .nav-link.active {
+  background: var(--primary) !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(111,66,193,0.08);
+}
+
+.nav-pills .nav-link {
+  color: var(--dark);
+  font-weight: 500;
+  border-radius: 2rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab-content {
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 4px 32px rgba(44,48,71,0.10);
+  position: relative;
+}
+
+.tab-pane {
+  opacity: 0;
+  transform: scale(0.98) translateY(30px) rotateX(8deg);
+  transition: opacity 0.6s cubic-bezier(.77,0,.18,1),
+              transform 0.7s cubic-bezier(.77,0,.18,1);
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+.tab-pane.active, .tab-pane.show.active {
+  opacity: 1;
+  transform: scale(1) translateY(0) rotateX(0);
+  z-index: 2;
+  position: relative;
+  pointer-events: auto;
+}
+
+.card {
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 16px rgba(111,66,193,0.07);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #6f42c1 0%, #ff6b35 100%);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(111,66,193,0.10);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #dc3545 0%, #ff6b35 100%);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(220,53,69,0.10);
+}
+
+.table {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.table thead {
+  background: var(--secondary);
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  padding: 1rem 0.75rem;
+  font-size: 1.05rem;
+}
+
+.status {
+  padding: 0.35em 1em;
+  border-radius: 1em;
+  font-size: 0.98em;
+  font-weight: 600;
+  display: inline-block;
+}
+.status.pending { background: var(--warning); color: #fff; }
+.status.confirmed { background: var(--success); color: #fff; }
+.status.cancelled { background: var(--error); color: #fff; }
+
+.empty-message {
+  text-align: center;
+  color: #bbb;
+  margin: 32px 0;
+  font-size: 1.15rem;
+}
+
+.toast {
+  font-size: 1.1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(44,48,71,0.10);
+}
+
+.review-card {
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 12px rgba(255,107,53,0.08);
+  background: #fff;
+  padding: 1.5rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border-left: 5px solid var(--primary);
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: var(--dark);
+  opacity: 0.8;
+}
+
+.fa-star {
+  color: #ffc107;
+}
+
+/* Add these styles for the poster management section */
+.image-upload-wrap {
+    position: relative;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.image-upload-wrap:hover {
+    border-color: #007bff;
+}
+
+.preview-container {
+    margin-top: 1rem;
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.preview-container img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.poster-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.poster-card:hover {
+    transform: translateY(-5px);
+}
+
+.poster-card .poster-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.poster-card:hover .poster-actions {
+    opacity: 1;
+}
+
+.poster-info {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+

@@ -1,0 +1,615 @@
+/* 7dayslaketurkana.css - 340 lines */
+
+:root {
+    --primary-orange: #FF6B35;
+    --secondary-orange: #FF9E35;
+    --dark-bg: #2D2D2D;
+    --light-orange: #FFF3E6;
+    --success-green: #4CAF50;
+    --error-red: #F44336;
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Base Reset & Global Styles */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    color: #333;
+    background-color: var(--light-orange);
+    overflow-x: hidden;
+}
+
+
+/* Header & Navigation */
+
+header {
+    background: var(--dark-bg);
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.logo:hover {
+    color: var(--primary-orange);
+}
+
+
+/* Main Content Area */
+
+section {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Pricing Header */
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 158, 53, 0.05) 100%);
+    border-radius: 20px;
+}
+
+h1 {
+    color: var(--primary-orange);
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Interactive Elements */
+
+.button-group {
+    display: flex;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+button {
+    cursor: pointer;
+    transition: all var(--transition-medium);
+}
+
+button.book-now {
+    background: linear-gradient(45deg, var(--primary-orange), var(--secondary-orange));
+    color: white;
+    padding: 1.2rem 2.5rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+button.book-now::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: rotate(45deg);
+    transition: all var(--transition-medium);
+}
+
+button.book-now:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+button.book-now:hover::after {
+    left: 150%;
+}
+
+
+/* Itinerary Section */
+
+.itinerary-section {
+    margin: 3rem 0;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+h2 {
+    color: var(--secondary-orange);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 3px solid var(--primary-orange);
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 30%;
+    height: 3px;
+    background: var(--secondary-orange);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: grid;
+    gap: 1.2rem;
+}
+
+ul li {
+    padding: 1.5rem;
+    background: var(--light-orange);
+    border-left: 4px solid var(--primary-orange);
+    border-radius: 8px;
+    position: relative;
+    padding-left: 3.5rem;
+    transition: transform var(--transition-medium);
+}
+
+ul li:hover {
+    transform: translateX(10px);
+}
+
+ul li::before {
+    content: '✓';
+    color: var(--primary-orange);
+    font-size: 1.8rem;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Booking Form */
+
+.form-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    margin: 4rem 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--primary-orange);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    outline: none;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background: var(--primary-orange);
+    color: white;
+    padding: 1.2rem 2.5rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+button[type="submit"]:hover {
+    background: var(--secondary-orange);
+    transform: translateY(-2px);
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 1024px) {
+    section {
+        padding: 0 1.5rem;
+    }
+    .form-container {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+    .button-group {
+        flex-direction: column;
+    }
+    .itinerary-section {
+        padding: 1.5rem;
+    }
+    ul li {
+        padding: 1.2rem;
+        padding-left: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1rem;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+    .form-container {
+        padding: 1.5rem;
+    }
+    button.book-now {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* Slider Component */
+
+slider {
+    display: block;
+    height: 500px;
+    background: #fff;
+    border-radius: 20px;
+    margin: 3rem 0;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+
+/* Footer Styles */
+
+footer {
+    background: var(--dark-bg);
+    color: white;
+    padding: 3rem 2rem;
+    margin-top: 5rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    color: var(--primary-orange);
+    margin-bottom: 1.5rem;
+}
+
+
+/* Utility Classes */
+
+.text-center {
+    text-align: center;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.p-3 {
+    padding: 1.5rem;
+}
+
+.rounded-lg {
+    border-radius: 20px;
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+
+/* Animations */
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+
+/* Form Validation */
+
+.error-message {
+    color: var(--error-red);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.form-control.error {
+    border-color: var(--error-red);
+}
+
+.form-control.error+.error-message {
+    display: block;
+}
+
+
+/* Loading State */
+
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Dark Mode Styles */
+
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+header.dark-mode {
+    background: #1e1e1e;
+}
+
+footer.dark-mode {
+    background: #1e1e1e;
+}
+
+
+/* Dark Mode Button */
+
+.toggle-dark-mode {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: var(--primary-orange);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.toggle-dark-mode:hover {
+    background: var(--secondary-orange);
+}
+
+
+/* Testimonial Section */
+
+.testimonial-section {
+    background: var(--light-orange);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    margin: 3rem 0;
+}
+
+.testimonial {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+    font-weight: bold;
+    color: var(--primary-orange);
+}
+
+
+/* Pricing Cards */
+
+.pricing-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-medium);
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: var(--primary-orange);
+    margin-bottom: 1rem;
+}
+
+.card-price {
+    font-size: 1.8rem;
+    color: var(--secondary-orange);
+    margin-bottom: 1.5rem;
+}
+
+
+/* Additional Media Queries */
+
+@media (max-width: 1024px) {
+    .testimonial-section {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* Print Styles */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    header,
+    footer {
+        display: none;
+    }
+    section {
+        margin: 0;
+        padding: 0;
+    }
+    .form-container {
+        box-shadow: none;
+    }
+}

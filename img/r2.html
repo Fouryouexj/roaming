@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenForest Reviews</title>
+    <style>
+        :root {
+            --primary-dark: #1a472a;
+            --primary-light: #2c7a4d;
+            --accent-gold: #d4af37;
+            --text-light: #f0fff0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .review-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .reviews-wrapper {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+            min-height: 200px;
+        }
+
+        .review-card {
+            flex: 0 0 100%;
+            padding: 2rem;
+            background: var(--primary-light);
+            border-radius: 6px;
+            margin: 0 1rem;
+            opacity: 0.5;
+            transform: scale(0.9);
+            transition: all 0.6s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .review-card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stars {
+            color: var(--accent-gold);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-card h3 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .review-form {
+            background: var(--primary-light);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            background: rgba(0,0,0,0.1);
+            color: var(--text-light);
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+        }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .rating-star {
+            cursor: pointer;
+            font-size: 2rem;
+            color: rgba(212,175,55,0.3);
+            transition: all 0.2s ease;
+        }
+
+        .rating-star.active,
+        .rating-star:hover {
+            color: var(--accent-gold);
+            transform: scale(1.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .new-review {
+            animation: slideIn 0.6s ease;
+        }
+
+        .nav-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-gold);
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .review-card {
+                margin: 0 0.5rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="review-container">
+            <div class="reviews-wrapper">
+                <div class="review-card active">
+                    <div class="stars">★★★★★</div>
+                    <h3>Alex Johnson</h3>
+                    <p>Outstanding service! The team went above and beyond to ensure our project's success. Truly exceptional!</p>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★☆</div>
+                    <h3>Sarah Wilson</h3>
+                    <p>Great experience overall, would have loved faster response times. Definitely recommend!</p>
+                </div>
+            </div>
+            <div class="nav-dots"></div>
+        </div>
+
+        <form class="review-form" id="reviewForm">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent-gold);">Share Your Experience</h2>
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <div class="rating-stars" id="ratingStars">
+                    <span class="rating-star" data-rating="1">★</span>
+                    <span class="rating-star" data-rating="2">★</span>
+                    <span class="rating-star" data-rating="3">★</span>
+                    <span class="rating-star" data-rating="4">★</span>
+                    <span class="rating-star" data-rating="5">★</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea id="review" rows="4" placeholder="Your review..." required></textarea>
+            </div>
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let autoSlideInterval;
+        const wrapper = document.querySelector('.reviews-wrapper');
+        const dotsContainer = document.querySelector('.nav-dots');
+        let reviews = Array.from(document.querySelectorAll('.review-card'));
+        let selectedRating = 0;
+
+        // Initialize carousel
+        function initCarousel() {
+            reviews = Array.from(document.querySelectorAll('.review-card'));
+            wrapper.style.width = `${reviews.length * 100}%`;
+            createNavDots();
+            startAutoSlide();
+            updateCarousel();
+        }
+
+        function createNavDots() {
+            dotsContainer.innerHTML = '';
+            reviews.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = `nav-dot ${index === 0 ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            reviews.forEach((review, index) => {
+                review.classList.toggle('active', index === currentIndex);
+            });
+            document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % reviews.length;
+            updateCarousel();
+        }
+
+        function startAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Star rating functionality
+        document.querySelectorAll('.rating-star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                document.querySelectorAll('.rating-star').forEach((s, index) => {
+                    s.classList.toggle('active', index < selectedRating);
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', e => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const reviewText = document.getElementById('review').value.trim();
+
+            if (!name || !email || !reviewText || selectedRating === 0) {
+                alert('Please complete all fields and select a rating!');
+                return;
+            }
+
+            // Create new review
+            const newReview = document.createElement('div');
+            newReview.className = 'review-card new-review';
+            newReview.innerHTML = `
+                <div class="stars">${'★'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)}</div>
+                <h3>${name}</h3>
+                <p>${reviewText}</p>
+            `;
+
+            // Add to carousel
+            wrapper.appendChild(newReview);
+            
+            // Reset form
+            document.getElementById('reviewForm').reset();
+            document.querySelectorAll('.rating-star').forEach(s => s.classList.remove('active'));
+            selectedRating = 0;
+
+            // Restart carousel
+            initCarousel();
+        });
+
+        // Initialize on load
+        initCarousel();
+    </script>
+</body>
+</html>
