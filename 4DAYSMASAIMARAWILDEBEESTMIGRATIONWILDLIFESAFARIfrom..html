@@ -72,9 +72,9 @@
     <hr>
     <section class="whole">
         <h1>4 DAYS MASAI MARA WILDEBEEST MIGRATION WILDLIFE SAFARI from $1490pp</h1>
-        <p>Embark on our Deluxe Namdah Tour Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
+        <p>Embark on our Deluxe Roaming Nomads Tour Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
             and enjoyment. With inclusions like park fees, transport, accommodation, meals, and expert guides, this package guarantees an unforgettable African experience.</p>
-        <button class="book-now onclick=" location.href='#target-section' "">Reserve Suite</button>
+        <button class="book-now" onclick="location.href='#target-section'">Book this package.</button>
         <div class="slider">
             <img src="safarispark_adventures.jpg" alt="" class="slide">
             <img src="Rhino (1).jpg" alt="" class="slide">
@@ -106,15 +106,15 @@
             a stopover at the Great Rift Valley viewpoint for photos and shopping before continuing the safari to Masai Mara Game Reserve. Arrive in time for lunch at a budget camp or luxury lodge. After lunch, relax before embarking on an evening game
             drive until 6.30 pm. </p>
         <p>Masai Mara Game Reserve is renowned for the Big Five – Leopard, Lion, Rhino, Elephant, and Buffalo, and is home to numerous other African wildlife species. Enjoy dinner and overnight stay at the luxury lodge.</p>
-        <h2>Day 2: Full Day Namdah Tour in Masai Mara Game Reserve.</h2>
+        <h2>Day 2: Full Day Roaming Nomads Tour in Masai Mara Game Reserve.</h2>
         <p>Rise early for a full breakfast before venturing into the park for a day filled with adventure. Masai Mara Game Reserve boasts a high concentration of wildlife, promising an exhilarating experience with Roaming Nomads.<br> Enjoy a picnic lunch,
             and opt for an optional visit to a Masai Village to witness traditional dancing and singing by the Masai Warriors and women. Get a glimpse into their way of life and capture memorable photos.
             <br> Dinner and overnight stay at the luxury lodge.</p>
-        <h2>Day 3: Full Day Namdah Tour in Masai Mara Game Reserve </h2>
+        <h2>Day 3: Full Day Roaming Nomads Tour in Masai Mara Game Reserve </h2>
         <p>Another thrilling day awaits with Roaming Nomads. Start with an early morning breakfast before setting out for more wildlife viewing in the park. <br>The rich biodiversity of Masai Mara Game Reserve ensures an amazing and joyful adventure. Enjoy
             a picnic lunch amidst nature’s splendor.<br>Dinner and overnight stay at the luxury lodge.</p>
         <h2>Day 4: Masai Mara Game Reserve – Nairobi City</h2>
-        <p>On the fourth day of your Namdah Tour, wake up early for a morning game drive within Masai Mara Game Reserve. After the game drive, return to the luxury lodge for a full breakfast before departing for Nairobi by road. Lunch will be served en route,and
+        <p>On the fourth day of your Roaming Nomads Tour, wake up early for a morning game drive within Masai Mara Game Reserve. After the game drive, return to the luxury lodge for a full breakfast before departing for Nairobi by road. Lunch will be served en route,and
             you’ll arrive in Nairobi in the afternoon.<br> Our driver guide will drop you off at your hotel or the airport, marking the end of your safari filled with unforgettable memories from Roaming Nomads. </p>
         <p>Witnessing the Masai Mara wildebeest migration safari in Kenya is an extraordinary experience, witnessing over 1.5 million animals moving in unison. It’s not just about the wildebeest, zebras, and gazelles, but also the predators that follow them,
             creating a raw and emotional experience that underscores the circle of life in the animal kingdom. </p>
@@ -133,7 +133,7 @@
         </ul>
     </section>
     <hr>
-       <section id="target-section">
+ <section id="target-section">
         <div class="form-container">
             <h6>Travel Booking Form</h6>
             <form id="bookingForm">
@@ -161,23 +161,30 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+            
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
-                        <option value="Kid">Kid</option>
+                        <option value="Kid">Adults &Kid</option>
                     </select>
                 </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
-                    <div class="form-group" id="age-group">
-                        <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
-                        <small class="text-muted">Kids under 3 travel free</small>
+                   <div class="form-group" id="age-group">
+    <label>Age of Kids:</label>
+    <div id="kids-ages-container"></div>
+    <small class="text-muted">Kids under 3 travel free</small>
+</div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -187,7 +194,7 @@
                 <button type="submit">Send</button>
             </form>
         </div>
-    </section> 
+    </section>
     <footer class="footer bg-dark text-white py-4">
         <div class="container">
             <div class="row">

@@ -1,8 +1,9 @@
-// admin.js - Handles booking data for admin panel and booking forms
-
-// Utility: Save booking to localStorage
 function saveBooking(booking) {
     let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    // Ensure each booking has a unique ID
+    if (!booking.id) {
+        booking.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+    }
     bookings.push(booking);
     localStorage.setItem('bookings', JSON.stringify(bookings));
 }
@@ -12,7 +13,7 @@ function getBookings() {
     return JSON.parse(localStorage.getItem('bookings') || '[]');
 }
 
-// Function to get passenger statistics
+// Enhanced function to get passenger statistics with kids above 3 years tracking
 function getPassengerStats() {
     const bookings = getBookings();
     const stats = {
@@ -21,6 +22,7 @@ function getPassengerStats() {
         totalKids: 0,
         kidAges: [],
         freeKids: 0,
+        kidsAboveThree: 0,
         totalBookings: bookings.length
     };
 
@@ -29,21 +31,29 @@ function getPassengerStats() {
         stats.totalPassengers += parseInt(booking.totalPassengers) || 0;
 
         // Count adults and kids
-        if (booking.numAdults) {
+        if (booking.numAdults !== undefined) {
             stats.totalAdults += parseInt(booking.numAdults);
         } else if (booking.passengerType !== 'Kid') {
             // Legacy data without numAdults field
             stats.totalAdults += parseInt(booking.totalPassengers) || 0;
         }
 
-        if (booking.numKids) {
+        if (booking.numKids !== undefined) {
             stats.totalKids += parseInt(booking.numKids);
 
-            // Count free kids
-            if (booking.freeKidsCount) {
+            // Count free kids and kids above 3
+            if (booking.kidsAboveThree !== undefined) {
+                stats.kidsAboveThree += parseInt(booking.kidsAboveThree);
+                // Free kids are those under 3
+                stats.freeKids += (parseInt(booking.numKids) - parseInt(booking.kidsAboveThree));
+            } else if (booking.freeKidsCount !== undefined) {
                 stats.freeKids += parseInt(booking.freeKidsCount);
             } else if (booking.isFreeTravel) {
                 stats.freeKids += parseInt(booking.numKids);
+            } else if (booking.passengerAge && parseInt(booking.passengerAge) < 3) {
+                stats.freeKids += parseInt(booking.numKids);
+            } else if (booking.passengerAge && parseInt(booking.passengerAge) >= 3) {
+                stats.kidsAboveThree += parseInt(booking.numKids);
             }
 
             // Add kid age to array (if available)
@@ -58,8 +68,10 @@ function getPassengerStats() {
             // Legacy data without numKids field
             stats.totalKids += parseInt(booking.totalPassengers) || 0;
 
-            if (booking.isFreeTravel) {
+            if (booking.isFreeTravel || (booking.passengerAge && parseInt(booking.passengerAge) < 3)) {
                 stats.freeKids += parseInt(booking.totalPassengers) || 0;
+            } else if (booking.passengerAge && parseInt(booking.passengerAge) >= 3) {
+                stats.kidsAboveThree += parseInt(booking.totalPassengers) || 0;
             }
 
             if (booking.passengerAge) {
@@ -72,17 +84,30 @@ function getPassengerStats() {
     return stats;
 }
 
-// For admin panel: Render bookings (modern UI)
+// Enhanced renderBookings function with proper passenger display and stats update
 function renderBookings() {
     const tableBody = document.getElementById('booking-table-body');
     const emptyMsg = document.getElementById('empty-message');
-
     if (!tableBody) return;
 
-    const bookings = getBookings();
-    const stats = getPassengerStats();
+    let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
 
-    // Update passenger statistics display
+    // Ensure all bookings have IDs
+    let needsUpdate = false;
+    bookings = bookings.map((booking, index) => {
+        if (!booking.id) {
+            booking.id = Date.now().toString() + index + Math.random().toString(36).substr(2, 5);
+            needsUpdate = true;
+        }
+        return booking;
+    });
+
+    if (needsUpdate) {
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+    }
+
+    // Update passenger statistics
+    const stats = getPassengerStats();
     updatePassengerStats(stats);
 
     tableBody.innerHTML = '';
@@ -103,74 +128,136 @@ function renderBookings() {
     if (emptyMsg) emptyMsg.style.display = 'none';
 
     bookings.forEach((booking, index) => {
-        // Create enhanced passenger info
-        let passengerInfo = '';
+        // Enhanced passengers column display
+        let passengersCol = `<strong>${booking.totalPassengers || booking.passengers || 0}</strong>`;
 
-        // Display total passengers
-        passengerInfo += `<div><strong>Total:</strong> ${booking.totalPassengers || 'N/A'}</div>`;
+        if (booking.numAdults !== undefined || booking.numKids !== undefined) {
+            const adults = booking.numAdults || 0;
+            const kids = booking.numKids || 0;
+            passengersCol += `<br><small class="text-muted">Adults: ${adults}, Kids: ${kids}</small>`;
 
-        // Display adults and kids count
-        if (booking.numAdults !== undefined) {
-            passengerInfo += `<div><strong>Adults:</strong> ${booking.numAdults}</div>`;
-        }
-
-        if (booking.numKids !== undefined && booking.numKids > 0) {
-            passengerInfo += `<div><strong>Kids:</strong> ${booking.numKids}`;
-            
-            // Add age info if available
-            if (booking.passengerAge) {
-                passengerInfo += ` (${booking.passengerAge} yrs)`;
+            // Show kid ages if available
+            if (booking.passengerAge && kids > 0) {
+                passengersCol += `<br><small class="text-info">Age: ${booking.passengerAge} yrs</small>`;
             }
-
-            // Add free travel badge if applicable
-            if (booking.isFreeTravel || booking.freeKidsCount > 0) {
-                passengerInfo += ` <span class="badge bg-success">Free Travel</span>`;
-            }
-
-            passengerInfo += `</div>`;
         } else if (booking.passengerType === 'Kid') {
-            // Legacy data handling
-            passengerInfo += `<div><strong>Kids:</strong> ${booking.totalPassengers || 'N/A'}`;
-            
+            // Legacy format
+            passengersCol += `<br><small class="text-muted">All Kids</small>`;
             if (booking.passengerAge) {
-                passengerInfo += ` (${booking.passengerAge} yrs)`;
+                passengersCol += `<br><small class="text-info">Age: ${booking.passengerAge} yrs</small>`;
             }
-
-            if (booking.isFreeTravel) {
-                passengerInfo += ` <span class="badge bg-success">Free Travel</span>`;
-            }
-
-            passengerInfo += `</div>`;
+        } else {
+            passengersCol += `<br><small class="text-muted">All Adults</small>`;
         }
+
+        // Status column with improved display
+        const status = booking.status || 'pending';
+        let statusDisplay = '';
+        if (status === 'viewed') {
+            statusDisplay = `<span class="badge bg-success mb-2 d-block">Viewed</span>`;
+        } else {
+            statusDisplay = `<span class="badge bg-warning mb-2 d-block">Pending</span>`;
+        }
+
+        // Status note input
+        const statusNote = booking.statusNote || '';
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${index + 1}</td>
+            <td><strong>${index + 1}</strong></td>
             <td>${booking.name || 'N/A'}</td>
-            <td>${booking.email || 'N/A'}</td>
-            <td>${booking.phone || 'N/A'}</td>
-            <td>${booking.destination || 'N/A'}</td>
-            <td>${booking.travelDate || 'N/A'}</td>
-            <td>${passengerInfo}</td>
-            <td><span class="badge bg-warning">Pending</span></td>
-            <td>${booking.submittedAt ? new Date(booking.submittedAt).toLocaleDateString() : 'N/A'}</td>
+            <td><a href="mailto:${booking.email || ''}">${booking.email || 'N/A'}</a></td>
+            <td><a href="tel:${booking.phone || ''}">${booking.phone || 'N/A'}</a></td>
+            <td><strong>${booking.destination || booking.tour || 'N/A'}</strong></td>
+            <td>${booking.travelDate || booking.date || booking['travel-date'] || 'N/A'}</td>
+            <td>${passengersCol}</td>
+            <td style="max-width:200px;word-break:break-word;">${booking.message || '<em class="text-muted">No message</em>'}</td>
             <td>
-                <button class="btn btn-sm btn-outline-primary view-details" data-booking-id="${index}">
-                    <i class="fas fa-eye"></i>
-                </button>
+                ${statusDisplay}
+                <input type="text" class="form-control form-control-sm status-note" 
+                       placeholder="Admin note..." 
+                       value="${statusNote}" 
+                       data-booking-id="${booking.id}" 
+                       style="min-width:120px;max-width:180px;">
             </td>
+            <td>${booking.submittedAt ? new Date(booking.submittedAt).toLocaleDateString() : (booking.submitted ? new Date(booking.submitted).toLocaleDateString() : 'N/A')}</td>
         `;
+
+        // Add status toggle functionality
+        const statusBadge = row.querySelector('.badge');
+        if (statusBadge) {
+            statusBadge.style.cursor = 'pointer';
+            statusBadge.title = 'Click to toggle status';
+            statusBadge.addEventListener('click', function() {
+                const newStatus = status === 'viewed' ? 'pending' : 'viewed';
+                updateBookingStatus(booking.id, newStatus);
+            });
+        }
+
+        // Save status note on change
+        const statusNoteInput = row.querySelector('.status-note');
+        statusNoteInput.addEventListener('change', function() {
+            saveStatusNote(booking.id, this.value);
+        });
+
+        // Add double-click to view details
+        row.addEventListener('dblclick', function() {
+            showBookingDetails(booking);
+        });
+
+        // Add hover effect
+        row.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f8f9fa';
+        });
+        row.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+        });
 
         tableBody.appendChild(row);
     });
+}
 
-    // Add event listeners for view details buttons
-    document.querySelectorAll('.view-details').forEach(button => {
-        button.addEventListener('click', function() {
-            const bookingId = this.getAttribute('data-booking-id');
-            showBookingDetails(bookings[bookingId]);
-        });
-    });
+// Function to update booking status
+function updateBookingStatus(bookingId, newStatus) {
+    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+
+    if (bookingIndex !== -1) {
+        bookings[bookingIndex].status = newStatus;
+        bookings[bookingIndex].statusUpdatedAt = new Date().toISOString();
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+
+        // Show toast notification
+        const message = `Booking marked as ${newStatus}`;
+        if (typeof showAdminToast === 'function') {
+            showAdminToast(message, 'success');
+        }
+
+        // Re-render bookings to update display
+        renderBookings();
+        return true;
+    }
+    return false;
+}
+
+// Function to save status note
+function saveStatusNote(bookingId, note) {
+    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+
+    if (bookingIndex !== -1) {
+        bookings[bookingIndex].statusNote = note;
+        bookings[bookingIndex].noteUpdatedAt = new Date().toISOString();
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+
+        if (note.trim()) {
+            if (typeof showAdminToast === 'function') {
+                showAdminToast('Admin note saved', 'success');
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 // Function to show booking details in a modal
@@ -207,6 +294,29 @@ function showBookingDetails(booking) {
     // Populate modal content
     const modalContent = document.getElementById('booking-details-content');
 
+    // Create kids details section with improved formatting
+    let kidsDetailsSection = '';
+    if (booking.numKids > 0) {
+        const kidsAboveThree = parseInt(booking.kidsAboveThree) || 0;
+        const kidsUnderThree = parseInt(booking.numKids) - kidsAboveThree;
+
+        if (kidsAboveThree > 0) {
+            kidsDetailsSection += `<div><strong>Above 3:</strong> ${kidsAboveThree} <span class="badge bg-primary">Paid</span></div>`;
+        }
+
+        if (kidsUnderThree > 0) {
+            kidsDetailsSection += `<div><strong>Under 3:</strong> ${kidsUnderThree} <span class="badge bg-success">Free</span></div>`;
+        }
+    } else if (booking.passengerType === 'Kid') {
+        if (booking.isFreeTravel || (booking.passengerAge && parseInt(booking.passengerAge) < 3)) {
+            kidsDetailsSection = `<div><span class="badge bg-success">Free Travel</span></div>`;
+        } else {
+            kidsDetailsSection = `<div><span class="badge bg-primary">Paid Travel</span></div>`;
+        }
+    } else {
+        kidsDetailsSection = `<div><span class="badge bg-secondary">N/A</span></div>`;
+    }
+
     let fareInfo = '';
     if (booking.passengerType === 'Kid') {
         if (booking.isFreeTravel || (booking.passengerAge && parseInt(booking.passengerAge) < 3)) {
@@ -227,7 +337,7 @@ function showBookingDetails(booking) {
             <div class="col-md-6">
                 <h6>Trip Details</h6>
                 <p><strong>Destination:</strong> ${booking.destination || 'N/A'}</p>
-                <p><strong>Travel Date:</strong> ${booking.travelDate || 'N/A'}</p>
+                <p><strong>Travel Date:</strong> ${booking.travelDate || booking.date || booking['travel-date'] || 'N/A'}</p>
                 <p><strong>Submitted:</strong> ${booking.submittedAt ? new Date(booking.submittedAt).toLocaleString() : 'N/A'}</p>
             </div>
         </div>
@@ -235,10 +345,13 @@ function showBookingDetails(booking) {
         <div class="row">
             <div class="col-md-6">
                 <h6>Passenger Information</h6>
-                <p><strong>Total Passengers:</strong> ${booking.totalPassengers || 'N/A'}</p>
+                <p><strong>Total Passengers:</strong> ${booking.totalPassengers || booking.passengers || 'N/A'}</p>
                 <p><strong>Adults:</strong> ${booking.numAdults !== undefined ? booking.numAdults : 'N/A'}</p>
                 <p><strong>Kids:</strong> ${booking.numKids !== undefined ? booking.numKids : (booking.passengerType === 'Kid' ? booking.totalPassengers : '0')}</p>
-                ${booking.passengerAge ? `<p><strong>Kid Age:</strong> ${booking.passengerAge} years</p>` : ''}
+                 ${booking.kidsAges && Array.isArray(booking.kidsAges) && booking.kidsAges.length > 0
+                    ? `<p><strong>Kids' Ages:</strong> ${booking.kidsAges.map((age, idx) => `Kid ${idx+1}: ${age} yrs`).join(', ')}</p>`
+                    : (booking.passengerAge ? `<p><strong>Kid Age:</strong> ${booking.passengerAge} years</p>` : '')
+                }
             </div>
             <div class="col-md-6">
                 <h6>Fare Information</h6>
@@ -264,27 +377,22 @@ function showBookingDetails(booking) {
 
 // Function to update passenger statistics in admin panel
 function updatePassengerStats(stats) {
-    // Try to find existing stats container or create one
     let statsContainer = document.getElementById('passenger-stats');
 
     if (!statsContainer) {
         // Create stats container if it doesn't exist
-        const adminContainer = document.querySelector('.admin-container') || 
-                              document.querySelector('.container') || 
-                              document.querySelector('main') || 
-                              document.body;
-
-        if (adminContainer) {
+        const bookingsTab = document.getElementById('bookings');
+        if (bookingsTab) {
             statsContainer = document.createElement('div');
             statsContainer.id = 'passenger-stats';
             statsContainer.className = 'row mb-4';
 
-            // Insert at the beginning of the container
-            const firstChild = adminContainer.querySelector('h1, h2, .table-responsive, table');
-            if (firstChild) {
-                adminContainer.insertBefore(statsContainer, firstChild);
+            // Insert before the bookings table
+            const tableContainer = bookingsTab.querySelector('.table-responsive');
+            if (tableContainer) {
+                bookingsTab.insertBefore(statsContainer, tableContainer);
             } else {
-                adminContainer.appendChild(statsContainer);
+                bookingsTab.appendChild(statsContainer);
             }
         }
     }
@@ -295,7 +403,7 @@ function updatePassengerStats(stats) {
             : 'N/A';
 
         statsContainer.innerHTML = `
-            <div class="col-md-3 mb-3">
+            <div class="col-md-2 mb-3">
                 <div class="card bg-primary text-white h-100">
                     <div class="card-body text-center">
                         <i class="fas fa-users fa-2x mb-2"></i>
@@ -304,7 +412,7 @@ function updatePassengerStats(stats) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-2 mb-3">
                 <div class="card bg-secondary text-white h-100">
                     <div class="card-body text-center">
                         <i class="fas fa-user fa-2x mb-2"></i>
@@ -313,13 +421,23 @@ function updatePassengerStats(stats) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-2 mb-3">
                 <div class="card bg-info text-white h-100">
                     <div class="card-body text-center">
                         <i class="fas fa-child fa-2x mb-2"></i>
                         <h4 class="card-title">${stats.totalKids}</h4>
                         <p class="card-text mb-0">Total Kids</p>
-                        ${stats.kidAges.length > 0 ? `<small>Ages: ${stats.kidAges.join(', ')}</small>` : ''}
+                        ${avgAge !== 'N/A' ? `<small>Avg Age: ${avgAge} yrs</small>` : ''}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-ticket-alt fa-2x mb-2"></i>
+                        <h4 class="card-title">${stats.kidsAboveThree}</h4>
+                        <p class="card-text mb-0">Kids Above 3</p>
+                        <small>Paid Travel</small>
                     </div>
                 </div>
             </div>
@@ -328,8 +446,8 @@ function updatePassengerStats(stats) {
                     <div class="card-body text-center">
                         <i class="fas fa-gift fa-2x mb-2"></i>
                         <h4 class="card-title">${stats.freeKids}</h4>
-                        <p class="card-text mb-0">Free Travel Kids</p>
-                        <small>Under 3 years</small>
+                        <p class="card-text mb-0">Kids Under 3</p>
+                        <small>Free Travel</small>
                     </div>
                 </div>
             </div>
@@ -342,6 +460,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Render bookings if we're on admin page
     if (document.getElementById('booking-table-body')) {
         renderBookings();
+    }
+
+    // Add tab event listeners to refresh data when switching tabs
+    const bookingsTab = document.getElementById('bookings-tab');
+    if (bookingsTab) {
+        bookingsTab.addEventListener('shown.bs.tab', function() {
+            setTimeout(() => {
+                renderBookings();
+            }, 100);
+        });
     }
 
     // Attach form handlers
@@ -431,6 +559,7 @@ function attachBookingFormHandler() {
             let isFreeTravel = false;
             let fareStatus = 'paid';
             let freeKidsCount = 0;
+            let kidsAboveThree = 0;
 
             if (passengerType === 'Kid' && passengerAge) {
                 const age = parseInt(passengerAge);
@@ -438,11 +567,13 @@ function attachBookingFormHandler() {
                     isFreeTravel = true;
                     fareStatus = 'free';
                     freeKidsCount = numKids; // Assuming all kids are the same age
+                } else {
+                    kidsAboveThree = numKids;
                 }
             }
 
             const booking = {
-                id: Date.now(),
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
                 name: formData.get('name') || '',
                 email: formData.get('email') || '',
                 phone: formData.get('phone') || '',
@@ -456,8 +587,10 @@ function attachBookingFormHandler() {
                 isFreeTravel: isFreeTravel,
                 fareStatus: fareStatus,
                 freeKidsCount: freeKidsCount,
+                kidsAboveThree: kidsAboveThree,
                 message: formData.get('message') || '',
-                submittedAt: new Date().toISOString()
+                submittedAt: new Date().toISOString(),
+                status: 'pending'
             };
 
             saveBooking(booking);
@@ -468,13 +601,24 @@ function attachBookingFormHandler() {
                 successMessage += ` ${freeKidsCount} ${freeKidsCount === 1 ? 'kid' : 'kids'} under 3 ${freeKidsCount === 1 ? 'travels' : 'travel'} free.`;
             }
 
-            typeof showAdminToast === 'function' ? showAdminToast(successMessage) : alert(successMessage);
+            if (typeof showAdminToast === 'function') {
+                showAdminToast(successMessage, 'success');
+            } else {
+                alert(successMessage);
+            }
 
-            // Reset conditional fields
+            // Reset form and conditional fields
+            form.reset();
+            const ageGroup = form.querySelector('#age-group');
+            const kidFieldsContainer = form.querySelector('#kid-fields-container');
             if (ageGroup) ageGroup.style.display = 'none';
             if (kidFieldsContainer) kidFieldsContainer.style.display = 'none';
+
+            // Refresh bookings if on admin page
+            if (document.getElementById('booking-table-body')) {
+                setTimeout(() => renderBookings(), 500);
+            }
         });
-            if (numKidsInput) numKidsInput.required = false;
 
         form.dataset.bookingHandlerAttached = 'true';
     });
@@ -524,11 +668,12 @@ const PosterManager = {
 
         posterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const title = document.getElementById('posterTitle').value;
+            const description = document.getElementById('posterDescription').value;
             const imageInput = document.getElementById('posterImage');
             const order = parseInt(document.getElementById('posterOrder').value) || 1;
-            
+
             if (imageInput.files.length === 0) {
                 this.showToast('Please select an image!', 'error');
                 return;
@@ -538,25 +683,26 @@ const PosterManager = {
                 // Compress image before saving
                 const compressedImageUrl = await this.compressImage(imageInput.files[0]);
                 const posters = this.getPosters();
-                
+
                 // Clean up old posters if reaching storage limit
-                if (posters.length > 20) {
+                if (posters.length > 25) {
                     posters.sort((a, b) => a.order - b.order);
                     posters.pop(); // Remove the last poster
                 }
-                
+
                 // Add new poster
                 const newPoster = {
                     id: Date.now().toString(),
                     title: title,
+                    description: description,
                     image: compressedImageUrl,
                     order: order,
                     addedAt: new Date().toISOString()
                 };
-                
+
                 posters.push(newPoster);
                 posters.sort((a, b) => (a.order || 1) - (b.order || 1));
-                
+
                 // Update storage
                 try {
                     this.updatePosters(posters);
@@ -567,7 +713,7 @@ const PosterManager = {
                     // If storage is still full after compression
                     this.showToast('Storage is full. Please delete some existing posters.', 'error');
                 }
-                
+
             } catch (error) {
                 this.showToast('Error processing image. Please try a smaller image.', 'error');
             }
@@ -583,7 +729,7 @@ const PosterManager = {
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    
+
                     // Calculate new dimensions while maintaining aspect ratio
                     const maxSize = 800;
                     if (width > height) {
@@ -602,11 +748,14 @@ const PosterManager = {
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    
-                    // Convert to JPEG with reduced quality
-                    canvas.toBlob((blob) => {
-                        resolve(URL.createObjectURL(blob));
-                    }, 'image/jpeg', 0.7); // 70% quality
+
+                    // Convert to JPEG Data URL with reduced quality for persistence
+                    try {
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                        resolve(dataUrl);
+                    } catch (err) {
+                        reject(err);
+                    }
                 };
                 img.onerror = reject;
                 img.src = e.target.result;
@@ -622,15 +771,11 @@ const PosterManager = {
 
     updatePosters(posters) {
         try {
-            // First try to clean up storage
-            this.cleanupStorage();
-            
-            // Convert image URLs to more efficient format
             const processedPosters = posters.map(poster => ({
                 ...poster,
                 image: poster.image.startsWith('data:') ? poster.image : poster.image
             }));
-            
+
             // Try to save with reduced data
             try {
                 localStorage.setItem('tourPosters', JSON.stringify(processedPosters));
@@ -646,10 +791,10 @@ const PosterManager = {
                     }
                 }
             }
-            
+
             // Update URLs list separately
             localStorage.setItem('tourPosterUrls', JSON.stringify(processedPosters.map(p => p.image)));
-            
+
             // Dispatch custom event
             window.dispatchEvent(new CustomEvent('postersUpdated', { detail: processedPosters }));
         } catch (error) {
@@ -660,9 +805,9 @@ const PosterManager = {
     renderPosters() {
         const postersContainer = document.getElementById('postersList');
         if (!postersContainer) return;
-        
+
         const posters = this.getPosters();
-        
+
         if (posters.length === 0) {
             postersContainer.innerHTML = `
                 <div class="col-12 text-center py-5">
@@ -672,7 +817,7 @@ const PosterManager = {
             `;
             return;
         }
-        
+
         postersContainer.innerHTML = posters.map((poster, index) => `
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm">
@@ -699,10 +844,10 @@ const PosterManager = {
 
     deletePoster(id) {
         if (!confirm('Are you sure you want to delete this poster?')) return;
-        
+
         let posters = this.getPosters();
         posters = posters.filter(poster => poster.id !== id);
-        
+
         this.updatePosters(posters);
         this.renderPosters();
         this.showToast('Poster deleted successfully!', 'success');
@@ -711,18 +856,18 @@ const PosterManager = {
     movePoster(id, moveUp) {
         let posters = this.getPosters();
         const index = posters.findIndex(poster => poster.id === id);
-        
+
         if (index === -1) return;
-        
+
         if (moveUp && index > 0) {
             [posters[index], posters[index - 1]] = [posters[index - 1], posters[index]];
         } else if (!moveUp && index < posters.length - 1) {
             [posters[index], posters[index + 1]] = [posters[index + 1], posters[index]];
         }
-        
+
         // Update order numbers
         posters.forEach((poster, i) => poster.order = i + 1);
-        
+
         this.updatePosters(posters);
         this.renderPosters();
     },
@@ -733,12 +878,12 @@ const PosterManager = {
             console.log(message);
             return;
         }
-        
+
         const toastBody = toast.querySelector('.toast-body');
         toastBody.textContent = message;
-        
+
         toast.className = toast.className.replace(/bg-\w+/, `bg-${type === 'error' ? 'danger' : type}`);
-        
+
         const bsToast = new bootstrap.Toast(toast);
         bsToast.show();
     },
@@ -746,7 +891,7 @@ const PosterManager = {
     cleanupStorage() {
         try {
             const posters = this.getPosters();
-            if (posters.length > 20) {
+            if (posters.length > 25) {
                 // Keep only the 20 most recent posters
                 posters.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
                 posters.splice(20);

@@ -1,102 +1,140 @@
-// Function to render posters on the index page
-function renderPosters() {
-    const postersContainer = document.getElementById('postersList');
-    if (!postersContainer) return;
+// Remove duplicate PosterManager - it's already properly implemented in admin.js
+// This file will focus on frontend poster display functionality
 
-    const posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
-    
-    postersContainer.innerHTML = posters.map(poster => `
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm">
-                <img src="${poster.image}" class="card-img-top" alt="${poster.title}" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">${poster.title}</h5>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// Add this to handle public poster display
-function displayPublicPosters() {
-    const postersContainer = document.getElementById('publicPostersList');
-    if (!postersContainer) return;
-
-    const posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
-    
-    if (posters.length === 0) {
-        postersContainer.innerHTML = '<p class="text-center text-muted">No posters available</p>';
-        return;
-    }
-
-    postersContainer.innerHTML = posters
-        .sort((a, b) => (a.order || 1) - (b.order || 1))
-        .map(poster => `
-            <div class="poster-item">
-                <img src="${poster.image}" alt="${poster.title}">
-                <div class="poster-content">
-                    <h3 class="poster-title">${poster.title}</h3>
-                    <p class="poster-description">${poster.description || ''}</p>
-                </div>
-            </div>
-        `).join('');
-}
-
-// Poster Slider Management
 const PosterSliderManager = {
     currentIndex: 0,
     currentAnimation: 'fade',
     interval: null,
-    
+    defaultPosters: [
+        'imgg/MAASAI MARA 4.jpg',
+        'imgg/COAST 2.jpg',
+        'imgg/HIDDEN GEM 2.jpg',
+        'imgg/FIRE PLACE 2.jpg',
+        'imgg/AMBOSELI NATIONAL PARK.jpg'
+    ],
+
     init() {
         this.setupEventListeners();
         this.initializeSlider();
+        this.setupAnimationControls();
     },
 
     setupEventListeners() {
-        // Animation control buttons
+        // Listen for poster updates from admin
+        window.addEventListener('postersUpdated', () => {
+            this.initializeSlider();
+        });
+
+        // Listen for storage changes
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'tourPosters') {
+                this.initializeSlider();
+            }
+        });
+
+        // Setup touch/swipe support for mobile
+        this.setupTouchControls();
+    },
+
+    setupAnimationControls() {
+        // Create animation control buttons if they don't exist
+        const controlsContainer = document.querySelector('.poster-controls');
+        if (controlsContainer && !document.querySelector('.animation-controls')) {
+            const animationControls = document.createElement('div');
+            animationControls.className = 'animation-controls';
+            animationControls.innerHTML = `
+                <button class="poster-btn active" data-animation="fade">Fade</button>
+                <button class="poster-btn" data-animation="slide">Slide</button>
+                <button class="poster-btn" data-animation="zoom">Zoom</button>
+                <button class="poster-btn" data-animation="flip">Flip</button>
+            `;
+            controlsContainer.appendChild(animationControls);
+        }
+
+        // Setup animation controls
         document.querySelectorAll('.poster-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const animation = e.target.dataset.animation;
-                this.changeAnimation(animation);
-                
-                // Update active button
-                document.querySelectorAll('.poster-btn').forEach(b => 
-                    b.classList.remove('active'));
-                e.target.classList.add('active');
+                if (animation) {
+                    this.changeAnimation(animation);
+
+                    // Update active button
+                    document.querySelectorAll('.poster-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                }
             });
         });
+    },
 
-        // Auto-pause on hover
+    setupTouchControls() {
         const slider = document.getElementById('posterSlider');
-        if (slider) {
-            slider.addEventListener('mouseenter', () => this.pauseAutoplay());
-            slider.addEventListener('mouseleave', () => this.startAutoplay());
-        }
+        if (!slider) return;
+
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isDragging = true;
+            this.pauseAutoplay();
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            // Check if horizontal swipe is more significant than vertical
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
+
+            this.startAutoplay();
+        });
     },
 
     getPosters() {
-        const stored = JSON.parse(localStorage.getItem('tourPosters')) || [];
-        if (stored.length > 0) {
-            return stored;
+        const stored = JSON.parse(localStorage.getItem('tourPosters'));
+        if (stored && stored.length > 0) {
+            return stored.map(p => ({
+                image: p.image,
+                title: p.title,
+                description: p.description || ''
+            }));
         }
-        return this.defaultPosters.map(url => ({
-            image: url,
-            title: 'Default Poster'
+        return this.defaultPosters.map((img, index) => ({
+            image: img,
+            title: `Destination ${index + 1}`,
+            description: 'Explore amazing destinations with us'
         }));
     },
 
     initializeSlider() {
         const slider = document.getElementById('posterSlider');
         const indicators = document.getElementById('posterIndicators');
-        
+
         if (!slider || !indicators) return;
 
         this.clearSlider();
-        
+
         const posters = this.getPosters();
-        
-        // Create slides
+
+        // Create slides with enhanced content
         posters.forEach((poster, index) => {
             const slide = document.createElement('div');
             slide.className = `poster-slide ${this.currentAnimation}-animation ${index === 0 ? 'active' : ''}`;
@@ -104,32 +142,50 @@ const PosterSliderManager = {
                 <img src="${poster.image}" alt="${poster.title}" loading="lazy">
                 <div class="poster-content">
                     <h3>${poster.title}</h3>
+                    ${poster.description ? `<p>${poster.description}</p>` : ''}
                 </div>
             `;
             slider.appendChild(slide);
 
-            // Create indicator
-            const dot = document.createElement('div');
-            dot.className = `poster-dot ${index === 0 ? 'active' : ''}`;
-            dot.addEventListener('click', () => this.goToSlide(index));
-            indicators.appendChild(dot);
+            // Create indicators
+            const indicator = document.createElement('div');
+            indicator.className = `poster-dot ${index === 0 ? 'active' : ''}`;
+            indicator.onclick = () => this.goToSlide(index);
+            indicators.appendChild(indicator);
         });
 
+        // Add controls if they don't exist
+        this.addControls(slider);
         this.startAutoplay();
     },
 
-    changeAnimation(animationType) {
-        this.currentAnimation = animationType;
-        const slides = document.querySelectorAll('.poster-slide');
-        
-        slides.forEach(slide => {
-            slide.className = slide.className.replace(/\w+-animation/, 
-                `${animationType}-animation`);
-        });
+    addControls(slider) {
+        if (slider.querySelector('.poster-controls')) return;
+
+        const controls = document.createElement('div');
+        controls.className = 'poster-controls';
+        controls.innerHTML = `
+            <div class="poster-indicators" id="posterIndicators"></div>
+        `;
+        slider.appendChild(controls);
+    },
+
+    clearSlider() {
+        const slider = document.getElementById('posterSlider');
+        const indicators = document.getElementById('posterIndicators');
+
+        if (slider) {
+            // Keep controls, remove only slides
+            const slides = slider.querySelectorAll('.poster-slide');
+            slides.forEach(slide => slide.remove());
+        }
+        if (indicators) indicators.innerHTML = '';
+
+        this.pauseAutoplay();
     },
 
     startAutoplay() {
-        if (this.interval) clearInterval(this.interval);
+        this.pauseAutoplay();
         this.interval = setInterval(() => this.nextSlide(), 5000);
     },
 
@@ -142,166 +198,91 @@ const PosterSliderManager = {
 
     nextSlide() {
         const slides = document.querySelectorAll('.poster-slide');
-        const dots = document.querySelectorAll('.poster-dot');
-        
+        const indicators = document.querySelectorAll('.poster-dot');
+
+        if (slides.length === 0) return;
+
         slides[this.currentIndex].classList.remove('active');
-        dots[this.currentIndex].classList.remove('active');
-        
+        indicators[this.currentIndex].classList.remove('active');
+
         this.currentIndex = (this.currentIndex + 1) % slides.length;
-        
+
         slides[this.currentIndex].classList.add('active');
-        dots[this.currentIndex].classList.add('active');
+        indicators[this.currentIndex].classList.add('active');
+    },
+
+    prevSlide() {
+        const slides = document.querySelectorAll('.poster-slide');
+        const indicators = document.querySelectorAll('.poster-dot');
+
+        if (slides.length === 0) return;
+
+        slides[this.currentIndex].classList.remove('active');
+        indicators[this.currentIndex].classList.remove('active');
+
+        this.currentIndex = this.currentIndex === 0 ? slides.length - 1 : this.currentIndex - 1;
+
+        slides[this.currentIndex].classList.add('active');
+        indicators[this.currentIndex].classList.add('active');
     },
 
     goToSlide(index) {
-        if (index === this.currentIndex) return;
-        
         const slides = document.querySelectorAll('.poster-slide');
-        const dots = document.querySelectorAll('.poster-dot');
-        
+        const indicators = document.querySelectorAll('.poster-dot');
+
+        if (slides.length === 0 || index === this.currentIndex) return;
+
         slides[this.currentIndex].classList.remove('active');
-        dots[this.currentIndex].classList.remove('active');
-        
+        indicators[this.currentIndex].classList.remove('active');
+
         this.currentIndex = index;
-        
+
         slides[this.currentIndex].classList.add('active');
-        dots[this.currentIndex].classList.add('active');
-        
+        indicators[this.currentIndex].classList.add('active');
+
         // Reset autoplay
         this.startAutoplay();
-    }
-};
-
-const PosterManager = {
-    init() {
-        this.setupPosterForm();
-        this.renderPosters();
     },
 
-    setupPosterForm() {
-        const form = document.getElementById('posterForm');
-        const imageInput = document.getElementById('posterImage');
-        const imagePreview = document.getElementById('imagePreview');
+    changeAnimation(animationType) {
+        this.currentAnimation = animationType;
+        const slides = document.querySelectorAll('.poster-slide');
 
-        if (!form) return;
-
-        // Show image preview
-        imageInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    imagePreview.classList.remove('d-none');
-                    imagePreview.querySelector('img').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+        slides.forEach(slide => {
+            slide.className = slide.className.replace(/\w+-animation/, `${animationType}-animation`);
         });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const title = document.getElementById('posterTitle').value;
-            const file = imageInput.files[0];
-
-            if (!file) {
-                alert('Please select an image');
-                return;
-            }
-
-            try {
-                const imageUrl = await this.readFileAsDataURL(file);
-                const newPoster = {
-                    id: Date.now().toString(),
-                    title: title,
-                    image: imageUrl,
-                    date: new Date().toISOString()
-                };
-
-                // Get existing posters
-                const posters = JSON.parse(localStorage.getItem('tourPosters') || '[]');
-                posters.push(newPoster);
-
-                // Save to localStorage
-                localStorage.setItem('tourPosters', JSON.stringify(posters));
-
-                // Clear form and preview
-                form.reset();
-                imagePreview.classList.add('d-none');
-                
-                // Refresh posters display
-                this.renderPosters();
-                
-                // Trigger update event
-                window.dispatchEvent(new CustomEvent('postersUpdated'));
-                
-                alert('Poster uploaded successfully!');
-            } catch (error) {
-                alert('Error uploading poster: ' + error.message);
-            }
-        });
-    },
-
-    readFileAsDataURL(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(new Error('Failed to read file'));
-            reader.readAsDataURL(file);
-        });
-    },
-
-    renderPosters() {
-        const container = document.getElementById('postersList');
-        if (!container) return;
-
-        const posters = JSON.parse(localStorage.getItem('tourPosters') || '[]');
-        
-        if (posters.length === 0) {
-            container.innerHTML = '<p class="text-center text-muted">No posters uploaded yet</p>';
-            return;
+        // Add special handling for new animation types
+        if (animationType === 'flip') {
+            slides.forEach(slide => {
+                slide.style.transformStyle = 'preserve-3d';
+            });
         }
-
-        container.innerHTML = posters.map(poster => `
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <img src="${poster.image}" class="card-img-top" alt="${poster.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${poster.title}</h5>
-                        <button class="btn btn-danger btn-sm" 
-                                onclick="PosterManager.deletePoster('${poster.id}')">
-                            Delete
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    deletePoster(id) {
-        if (!confirm('Are you sure you want to delete this poster?')) return;
-
-        const posters = JSON.parse(localStorage.getItem('tourPosters') || '[]');
-        const updatedPosters = posters.filter(poster => poster.id !== id);
-        localStorage.setItem('tourPosters', JSON.stringify(updatedPosters));
-        
-        this.renderPosters();
-        window.dispatchEvent(new CustomEvent('postersUpdated'));
     }
 };
 
-// Initialize when DOM is loaded
+// Enhanced initialization for PosterSliderManager
 document.addEventListener('DOMContentLoaded', () => {
-    renderPosters();
-    displayPublicPosters();
-    
-    // Listen for poster updates
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'tourPosters') {
-            displayPublicPosters();
-        }
-    });
-
+    // Initialize poster slider with animation
     PosterSliderManager.init();
-    PosterManager.init();
+
+    // Add intersection observer for animation
+    const posterContainer = document.querySelector('.poster-container');
+    if (posterContainer) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(posterContainer);
+    }
+});
+
+// Handle poster updates from admin
+window.addEventListener('postersUpdated', () => {
+    PosterSliderManager.initializeSlider();
 });

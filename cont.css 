@@ -1,0 +1,287 @@
+:root {
+    /* Primary Brand Colors */
+    --primary-orange: #FF6B35;      /* Main brand color */
+    --secondary-orange: #FF9E35;    /* Secondary brand color */
+    --accent-gold: #FFD700;         /* Gold accent for highlights */
+    
+    /* Safari Theme Colors */
+    --safari-brown: #8B4513;        /* Earth tone for safari theme */
+    --safari-green: #4CAF50;        /* Natural green for wildlife */
+    --safari-tan: #D2B48C;          /* Sand/khaki color */
+    
+    /* UI Colors */
+    --dark: #2D2D2D;                /* Dark text and backgrounds */
+    --light: #F5F5F5;               /* Light backgrounds */
+    --white: #FFFFFF;               /* Pure white */
+    --off-white: #FFF8F0;           /* Warm white for backgrounds */
+    --text-dark: #333333;           /* Main text color */
+    --text-light: #777777;          /* Secondary text color */
+    
+    /* Social Media Colors */
+    --facebook: #1877F2;            /* Facebook blue */
+    --instagram-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    --whatsapp: #25D366;            /* WhatsApp green */
+    --tiktok: #000000;              /* TikTok black */
+    
+    /* Functional Colors */
+    --success: #28a745;             /* Success messages */
+    --error: #dc3545;               /* Error messages */
+    --warning: #ffc107;             /* Warning messages */
+    --info: #17a2b8;                /* Information messages */
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+    --gradient-safari: linear-gradient(to right, var(--safari-brown), var(--safari-tan));
+    
+    /* Transparency Colors */
+    --overlay-dark: rgba(45, 45, 45, 0.8);
+    --overlay-light: rgba(255, 255, 255, 0.9);
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    
+    /* Border Colors */
+    --border-light: #dddddd;
+    --border-medium: #cccccc;
+    --border-focus: var(--primary-orange);
+    
+    /* Animation Timings */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 5px;
+    --radius-md: 10px;
+    --radius-lg: 15px;
+    --radius-circle: 50%;
+    
+    /* Box Shadows */
+    --shadow-sm: 0 2px 4px var(--shadow-light);
+    --shadow-md: 0 4px 6px var(--shadow-light);
+    --shadow-lg: 0 10px 15px var(--shadow-medium);
+    
+    /* Typography */
+    --font-primary: "Montserrat", sans-serif;
+    --font-secondary: "Poppins", sans-serif;
+    --font-accent: "Playwrite IT Moderna", serif;
+    
+    /* Button Styles */
+    --button-padding: 12px 30px;
+    --button-radius: var(--radius-sm);
+    
+    /* Form Element Styles */
+    --input-padding: 12px;
+    --input-radius: var(--radius-sm);
+    --input-border: 2px solid var(--border-light);
+    --input-focus-border: 2px solid var(--border-focus);
+    
+    /* Card Styles */
+    --card-padding: 2rem;
+    --card-radius: var(--radius-md);
+    --card-shadow: var(--shadow-md);
+    
+    /* Header/Footer Styles */
+    --header-height: 100px;
+    --footer-min-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+}
+
+body {
+    background-color: var(--light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Update existing styles to use variables */
+.header {
+    background: var(--white);
+    height: var(--header-height);
+    min-height: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background var(--transition-medium);
+    display: flex;
+    align-items: center;
+}
+
+.header.scrolled {
+    background: var(--overlay-dark);
+}
+
+.nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    transition: color var(--transition-medium);
+}
+
+.nav-link:hover {
+    color: var(--accent-gold) !important;
+}
+
+.dropdown-menu {
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px var(--shadow-medium);
+    animation: fadeIn var(--transition-medium);
+}
+
+.social-icons .btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-circle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-medium);
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--facebook); /* Changed from blue to variable */
+    left: 50%;
+    bottom: -5px;
+    transition: width var(--transition-medium), left var(--transition-medium);
+}
+
+.contact-info {
+    flex: 1;
+    background: var(--primary-orange);
+    padding: var(--card-padding);
+    border-radius: var(--card-radius);
+    color: var(--white);
+    box-shadow: var(--card-shadow);
+}
+
+.contact-form {
+    flex: 1;
+    background: var(--white);
+    padding: var(--card-padding);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+}
+
+input, textarea {
+    width: 100%;
+    padding: var(--input-padding);
+    border: var(--input-border);
+    border-radius: var(--input-radius);
+    transition: border-color var(--transition-medium);
+}
+
+input:focus, textarea:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+}
+
+button {
+    background: var(--primary-orange);
+    color: var(--white);
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background var(--transition-medium);
+}
+
+button:hover {
+    background: var(--secondary-orange);
+}
+
+/* Update social media icon colors */
+footer .fa-instagram {
+    background: var(--instagram-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+footer .fa-facebook {
+    color: var(--facebook);
+}
+
+footer .fa-whatsapp {
+    color: var(--whatsapp);
+}
+
+footer .primary h2, footer h3 {
+    color: var(--accent-gold);
+    font-weight: bold;
+}
+
+.about p {
+    font-family: var(--font-accent);
+}
+
+/* Add these new utility classes for consistent styling */
+.text-primary {
+    color: var(--primary-orange);
+}
+
+.text-secondary {
+    color: var(--secondary-orange);
+}
+
+.text-accent {
+    color: var(--accent-gold);
+}
+
+.bg-primary {
+    background-color: var(--primary-orange);
+}
+
+.bg-secondary {
+    background-color: var(--secondary-orange);
+}
+
+.bg-light {
+    background-color: var(--light);
+}
+
+.bg-dark {
+    background-color: var(--dark);
+    color: var(--white);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.rounded-sm {
+    border-radius: var(--radius-sm);
+}
+
+.rounded-md {
+    border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+    border-radius: var(--radius-lg);
+}
+
+.transition {
+    transition: all var(--transition-medium);
+}

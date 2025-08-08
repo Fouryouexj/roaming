@@ -71,7 +71,7 @@
     <hr>
     <section class="whole">
         <h1>2 Days KENYA ADVENTURE LUXURY SAFARI, AMBOSELI SAFARI From $520 PP</h1>
-        <p>Embark on our Deluxe Namdah Tours Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
+        <p>Embark on our Deluxe Roaming Nomads Tours Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
             and enjoyment. With inclusions like park fees, transport, accommodation, meals, and expert guides, this package guarantees an unforgettable African experience.</p>
         <button class="book-now" onclick="location.href='#target-section'">Reserve Suite</button>
 
@@ -110,7 +110,7 @@
         <h2> Day2: Amboseli National Park – Nairobi City</h2>
         <p>Second day with Roaming Nomads Tours, wake up early for full breakfast then prepare for the early morning game drive adventure inside the Amboseli National park, with the amazing view of the mount Kilimanjaro. Depart Amboseli for Nairobi by road,
             lunch provided en route and arriving in Nairobi early afternoon and the driver guide will drop the clients in the hotel or airport and your safari ends with great memories from Roaming Nomads Tours.</p>
-        <p>To ensure a smooth and enjoyable adventure safari, it's best to book your trip with Namdah Tours a reputable tour operator. We will handle all the logistics, including transportation, accommodation, and activities, allowing you to focus on enjoying
+        <p>To ensure a smooth and enjoyable adventure safari, it's best to book your trip with Roaming Nomads Tours a reputable tour operator. We will handle all the logistics, including transportation, accommodation, and activities, allowing you to focus on enjoying
             your adventure. We can also provide expert safari guides who will enhance your Kenya safari experience with their knowledge and expertise.</p>
         <p>Kenya's adventure safari offers a unique and unforgettable experience for all types of adventure seekers. With a variety of activities to choose from, stunning landscapes to explore, and a rich culture to immerse yourself in, Kenya is the ultimate
             destination for an adrenaline-fueled adventure. Plan your trip now and unleash the thrill of Kenya's adventure safari.</p>
@@ -157,23 +157,39 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
                         <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
                     <div class="form-group" id="age-group">
                         <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
                         <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">

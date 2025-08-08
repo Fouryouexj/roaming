@@ -26,6 +26,7 @@
         }
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+IT+Moderna:wght@100..400&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://kit.fontawesome.com/b6021ddfae.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="home.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,12 +55,12 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, background 0.3s ease;
         }
-        
+
         .mobile-toggle:hover {
             background: #FFD700;
             transform: scale(1.1);
         }
-        
+
         @media (max-width: 768px) {
             .mobile-toggle {
                 display: block;
@@ -108,6 +109,28 @@
                 margin: 0 auto;
             }
         }
+
+        .review-card .review-meta {
+    margin-bottom: 8px;
+}
+
+.review-card .reviewer-name {
+    font-weight: bold;
+    color: var(--accent-gold, #FFD700);
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-card .review-date {
+    font-size: 0.85em;
+    color: var(--text-light, #777777);
+}
+
+.review-card .stars {
+    margin-bottom: 8px;
+    color: var(--warning, #ffc107);
+}
     </style>
 </head>
 
@@ -119,8 +142,8 @@
                     <div class="imgggg"><img src="img/IMG-20250222-WA0014.jpg" alt="Logo"></div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
@@ -129,13 +152,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Packages
-                        </a>
+                                Packages
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Day Trips</a></li>
-                                <li><a class="dropdown-item" href="#">Group Trips</a></li>
+                                <li><a class="dropdown-item" href="#secon">Day Trips</a></li>
+                                <li><a class="dropdown-item" href="#thir">Group Trips</a></li>
                                 <li><a class="dropdown-item" href="corp.html">Corporate Tours</a></li>
-                                <li><a class="dropdown-item" href="#">Luxury Tours</a></li>
+                                <li><a class="dropdown-item" href="#fourt">Luxury Tours</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -152,8 +175,8 @@
                         </li>
                     </ul>
                     <div class="social-icons ms-3">
-                        <a href="#" class="btn btn-light"><i class="fab fa-facebook-f " style="color:#1877F2 ;"></i></a>
-                        <a href="#" class="btn btn-light"><i class="fab fa-whatsapp " style="color: #25D366;"></i></a>
+                        <a href="#" class="btn btn-light"><i class="fab fa-facebook-f" style="color:#1877F2 ;"></i></a>
+                        <a href="#" class="btn btn-light"><i class="fab fa-whatsapp" style="color: #25D366;"></i></a>
                         <a href="#" class="btn btn-light"><i class="fab fa-instagram" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
                         -webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;"></i></a>
@@ -161,10 +184,9 @@
                 </div>
             </nav>
         </div>
-        
-    <hr style="color: black;">
-    </header>
 
+        <hr style="color: black;">
+    </header>
 
     <main>
         <div class="tour-slider">
@@ -206,7 +228,6 @@
 
                         <div class="slide-content">
 
-
                         </div>
 
                         <img src="BIG 5/GIRRAFFE 3.jpg" class="slide-image" alt="Hells Gate" loading="lazy">
@@ -217,8 +238,6 @@
 
                         <div class="slide-content">
 
-
-
                         </div>
 
                         <img src="BIG 5/BUFALLO 2.jpg" class="slide-image" alt="Buffalo" loading="lazy">
@@ -227,18 +246,18 @@
 
                 </div>
                 <div class="b">
-                    <div class="swip-button-prev" id="prevBtn"> 
+                    <div class="swip-button-prev" id="prevBtn">
                         <i class="fa-solid fa-arrow-left"></i>
                     </div>
-                    <div class="swip-button-next" id="nextBtn"> 
+                    <div class="swip-button-next" id="nextBtn">
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
-  
+
             </div>
 
         </div>
-        <section class="second">
+        <section class="second" id="secon">
             <div>
                 <h5 class="h5">popular destinations</h5>
                 <h2 class="h2">Day trips</h2>
@@ -249,7 +268,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/MAASAI MARA 4.jpg" class="tour-image" alt="Luxury Resort">
+                            <img src="imgg/NAIROBI NATIONAL PARK.jpg" class="tour-image" alt="Luxury Resort">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★☆</div>
                                 <h3 class="tour-title">Nairobi National Park Half Day Tour</h3>
@@ -263,10 +282,10 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/COAST 2.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
-                                <h3 class="tour-title">Amboseli National Park Day Trip </h3>
+                         MAASAI MARA 4.jpg       <h3 class="tour-title">Amboseli National Park Day Trip </h3>
                                 <p class="tour-description">Embark on an early morning Roaming Nomads Tour, departing from your hotel</p>
                                 <a href="subtour-amboseli.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -275,7 +294,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/HIDDEN GEM 2.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/HELLS GATE.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">Lake Naivasha-Hellsgate Day Trip</h3>
@@ -316,7 +335,7 @@
             </div>
 
         </section>
-        <section class="third">
+        <section class="third" id="thir">
             <div>
                 <h5 class="h5">popular destinations</h5>
                 <h2 class="h2">Group Trips</h2>
@@ -341,7 +360,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/COAST 2.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/EAST LAKE TURKANA.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">7 DAYS NORTH EAST LAKE TURKANA TOUR</h3>
@@ -353,7 +372,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/HIDDEN GEM 2.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/HIDDEN GEM.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                               <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">4 Days 3 Nights Masai Mara Budget Safari - $590 PP</h3>
@@ -365,7 +384,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/LAKE NAIVASHA.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-starss">★★★★★</div>
                                 <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari - $690 PP</h3>
@@ -377,7 +396,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/FIRE PLACE 2.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/TOURISTS.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">4 Days Masai Mara & Lake Nakuru Budget Safari From $580 PP</h3>
@@ -389,7 +408,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/FIRE PLACE 3.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/ZEBRA GIRRAFFE.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari - $690 PP</h3>
@@ -437,7 +456,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/EAST LAKE TURKANA.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/SERENGETI.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
                                 <h3 class="tour-title">6 Days Masai Mara, Lake Nakuru & Amboseli Safari - $820 PP</h3>
@@ -481,7 +500,7 @@
             </div>
 
         </section>
-        <section class="fourth">
+        <section class="fourth" id="fourt">
             <div>
                 <h5 class="h5">popular destinations</h5>
                 <h2 class="h2">Luxury Tours</h2>
@@ -492,7 +511,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/MAASAI MARA 4.jpg" class="tour-image" alt="Luxury Resort">
+                            <img src="imgg/ELEPHANT 1.jpg" class="tour-image" alt="Luxury Resort">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★☆</div>
                                 <h3 class="tour-title">3 Days Samburu Private Safari</h3>
@@ -552,7 +571,7 @@
                     <div class="swiper-slide">
                         <div class="tour-card">
                             <span class="price-tag"></span>
-                            <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
+                            <img src="imgg/FEMALE LION.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-starss">★★★★★</div>
                                 <h3 class="tour-title">4 Days Samburu & L.Nakuru Private Safari</h3>
@@ -561,7 +580,6 @@
                             </div>
                         </div>
                     </div>
-
 
                 </div>
 
@@ -591,72 +609,57 @@
                 Mara, famous for the great wildebeest migration, as well as Samburu, Amboseli, Tsavo, Lake Nakuru, and many more.
             </p>
         </section>
-        <section class="posters-showcase">
-  <div class="container">
-    <h2 class="showcase-title">Featured Destinations</h2>
-    <div class="poster-container">
-      <div class="poster-slider" id="posterSlider">
-        <!-- Posters will be dynamically inserted here -->
-      </div>
-      <div class="poster-controls">
-        <div class="poster-indicators" id="posterIndicators">
-          <!-- Indicators will be dynamically inserted here -->
-        </div>
-        <div class="animation-controls">
-          <button class="poster-btn active" data-animation="fade">Fade</button>
-          <button class="poster-btn" data-animation="slide">Slide</button>
-          <button class="poster-btn" data-animation="zoom">Zoom</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-            <div class="reviews-container">
-                <h2>What Our Travelers Say</h2>
-                <div class="swiper-container">
-                    <div class="swiper-wrapper" id="approvedReviewsList">
-                        <!-- Reviews will be dynamically inserted here -->
+        <div class="reviews-container">
+            <h2>What Our Travelers Say</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="approvedReviewsList">
+                    <!-- Reviews will be dynamically inserted here -->
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <div class="bab">
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <div class="review-poster-container">
+            <div class="last">
+                <form class="review-form" id="reviewForm">
+                    <h2>Leave a Review</h2>
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
                     </div>
-                    <div class="swiper-pagination"></div>
-                </div>
-        
-      
-                <div class="bab">
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="rating-stars" id="ratingStars">
+                            <span class="rating-star" data-rating="1">★</span>
+                            <span class="rating-star" data-rating="2">★</span>
+                            <span class="rating-star" data-rating="3">★</span>
+                            <span class="rating-star" data-rating="4">★</span>
+                            <span class="rating-star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="review" rows="4" placeholder="Your review..." required></textarea>
+                    </div>
+                    <button type="submit">Submit Review</button>
+                </form>
 
-<div class="review-poster-container">
-    
-    <div class="last">
-        <form class="review-form" id="reviewForm">
-            <h2>Leave a Review</h2>
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Your Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Your Email" required>
-            </div>
-            <div class="form-group">
-                <div class="rating-stars" id="ratingStars">
-                    <span class="rating-star" data-rating="1">★</span>
-                    <span class="rating-star" data-rating="2">★</span>
-                    <span class="rating-star" data-rating="3">★</span>
-                    <span class="rating-star" data-rating="4">★</span>
-                    <span class="rating-star" data-rating="5">★</span>
+                <!-- Add poster slider here -->
+                <div class="poster-container">
+                    <h3 class="poster-title">Featured Destinations</h3>
+                    <div class="poster-slider" id="posterSlider"></div>
+                    <div class="poster-controls">
+                        <div class="poster-indicators" id="posterIndicators"></div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <textarea id="review" rows="4" placeholder="Your review..." required></textarea>
-            </div>
-            <button type="submit">Submit Review</button>
-        </form>
-    </div>
-
- 
-</div>
+        </div>
 
         </div>
         <div class="containa">
@@ -688,16 +691,19 @@
                         <h3>Visa & Travel Assistance</h3>
                         <p>We guide you through visa application, travel insurance, and all necessary documentation for a stress-free journey.</p>
                     </div>
+                     <div class="service-card">
+                <i class="fas fa-umbrella-beach service-icon"></i>
+                <h3>Vacation & Staycation</h3>
+                <p>Discover perfect getaways, whether it's an exotic vacation abroad or a relaxing staycation exploring local treasures.</p>
+            </div>
                 </div>
             </section>
 
-
-
-    </main>
-    <footer class="footer bg-dark text-white py-4">
+        </main>
+                 <footer class="footer bg-dark text-white py-4">
         <div class="container">
             <div class="row">
-
+                
                 <div class="col-12 col-md-4 text-center text-md-start mb-4 mb-md-0 primary">
                     <h2>Roaming Nomads Tour Info</h2>
                     <p>One of the great advantages of Kenyan tours is that you effortlessly gain enriching experiences, often without even realizing it.</p>
@@ -705,8 +711,8 @@
                         <img src="img/IMG-20250222-WA0014.jpg" alt="logo" class="img-fluid rounded-circle" style="max-width: 100px;">
                     </div>
                 </div>
-
-
+    
+              
                 <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
                     <h3>Contact Us</h3>
                     <ul class="list-unstyled">
@@ -720,8 +726,8 @@
                         <a href="#" class="text-white"><i class="fa-brands fa-whatsapp fs-4"></i></a>
                     </div>
                 </div>
-
-
+    
+               
                 <div class="col-12 col-md-4 text-center text-md-start">
                     <h3>Our Services</h3>
                     <ul class="list-unstyled">
@@ -730,671 +736,653 @@
                         <li>Airport transfer and Transportation</li>
                         <li>Hotel and accommodation Booking</li>
                         <li>Visa & travel assistance</li>
+                        <li>Vacation & Staycation</li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="passenger-types.js"></script> 
-    <script>
-      
+                <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="passenger-types.js"></script>
+                <script>
 
+                    // Star Rating System
+                    let selectedRating = 0;
+                    const stars = document.querySelectorAll('.rating-star');
 
-        // Star Rating System
-        let selectedRating = 0;
-        const stars = document.querySelectorAll('.rating-star');
+                    stars.forEach(star => {
+                        star.addEventListener('click', function() {
+                            selectedRating = parseInt(this.dataset.rating);
+                            stars.forEach((s, index) => {
+                                s.classList.toggle('active', index < selectedRating);
+                            });
+                        });
+                    });
 
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                selectedRating = parseInt(this.dataset.rating);
-                stars.forEach((s, index) => {
-                    s.classList.toggle('active', index < selectedRating);
-                });
-            });
-        });
-
-        // Form Submission
-        document.getElementById('reviewForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const reviewText = document.getElementById('review').value.trim();
-
-            if (!name || !email || !reviewText || selectedRating === 0) {
-                alert('Please fill all fields and select a rating!');
-                return;
-            }
-
-            const reviewData = {
-                id: Date.now().toString(),
-                name: name,
-                email,
-                rating: selectedRating,
-                text: reviewText,
-                date: new Date().toISOString(),
-                status: 'pending'
-            };
-
-            // Add to pending reviews
-            const pending = JSON.parse(localStorage.getItem('pendingReviews')) || [];
-            pending.push(reviewData);
-            localStorage.setItem('pendingReviews', JSON.stringify(pending));
-
-            // Trigger admin update
-            const event = new StorageEvent('storage', {
-                key: 'pendingReviews',
-                newValue: JSON.stringify(pending)
-            });
-            window.dispatchEvent(event);
-
-            // Reset form
-            document.getElementById('reviewForm').reset();
-            stars.forEach(star => star.classList.remove('active'));
-            selectedRating = 0;
-
-            alert('Thank you! Your review is pending approval.');
-        });
-
-
-
-const approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
-
-const publicSwiper = new Swiper('.swiper-container', {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 2
-        },
-        1024: {
-            slidesPerView: 3
-        }
-    }
-});
-
-// Clear existing slides and add approved reviews
-publicSwiper.removeAllSlides();
-
-if (approvedReviews.length > 0) {
-    approvedReviews.forEach(review => {
-        const slide = `
-            <div class="swiper-slide">
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">${review.name}</span>
-                        <div class="rating">
-                            ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
-                        </div>
-                        <span class="review-date">${new Date(review.approvedDate || review.date).toLocaleDateString()}</span>
-                    </div>
-                    <div class="review-content">
-                        <p>${review.text}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        publicSwiper.appendSlide(slide);
-    });
-} else {
-    // Add a placeholder slide if no reviews
-    publicSwiper.appendSlide(`
-        <div class="swiper-slide">
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="reviewer-name">No reviews yet</span>
-                    <div class="rating">☆☆☆☆☆</div>
-                </div>
-                <div class="review-content">
-                    <p>Be the first to leave a review!</p>
-                </div>
-            </div>
-        </div>
-    `);
-}
-
-publicSwiper.update();
-
-        const swiperr = new Swiper('.swiper', {
-            slidesPerView: 3,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 50000,
-                disableOnInteraction: true,
-            },
-            pagination: {
-                el: '.swiperr-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiperr-button-next',
-                prevEl: '.swiperr-button-prev',
-            },
-            breakpoints: {
-                360: {
-                    slidesPerView: 1
-                },
-                480: {
-                    slidesPerView: 1
-                },
-                600: {
-                    slidesPerView: 2
-                },
-                760: {
-                    slidesPerView: 2
-                },
-                990: {
-                    slidesPerView: 3
-                },
-                1200: {
-                    slidesPerView: 3
-                },
-            },
-            on: {
-                autoplayTimeLeft(s, time, progress) {
-                    const circle = document.querySelector('circle');
-                    if (circle) {
-                        circle.style.strokeDashoffset = 125.6 * (1 - progress);
-                    }
-                },
-            },
-        });
-
-        // Stop autoplay on hover
-        const swiperContain = document.querySelector('.swiper');
-        swiperContain.addEventListener('m', () => {
-            swiperr.autoplay.stop(); // Correct instance name
-        });
-
-        swiperContain.addEventListener('mouseleave', () => {
-            swiperr.autoplay.start(); // Correct instance name
-        });
-
-        swiperContain.addEventListener('mouseenter', () => swiper.autoplay.stop());
-
-        swiperContain.addEventListener('mouseleave', () => swiper.autoplay.start());
-
-
-        // Mobile Menu Functionality
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const toggle = document.querySelector('.mobile-toggle');
-
-            const navbar = document.querySelector('.navbar ul.lists');
-
-            const dropdowns = document.querySelectorAll('.dropdown');
-
-
-            // Toggle main menu
-
-            toggle.addEventListener('click', () => {
-
-                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-                toggle.setAttribute('aria-expanded', !isExpanded);
-
-                navbar.classList.toggle('active');
-
-                toggle.querySelector('i').classList.toggle('fa-times');
-
-            });
-
-
-            // Handle dropdown menus on mobile
-
-            dropdowns.forEach(dropdown => {
-
-                const link = dropdown.querySelector('a');
-
-                link.addEventListener('click', (e) => {
-
-                    if (window.innerWidth <= 768) {
-
+                    // Form Submission
+                    document.getElementById('reviewForm').addEventListener('submit', (e) => {
                         e.preventDefault();
 
-                        dropdown.classList.toggle('open');
+                        const name = document.getElementById('name').value.trim();
+                        const email = document.getElementById('email').value.trim();
+                        const reviewText = document.getElementById('review').value.trim();
 
+                        if (!name || !email || !reviewText || selectedRating === 0) {
+                            alert('Please fill all fields and select a rating!');
+                            return;
+                        }
+                      const reviewData = {
+                            id: Date.now().toString(),
+                            name: name,
+                            email,
+                            rating: selectedRating,
+                            text: reviewText,
+                            date: new Date().toISOString(),
+                            status: 'pending'
+                        };
+
+                        // Debug: Log review data to check name
+                        console.log('Review submitted:', reviewData);
+
+                        // Add to pending reviews
+                        const pending = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+                        pending.push(reviewData);
+                        localStorage.setItem('pendingReviews', JSON.stringify(pending));  
+
+                        // Trigger admin update
+                        const event = new StorageEvent('storage', {
+                            key: 'pendingReviews',
+                            newValue: JSON.stringify(pending)
+                        });
+                        window.dispatchEvent(event);
+
+                        // Reset form
+                        document.getElementById('reviewForm').reset();
+                        stars.forEach(star => star.classList.remove('active'));
+                        selectedRating = 0;
+
+                      
+                    });
+
+                    const approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
+
+                    const publicSwiper = new Swiper('.swiper-container', {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        breakpoints: {
+                            640: {
+                                slidesPerView: 2
+                            },
+                            1024: {
+                                slidesPerView: 3
+                            }
+                        }
+                    });
+
+                    // Clear existing slides and add approved reviews
+                    publicSwiper.removeAllSlides();
+                     if (approvedReviews.length > 0) {
+                        approvedReviews.forEach(review => {
+                            // Defensive: fallback for missing/null/empty name and rating
+                            const reviewerName = (review.name && review.name.trim()) ? review.name : 'Anonymous';
+                            const rating = typeof review.rating === 'number' && review.rating > 0 ? review.rating : 0;
+                            const slide = `
+                                <div class="swiper-slide">
+                                    <div class="review-card">
+                                        <div class="review-header">
+                                            <span class="reviewer-name">${reviewerName}</span>
+                                            <div class="rating">
+                                                ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}
+                                            </div>
+                                            <span class="review-date">${new Date(review.approvedDate || review.date).toLocaleDateString()}</span>
+                                        </div>
+                                        <div class="review-content">
+                                            <p>${review.text || ''}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            publicSwiper.appendSlide(slide);
+                        });
+
+                    } else {
+                        publicSwiper.appendSlide(`
+                            <div class="swiper-slide">
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">No reviews yet</span>
+                                        <div class="rating">☆☆☆☆☆</div>
+                                    </div>
+                                    <div class="review-content">
+                                        <p>Be the first to leave a review!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
                     }
 
-                });
+                    publicSwiper.update();
 
-            });
+                    const swiperr = new Swiper('.swiper', {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                        loop: true,
+                        autoplay: {
+                            delay: 50000,
+                            disableOnInteraction: true,
+                        },
+                        pagination: {
+                            el: '.swiperr-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.swiperr-button-next',
+                            prevEl: '.swiperr-button-prev',
+                        },
+                        breakpoints: {
+                            360: {
+                                slidesPerView: 1
+                            },
+                            480: {
+                                slidesPerView: 1
+                            },
+                            600: {
+                                slidesPerView: 2
+                            },
+                            760: {
+                                slidesPerView: 2
+                            },
+                            990: {
+                                slidesPerView: 3
+                            },
+                            1200: {
+                                slidesPerView: 3
+                            },
+                        },
+                        on: {
+                            autoplayTimeLeft(s, time, progress) {
+                                const circle = document.querySelector('circle');
+                                if (circle) {
+                                    circle.style.strokeDashoffset = 125.6 * (1 - progress);
+                                }
+                            },
+                        },
+                    });
 
-        });;
-       
-         const mainSwiper = new Swiper('.main-swiper', {
+                    // Stop autoplay on hover
+                    const swiperContain = document.querySelector('.swiper');
+                    swiperContain.addEventListener('m', () => {
+                        swiperr.autoplay.stop(); // Correct instance name
+                    });
 
-            slidesPerView: 2,
-            spaceBetween: 32,
-            loop: true,
-            loopedSlides: 2, // Only 2 slides for infinite loop smoothness
-            centeredSlides: false,
-            autoplay: {
-                delay: 3200,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-            },
-            navigation: {
-                nextEl: '#nextBtn',
-                prevEl: '#prevBtn',
-            },
-            effect: 'slide',
-            speed: 700,
-            grabCursor: true,
-            watchOverflow: true,
-            breakpoints: {
-                0: {
-                    slidesPerView: 2,
-                    spaceBetween: 16,
-                },
-                600: {
-                    slidesPerView: 2,
-                    spaceBetween: 24,
-                },
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 32,
-                },
-                1200: {
-                    slidesPerView: 2,
-                    spaceBetween: 50,
-                },
-            },
-            on: {
-                autoplayTimeLeft(swiper, time, progress) {
-                    const circle = document.querySelector('circle');
-                    if (circle) {
-                        const perimeter = 2 * Math.PI * 30;
-                        circle.style.strokeDasharray = perimeter;
-                        circle.style.strokeDashoffset = perimeter * (1 - progress);
-                    }
-                }
-            }
-        });
+                    swiperContain.addEventListener('mouseleave', () => {
+                        swiperr.autoplay.start(); // Correct instance name
+                    });
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-        mainSwiper.slideNext();
-        });
+                    swiperContain.addEventListener('mouseenter', () => swiper.autoplay.stop());
 
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            mainSwiper.slidePrev();
-        });
+                    swiperContain.addEventListener('mouseleave', () => swiper.autoplay.start());
+
+                    // Mobile Menu Functionality
+
+                    document.addEventListener('DOMContentLoaded', () => {
+
+                        const toggle = document.querySelector('.mobile-toggle');
+
+                        const navbar = document.querySelector('.navbar ul.lists');
+
+                        const dropdowns = document.querySelectorAll('.dropdown');
+
+                        // Toggle main menu
+
+                        toggle.addEventListener('click', () => {
+
+                            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+                            toggle.setAttribute('aria-expanded', !isExpanded);
+
+                            navbar.classList.toggle('active');
+
+                            toggle.querySelector('i').classList.toggle('fa-times');
+
+                        });
+
+                        // Handle dropdown menus on mobile
+
+                        dropdowns.forEach(dropdown => {
+
+                            const link = dropdown.querySelector('a');
+
+                            link.addEventListener('click', (e) => {
+
+                                if (window.innerWidth <= 768) {
+
+                                    e.preventDefault();
+
+                                    dropdown.classList.toggle('open');
+
+                                }
+
+                            });
+
+                        });
+
+                    });;
+
+                    const mainSwiper = new Swiper('.main-swiper', {
+
+                        slidesPerView: 2,
+                        spaceBetween: 32,
+                        loop: true,
+                        loopedSlides: 2, // Only 2 slides for infinite loop smoothness
+                        centeredSlides: false,
+                        autoplay: {
+                            delay: 3200,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true,
+                        },
+                        navigation: {
+                            nextEl: '#nextBtn',
+                            prevEl: '#prevBtn',
+                        },
+                        effect: 'slide',
+                        speed: 700,
+                        grabCursor: true,
+                        watchOverflow: true,
+                        breakpoints: {
+                            0: {
+                                slidesPerView: 2,
+                                spaceBetween: 16,
+                            },
+                            600: {
+                                slidesPerView: 2,
+                                spaceBetween: 24,
+                            },
+                            1024: {
+                                slidesPerView: 2,
+                                spaceBetween: 32,
+                            },
+                            1200: {
+                                slidesPerView: 2,
+                                spaceBetween: 50,
+                            },
+                        },
+                        on: {
+                            autoplayTimeLeft(swiper, time, progress) {
+                                const circle = document.querySelector('circle');
+                                if (circle) {
+                                    const perimeter = 2 * Math.PI * 30;
+                                    circle.style.strokeDasharray = perimeter;
+                                    circle.style.strokeDashoffset = perimeter * (1 - progress);
+                                }
+                            }
+                        }
+                    });
+
+                    document.getElementById('nextBtn').addEventListener('click', () => {
+                        mainSwiper.slideNext();
+                    });
+
+                    document.getElementById('prevBtn').addEventListener('click', () => {
+                        mainSwiper.slidePrev();
+                    });
+
+                    const swiperContainer = document.querySelector('.main-swiper');
+
+                    swiperContainer.addEventListener('mouseenter', () => mainSwiper.autoplay.stop());
+
+                    swiperContainer.addEventListener('mouseleave', () => mainSwiper.autoplay.start());
+
+                    document.querySelector('.mobile-toggle').addEventListener('click', function() {
+                        document.querySelector('.navbar ul.lists').classList.toggle('active');
+                        this.querySelector('i').classList.toggle('fa-bars');
+                        this.querySelector('i').classList.toggle('fa-times');
+                    });
+
+                    // Close menu when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!e.target.closest('.navbar') && !e.target.closest('.mobile-toggle')) {
+                            document.querySelector('.navbar ul.lists').classList.remove('active');
+                            document.querySelector('.mobile-toggle i').classList.add('fa-bars');
+                            document.querySelector('.mobile-toggle i').classList.remove('fa-times');
+                        }
+                    });
 
 
-        const swiperContainer = document.querySelector('.main-swiper');
+                    
 
-        swiperContainer.addEventListener('mouseenter', () => mainSwiper.autoplay.stop());
+                </script>
+                <script src="index.js"></script>
+            </main>
+ <style>
+:root {
+  --gtl-primary: #FF6B35;
+  --gtl-gold: #FFD700;
+  --gtl-blue: #007bff;
+  --gtl-bg: #fff;
+  --gtl-dark: #222;
+  --gtl-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
 
-        swiperContainer.addEventListener('mouseleave', () => mainSwiper.autoplay.start());
-        document.querySelector('.mobile-toggle').addEventListener('click', function() {
-            document.querySelector('.navbar ul.lists').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars');
-            this.querySelector('i').classList.toggle('fa-times');
-        });
+#google_translate_element {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: var(--gtl-bg);
+  border-radius: 2.2rem;
+  box-shadow: var(--gtl-shadow);
+  padding: 0.5rem 1.2rem 0.5rem 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  border: 2px solid var(--gtl-primary);
+  min-width: 170px;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+#google_translate_element:hover {
+  box-shadow: 0 8px 32px rgba(255,107,53,0.18);
+  border-color: var(--gtl-gold);
+}
+.goog-te-banner-frame {
+    display: none !important;
+}
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.navbar') && !e.target.closest('.mobile-toggle')) {
-                document.querySelector('.navbar ul.lists').classList.remove('active');
-                document.querySelector('.mobile-toggle i').classList.add('fa-bars');
-                document.querySelector('.mobile-toggle i').classList.remove('fa-times');
-            }
-        });
+.gtl-label {
+  font-weight: 700;
+  color: var(--gtl-primary);
+  font-size: 1.08rem;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  letter-spacing: 0.01em;
+}
+.gtl-flag {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.2em;
+  border: 1.5px solid var(--gtl-gold);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.goog-te-gadget {
+  font-size: 1rem !important;
+  color: var(--gtl-dark) !important;
+  font-family: inherit !important;
+}
+.goog-te-gadget .goog-te-combo {
+  border-radius: 1.2em;
+  padding: 0.45em 1.2em 0.45em 2.2em;
+  font-size: 1.01rem;
+  border: 2px solid var(--gtl-primary);
+  background: linear-gradient(90deg, #fff 80%, #ffe5d0 100%);
+  color: var(--gtl-dark);
+  outline: none;
+  font-weight: 600;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(255,107,53,0.07);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 8L10 13L15 8' stroke='%23FF6B35' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.7em center;
+  background-size: 1.1em;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.goog-te-gadget .goog-te-combo:focus {
+  border-color: var(--gtl-blue);
+  box-shadow: 0 0 0 2px #007bff33;
+}
+.goog-te-gadget .goog-te-combo option {
+  font-size: 1rem;
+  color: var(--gtl-dark);
+  background: #fff;
+}
+.goog-te-gadget .goog-te-combo::-ms-expand { display: none; }
+.goog-te-gadget .goog-te-combo::-webkit-input-placeholder { color: #aaa; }
+.goog-te-gadget .goog-te-combo:-ms-input-placeholder { color: #aaa; }
+.goog-te-gadget .goog-te-combo::placeholder { color: #aaa; }
+@media (max-width: 600px) {
+  #google_translate_element {
+    top: 10px;
+    right: 10px;
+    min-width: 120px;
+    padding: 0.3rem 0.5rem 0.3rem 0.3rem;
+    font-size: 0.97rem;
+  }
+  .gtl-label { font-size: 0.97rem; }
+  .gtl-flag { width: 20px; height: 20px; }
+  .goog-te-gadget .goog-te-combo { font-size: 0.97rem; min-width: 80px; }
+}
+</style>
+<div id="google_translate_element">
+  <span class="gtl-label">
+    <img class="gtl-flag" src="https://flagcdn.com/gb.svg" alt="English">
+    English
+  </span>
+</div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,fr,es,de,zh-CN,ja,ko,th,sw,ar,pt,ru,it,nl,pl,tr,hi,bn,vi,id,ms,tl,ur,fa,he,el,bg,hr,cs,da,et,fi,hu,is,ga,lv,lt,mt,no,pl,pt,ro,sk,sl,sv,uk,cy,eu,ca,gl,lb,mk,sq,be,ka,hy,az,kk,ky,mn,ne,ps,si,ta,te,ml,kn,gu,pa,bn,as,or,mr,hi,ur,sd,dv',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+    }, 'google_translate_element');
+}
 
-// Consolidated Poster Management System
-const PosterManager = {
-    init() {
-        this.addPostersTab();
-        this.setupPosterForm();
-        this.renderPosters();
-        this.setupEventListeners();
-    },
-
-    addPostersTab() {
-        const adminTab = document.getElementById('adminTab');
-        if (adminTab && !document.getElementById('posters-tab')) {
-            const postersTabItem = document.createElement('li');
-            postersTabItem.className = 'nav-item flex-fill text-center';
-            postersTabItem.setAttribute('role', 'presentation');
-            postersTabItem.innerHTML = `
-                <button class="nav-link w-100" id="posters-tab" data-bs-toggle="pill" data-bs-target="#posters" type="button" role="tab">Posters</button>
-            `;
-            adminTab.appendChild(postersTabItem);
-        }
-    },
-
-    setupEventListeners() {
-        // Listen for poster updates to refresh display
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'tourPosters') {
-                this.renderPosters();
-            }
-        });
-    },
-
-    setupPosterForm() {
-        const posterForm = document.getElementById('posterForm');
-        if (!posterForm) return;
-
-        posterForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const title = document.getElementById('posterTitle').value;
-            const imageInput = document.getElementById('posterImage');
-            const order = parseInt(document.getElementById('posterOrder').value) || 1;
-            
-            if (imageInput.files.length === 0) {
-                this.showToast('Please select an image!', 'error');
-                return;
-            }
-
-            // Validate file
-            const file = imageInput.files[0];
-            if (!file.type.startsWith('image/')) {
-                this.showToast('Please upload an image file!', 'error');
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                this.showToast('Image size should be less than 5MB!', 'error');
-                return;
-            }
-
-            try {
-                const imageUrl = await this.readFileAsDataURL(file);
-                const posters = this.getPosters();
-                
-                // Add new poster
-                const newPoster = {
-                    id: Date.now().toString(),
-                    title: title,
-                    image: imageUrl,
-                    order: order,
-                    addedAt: new Date().toISOString()
-                };
-                
-                posters.push(newPoster);
-                posters.sort((a, b) => (a.order || 1) - (b.order || 1));
-                
-                // Update storage and notify
-                this.updatePosters(posters);
-                
-                posterForm.reset();
-                this.renderPosters();
-                this.showToast('Poster added successfully!', 'success');
-                
-            } catch (error) {
-                this.showToast('Error adding poster: ' + error.message, 'error');
-            }
-        });
-    },
-
-    readFileAsDataURL(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(new Error('Failed to read file'));
-            reader.readAsDataURL(file);
-        });
-    },
-
-    getPosters() {
-        return JSON.parse(localStorage.getItem('tourPosters')) || [];
-    },
-
-    updatePosters(posters) {
-        localStorage.setItem('tourPosters', JSON.stringify(posters));
-        localStorage.setItem('tourPosterUrls', JSON.stringify(posters.map(p => p.image)));
+// Enhanced Draggable Functionality with Touch Support
+class DraggableTranslator {
+    constructor() {
+        this.isDragging = false;
+        this.currentX = 0;
+        this.currentY = 0;
+        this.initialX = 0;
+        this.initialY = 0;
+        this.xOffset = 0;
+        this.yOffset = 0;
+        this.element = null;
+        this.boundaryPadding = 10;
         
-        // Dispatch custom event for same-page updates
-        window.dispatchEvent(new CustomEvent('postersUpdated', { detail: posters }));
-    },
-
-    renderPosters() {
-        const postersContainer = document.getElementById('postersList');
-        if (!postersContainer) return;
-        
-        const posters = this.getPosters();
-        
-        if (posters.length === 0) {
-            postersContainer.innerHTML = `
-                <div class="col-12 text-center py-5">
-                    <i class="fas fa-images fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">No posters added yet. Add your first poster!</p>
-                </div>
-            `;
-            return;
-        }
-        
-        postersContainer.innerHTML = posters.map((poster, index) => `
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <img src="${poster.image}" class="card-img-top" alt="${poster.title}" 
-                         style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">${poster.title}</h5>
-                        <p class="card-text">
-                            <small class="text-muted">Display order: ${poster.order || 1}</small>
-                        </p>
-                    </div>
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                        <button class="btn btn-sm btn-outline-danger" onclick="PosterManager.deletePoster('${poster.id}')">
-                            <i class="fas fa-trash me-1"></i> Delete
-                        </button>
-                        <button class="btn btn-sm btn-outline-primary" onclick="PosterManager.movePoster('${poster.id}', ${index > 0})">
-                            <i class="fas fa-${index > 0 ? 'arrow-up' : 'arrow-down'}"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    deletePoster(id) {
-        if (!confirm('Are you sure you want to delete this poster?')) return;
-        
-        let posters = this.getPosters();
-        posters = posters.filter(poster => poster.id !== id);
-        
-        this.updatePosters(posters);
-        this.renderPosters();
-        this.showToast('Poster deleted successfully!', 'success');
-    },
-
-    movePoster(id, moveUp) {
-        let posters = this.getPosters();
-        const index = posters.findIndex(poster => poster.id === id);
-        
-        if (index === -1) return;
-        
-        if (moveUp && index > 0) {
-            [posters[index], posters[index - 1]] = [posters[index - 1], posters[index]];
-        } else if (!moveUp && index < posters.length - 1) {
-            [posters[index], posters[index + 1]] = [posters[index + 1], posters[index]];
-        }
-        
-        // Update order numbers
-        posters.forEach((poster, i) => poster.order = i + 1);
-        
-        this.updatePosters(posters);
-        this.renderPosters();
-    },
-
-    showToast(message, type = 'success') {
-        const toast = document.getElementById('admin-toast');
-        if (!toast) {
-            console.log(message);
-            return;
-        }
-        
-        const toastBody = toast.querySelector('.toast-body');
-        toastBody.textContent = message;
-        
-        toast.className = toast.className.replace(/bg-\w+/, `bg-${type === 'error' ? 'danger' : type}`);
-        
-        const bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
+        this.init();
     }
-};
-
-// Initialize poster management
-document.addEventListener('DOMContentLoaded', () => {
-    PosterManager.init();
-});
-
-// Poster Management System - Add to existing script section
-const PosterSliderManager = {
-    currentIndex: 0,
-    currentAnimation: 'fade',
-    interval: null,
-    defaultPosters: [
-        'imgg/MAASAI MARA 4.jpg',
-        'imgg/COAST 2.jpg',
-        'imgg/HIDDEN GEM 2.jpg',
-        'imgg/FIRE PLACE 2.jpg',
-        'imgg/AMBOSELI NATIONAL PARK.jpg'
-    ],
-
-    init() {
-        this.setupEventListeners();
-        this.initializeSlider();
-    },
-
-    setupEventListeners() {
-        // Listen for poster updates from admin
-        window.addEventListener('postersUpdated', () => {
-            this.initializeSlider();
-        });
-
-        // Setup animation controls
-        document.querySelectorAll('.poster-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const animation = e.target.dataset.animation;
-                this.changeAnimation(animation);
-                
-                // Update active button
-                document.querySelectorAll('.poster-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-            });
-        });
-    },
-
-    getPosters() {
-        const stored = JSON.parse(localStorage.getItem('tourPosters'));
-        if (stored && stored.length > 0) {
-            return stored.map(p => p.image);
-        }
-        return this.defaultPosters;
-    },
-
-    initializeSlider() {
-        const slider = document.getElementById('posterSlider');
-        const indicators = document.getElementById('posterIndicators');
-        
-        if (!slider || !indicators) return;
-
-        this.clearSlider();
-        
-        const posters = this.getPosters();
-        
-        // Create slides
-        posters.forEach((poster, index) => {
-            const slide = document.createElement('div');
-            slide.className = `poster-slide ${this.currentAnimation}-animation ${index === 0 ? 'active' : ''}`;
-            slide.innerHTML = `<img src="${poster}" alt="Tour Poster ${index + 1}" loading="lazy">`;
-            slider.appendChild(slide);
-
-            // Create indicators
-            const indicator = document.createElement('div');
-            indicator.className = `poster-dot ${index === 0 ? 'active' : ''}`;
-            indicator.onclick = () => this.goToSlide(index);
-            indicators.appendChild(indicator);
-        });
-
-        this.startAutoplay();
-    },
-
-    clearSlider() {
-        const slider = document.getElementById('posterSlider');
-        const indicators = document.getElementById('posterIndicators');
-        
-        if (slider) slider.innerHTML = '';
-        if (indicators) indicators.innerHTML = '';
-        
-        if (this.interval) {
-            clearInterval(this.interval);
-            this.interval = null;
-        }
-    },
-
-    startAutoplay() {
-        this.interval = setInterval(() => this.nextSlide(), 4000);
-    },
-
-    nextSlide() {
-        const slides = document.querySelectorAll('.poster-slide');
-        const indicators = document.querySelectorAll('.poster-dot');
-        
-        if (slides.length === 0) return;
-
-        slides[this.currentIndex].classList.remove('active');
-        indicators[this.currentIndex].classList.remove('active');
-
-        this.currentIndex = (this.currentIndex + 1) % slides.length;
-
-        slides[this.currentIndex].classList.add('active');
-        indicators[this.currentIndex].classList.add('active');
-    },
-
-    goToSlide(index) {
-        const slides = document.querySelectorAll('.poster-slide');
-        const indicators = document.querySelectorAll('.poster-dot');
-
-        slides[this.currentIndex].classList.remove('active');
-        indicators[this.currentIndex].classList.remove('active');
-
-        this.currentIndex = index;
-
-        slides[this.currentIndex].classList.add('active');
-        indicators[this.currentIndex].classList.add('active');
-
-        // Reset autoplay
-        this.startAutoplay();
-    },
-
-    changeAnimation(animationType) {
-        this.currentAnimation = animationType;
-        const slides = document.querySelectorAll('.poster-slide');
-        
-        slides.forEach(slide => {
-            slide.className = slide.className.replace(/\w+-animation/, `${animationType}-animation`);
-        });
-    }
-};
-
-// Initialize poster slider
-document.addEventListener('DOMContentLoaded', () => {
-    PosterSliderManager.init();
-});
-
-</script>
-<script src="index.js"></script>
-
     
-</body>
+    init() {
+        this.element = document.getElementById('google_translate_element');
+        this.waitForWidget();
+    }
+    
+    waitForWidget() {
+        let attempts = 0;
+        const maxAttempts = 100;
+        
+        const checkWidget = setInterval(() => {
+            const combo = document.querySelector('.goog-te-combo');
+            attempts++;
+            
+            if (combo || attempts >= maxAttempts) {
+                clearInterval(checkWidget);
+                this.element.classList.remove('loading-shimmer');
+                this.setupEventListeners();
+                this.removeBanner();
+            }
+        }, 100);
+    }
+    
+    setupEventListeners() {
+        // Mouse events
+        this.element.addEventListener('mousedown', this.dragStart.bind(this));
+        document.addEventListener('mousemove', this.drag.bind(this));
+        document.addEventListener('mouseup', this.dragEnd.bind(this));
+        
+        // Touch events with passive: false for preventDefault
+        this.element.addEventListener('touchstart', this.touchStart.bind(this), { passive: false });
+        document.addEventListener('touchmove', this.touchMove.bind(this), { passive: false });
+        document.addEventListener('touchend', this.dragEnd.bind(this));
+        
+        // Prevent context menu on long press
+        this.element.addEventListener('contextmenu', (e) => e.preventDefault());
+        
+        // Handle window resize
+        window.addEventListener('resize', this.handleResize.bind(this));
+    }
+    
+    dragStart(e) {
+        if (this.shouldIgnoreEvent(e)) return;
+        
+        this.initialX = e.clientX - this.xOffset;
+        this.initialY = e.clientY - this.yOffset;
+        this.startDrag();
+    }
+    
+    touchStart(e) {
+        if (this.shouldIgnoreEvent(e)) return;
+        
+        e.preventDefault();
+        const touch = e.touches[0];
+        this.initialX = touch.clientX - this.xOffset;
+        this.initialY = touch.clientY - this.yOffset;
+        this.startDrag();
+    }
+    
+    startDrag() {
+        this.isDragging = true;
+        this.element.classList.add('dragging');
+        document.body.style.userSelect = 'none';
+    }
+    
+    drag(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        this.currentX = e.clientX - this.initialX;
+        this.currentY = e.clientY - this.initialY;
+        this.updatePosition();
+    }
+    
+    touchMove(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        const touch = e.touches[0];
+        this.currentX = touch.clientX - this.initialX;
+        this.currentY = touch.clientY - this.initialY;
+        this.updatePosition();
+    }
+    
+    updatePosition() {
+        const rect = this.element.getBoundingClientRect();
+        const maxX = window.innerWidth - rect.width - this.boundaryPadding;
+        const maxY = window.innerHeight - rect.height - this.boundaryPadding;
+        
+        // Constrain to viewport with padding
+        this.xOffset = Math.max(this.boundaryPadding, Math.min(maxX, this.currentX));
+        this.yOffset = Math.max(this.boundaryPadding, Math.min(maxY, this.currentY));
+        
+        this.setTransform(this.xOffset, this.yOffset);
+    }
+    
+    dragEnd() {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.element.classList.remove('dragging');
+        document.body.style.userSelect = '';
+        
+        // Snap to edges on mobile
+        if (window.innerWidth <= 768) {
+            this.snapToEdge();
+        }
+    }
+    
+    snapToEdge() {
+        const rect = this.element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const viewportCenter = window.innerWidth / 2;
+        
+        if (centerX < viewportCenter) {
+            // Snap to left
+            this.xOffset = this.boundaryPadding;
+        } else {
+            // Snap to right
+            this.xOffset = window.innerWidth - rect.width - this.boundaryPadding;
+        }
+        
+        this.setTransform(this.xOffset, this.yOffset);
+    }
+    
+    setTransform(x, y) {
+        this.element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
+    
+    shouldIgnoreEvent(e) {
+        // Don't drag when interacting with dropdown
+        return e.target.closest('.goog-te-combo') || 
+               e.target.classList.contains('goog-te-combo');
+    }
+    
+    handleResize() {
+        // Ensure widget stays within bounds after resize
+        if (this.xOffset !== 0 || this.yOffset !== 0) {
+            const rect = this.element.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width - this.boundaryPadding;
+            const maxY = window.innerHeight - rect.height - this.boundaryPadding;
+            
+            this.xOffset = Math.max(this.boundaryPadding, Math.min(maxX, this.xOffset));
+            this.yOffset = Math.max(this.boundaryPadding, Math.min(maxY, this.yOffset));
+            
+            this.setTransform(this.xOffset, this.yOffset);
+        }
+    }
+    
+    removeBanner() {
+        // Aggressively remove Google's banner
+        const removeBannerInterval = setInterval(() => {
+            const banner = document.querySelector('.goog-te-banner-frame');
+            if (banner) {
+                banner.remove();
+            }
+            
+            // Reset body top
+            if (document.body.style.top !== '0px') {
+                document.body.style.top = '0px';
+            }
+        }, 50);
+        
+        // Clean up after 10 seconds
+        setTimeout(() => clearInterval(removeBannerInterval), 10000);
+    }
+}
 
-</html>
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    new DraggableTranslator();
+});
+
+// Handle page visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        // Remove banner when page becomes visible again
+        const banner = document.querySelector('.goog-te-banner-frame');
+        if (banner) banner.remove();
+        document.body.style.top = '0px';
+    }
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        </body>
+
+    </html>

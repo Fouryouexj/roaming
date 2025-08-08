@@ -1,4 +1,67 @@
-        body {
+   :root {
+    /* Primary color palette */
+    --primary: #cc4716;          /* Main brand color (rgb(204, 71, 22)) */
+    --primary-light: #ff6b35;    /* Lighter version for gradients and hover states */
+    --primary-dark: #a36f2b;     /* Darker version for shadows and accents */
+    --secondary: #ff8c42;        /* Secondary color for accents */
+    
+    /* Background colors */
+    --bg-light: #fff8f0;         /* Light background color */
+    --bg-gradient-light: linear-gradient(135deg, #fff8f0 0%, #ffeedd 100%);
+    --bg-white: rgba(255, 255, 255, 0.9);
+    
+    /* Text colors */
+    --text-dark: #333;           /* Main text color */
+    --text-medium: #555;         /* Secondary text color */
+    --text-light: #999;          /* Placeholder text color */
+    
+    /* Border colors */
+    --border-light: rgba(204, 71, 22, 0.1);
+    --border-medium: rgba(204, 71, 22, 0.2);
+    --border-focus: rgb(204, 71, 22);
+    
+    /* Shadow colors */
+    --shadow-light: rgba(204, 71, 22, 0.1);
+    --shadow-medium: rgba(204, 71, 22, 0.15);
+    --shadow-dark: rgba(204, 71, 22, 0.3);
+    --shadow-button: rgba(204, 71, 22, 0.4);
+    
+    /* Gradient backgrounds */
+    --gradient-primary: linear-gradient(135deg, rgb(204, 71, 22), #ff6b35);
+    --gradient-secondary: linear-gradient(90deg, rgb(204, 71, 22), #ff8c42, rgb(204, 71, 22));
+    --gradient-border: linear-gradient(45deg, rgb(204, 71, 22), #ff8c42, rgb(204, 71, 22));
+    --gradient-vertical: linear-gradient(180deg, rgb(204, 71, 22), #ff8c42);
+    
+    /* Form validation colors */
+    --success: #28a745;
+    --error: #dc3545;
+    
+    /* Social media colors */
+    --instagram: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    --facebook: #1877F2;
+    --whatsapp: #25D366;
+    
+    /* Animation timings */
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+    --transition-slow: 0.8s ease-out;
+    
+    /* Border radius */
+    --radius-small: 10px;
+    --radius-medium: 15px;
+    --radius-large: 20px;
+    --radius-round: 50px;
+    
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+}
+   
+   
+   body {
         font-family: 'Poppins', system-ui, -apple-system, sans-serif;
         color: #333;
         background-color: var(--light-orange);
@@ -265,7 +328,7 @@
             margin-right: 220px;
         }
         .header.scrolled {
-            background: rgba(82, 52, 42, 0.9);
+            background: white;
         }
         .navbar-brand img {
             max-height: 50px;
@@ -1152,3 +1215,8 @@
 #target-section:focus-within {
     box-shadow: 0 0 0 3px rgba(204, 71, 22, 0.2);
 }
+
+
+
+
+

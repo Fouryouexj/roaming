@@ -1,5 +1,4 @@
-// booking-form-handler.js
-// Handles all booking forms with class 'booking-form' or id 'bookingForm' in the tour folder
+
 
 function saveBooking(booking) {
     let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');

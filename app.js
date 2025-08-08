@@ -1,3 +1,4 @@
+
 // ======================
 // Shared Configuration
 // ======================
@@ -57,18 +58,19 @@ const DataService = {
 // ======================
 // Review UI Components
 // ======================
+
 const ReviewUI = {
     createReviewElement(review, isAdmin = false) {
         const element = document.createElement('div');
         element.className = 'review-card';
         element.dataset.id = review.id;
         
+        // Modified HTML structure to always include the reviewer's name
         element.innerHTML = `
-            ${isAdmin ? `
             <div class="review-meta">
-                <span>${review.name}</span>
-                <span>${new Date(review.date).toLocaleDateString()}</span>
-            </div>` : ''}
+                <span class="reviewer-name">${review.name}</span>
+                ${isAdmin ? `<span class="review-date">${new Date(review.date).toLocaleDateString()}</span>` : ''}
+            </div>
             <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
             <p>${review.text}</p>
             ${isAdmin ? `
@@ -106,6 +108,7 @@ const ReviewUI = {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
             slide.appendChild(this.createReviewElement(review));
+            swiperInstance.update();
             swiperInstance.appendSlide(slide);
         });
         swiperInstance.update();
@@ -167,12 +170,12 @@ const PublicController = {
         });
     },
 
-    validateReview(review) {
+  validateReview(review) {
         if (!review.rating) {
             showToast('Please select a rating!', 'error');
             return false;
         }
-        if (!review.name.trim() || !review.text.trim()) {
+        if (!review.name || !review.name.trim() || !review.text || !review.text.trim()) {
             showToast('Please fill all required fields!', 'error');
             return false;
         }
