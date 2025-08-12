@@ -3,95 +3,113 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
     const passengerTypeSelect = document.getElementById('passenger-type');
     const kidFieldsContainer = document.getElementById('kid-fields-container');
-    const ageGroup = document.getElementById('age-group');
-    const passengerAgeInput = document.getElementById('passenger-age');
     const numKidsInput = document.getElementById('num-kids');
     const totalPassengersInput = document.getElementById('passengers');
-    
-    // Add new field for kids above 3 years
-    let kidsAboveThreeInput = document.getElementById('kids-above-three');
-    
-    // If the element doesn't exist yet, we'll create it in the HTML update
-    
+    const kidsAboveThreeInput = document.getElementById('kids-above-three');
+
     // Handle passenger type dropdown change
     if (passengerTypeSelect && kidFieldsContainer) {
         passengerTypeSelect.addEventListener('change', function() {
             if (this.value === 'Kid') {
                 kidFieldsContainer.style.display = 'block';
-                passengerAgeInput.required = true;
-                numKidsInput.required = true;
+                if (numKidsInput) numKidsInput.required = true;
                 if (kidsAboveThreeInput) kidsAboveThreeInput.required = true;
             } else {
                 kidFieldsContainer.style.display = 'none';
-                passengerAgeInput.required = false;
-                numKidsInput.required = false;
-                passengerAgeInput.value = '';
-                numKidsInput.value = '';
+                if (numKidsInput) {
+                    numKidsInput.required = false;
+                    numKidsInput.value = '';
+                }
                 if (kidsAboveThreeInput) {
                     kidsAboveThreeInput.required = false;
                     kidsAboveThreeInput.value = '';
+                }
+                // Clear age inputs
+                const kidsAgesContainer = document.getElementById('kids-ages-container');
+                if (kidsAgesContainer) {
+                    kidsAgesContainer.innerHTML = '';
                 }
             }
         });
     }
 
-   // Validate that number of kids doesn't exceed total passengers
-    if (numKidsInput && totalPassengersInput) {
-        numKidsInput.addEventListener('change', function() {
-            const totalPassengers = parseInt(totalPassengersInput.value) || 0;
+    // Generate age input fields dynamically
+    if (numKidsInput) {
+        numKidsInput.addEventListener('input', function() {
             const numKids = parseInt(this.value) || 0;
-
+            const totalPassengers = parseInt(totalPassengersInput.value) || 0;
+            
+            // Validate number of kids
             if (numKids > totalPassengers) {
                 alert('Number of kids cannot exceed total passengers');
-                this.value = totalPassengers;
+                this.value = Math.min(numKids, totalPassengers);
+                return;
             }
 
-            // Dynamically generate age fields for each kid
+            // Generate age input fields
             const kidsAgesContainer = document.getElementById('kids-ages-container');
-            kidsAgesContainer.innerHTML = '';
-            for (let i = 0; i < numKids; i++) {
-                const ageInput = document.createElement('input');
-                ageInput.type = 'number';
-                ageInput.name = `kid-age-${i+1}`;
-                ageInput.className = 'form-control mb-2';
-                ageInput.placeholder = `Age of Kid ${i+1}`;
-                ageInput.min = 0;
-                ageInput.max = 17;
-                ageInput.required = true;
-                kidsAgesContainer.appendChild(ageInput);
+            if (kidsAgesContainer) {
+                kidsAgesContainer.innerHTML = '';
+                
+                for (let i = 0; i < numKids; i++) {
+                    const ageInputGroup = document.createElement('div');
+                    ageInputGroup.className = 'input-group mb-2';
+                    ageInputGroup.innerHTML = `
+                        <span class="input-group-text">Kid ${i + 1} Age:</span>
+                        <input type="number" 
+                               name="kid-age-${i + 1}" 
+                               class="form-control kid-age-input" 
+                               placeholder="Age" 
+                               min="0" 
+                               max="17" 
+                               required>
+                    `;
+                    kidsAgesContainer.appendChild(ageInputGroup);
+                }
+
+                // Auto-calculate kids above 3 when ages are entered
+                const ageInputs = kidsAgesContainer.querySelectorAll('.kid-age-input');
+                ageInputs.forEach(input => {
+                    input.addEventListener('input', calculateKidsAboveThree);
+                });
             }
 
             // Update max value for kids above 3
             if (kidsAboveThreeInput) {
-                kidsAboveThreeInput.max = this.value;
+                kidsAboveThreeInput.max = numKids;
                 if (parseInt(kidsAboveThreeInput.value) > numKids) {
                     kidsAboveThreeInput.value = numKids;
                 }
             }
         });
+    }
 
+    // Auto-calculate kids above 3 based on entered ages
+    function calculateKidsAboveThree() {
+        const ageInputs = document.querySelectorAll('.kid-age-input');
+        let kidsAboveThree = 0;
+        
+        ageInputs.forEach(input => {
+            const age = parseInt(input.value);
+            if (age >= 3) {
+                kidsAboveThree++;
+            }
+        });
+        
+        if (kidsAboveThreeInput) {
+            kidsAboveThreeInput.value = kidsAboveThree;
+        }
+    }
+
+    // Validate total passengers
+    if (totalPassengersInput && numKidsInput) {
         totalPassengersInput.addEventListener('change', function() {
             const totalPassengers = parseInt(this.value) || 0;
             const numKids = parseInt(numKidsInput.value) || 0;
 
             if (numKids > totalPassengers) {
                 numKidsInput.value = totalPassengers;
-            }
-            // Also update age fields if needed
-            numKidsInput.dispatchEvent(new Event('change'));
-        });
-    }
-   
-    
-    // Add validation for kids above 3
-    if (kidsAboveThreeInput && numKidsInput) {
-        kidsAboveThreeInput.addEventListener('change', function() {
-            const numKids = parseInt(numKidsInput.value) || 0;
-            const kidsAboveThree = parseInt(this.value) || 0;
-            
-            if (kidsAboveThree > numKids) {
-                alert('Number of kids above 3 years cannot exceed total number of kids');
-                this.value = numKids;
+                numKidsInput.dispatchEvent(new Event('input'));
             }
         });
     }
@@ -101,92 +119,101 @@ document.addEventListener('DOMContentLoaded', function() {
         bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form data
             const formData = new FormData(this);
-            const passengerType = formData.get('passenger-type');
-            const passengerAge = formData.get('passenger-age');
+            
+            // Get passenger details
             const totalPassengers = parseInt(formData.get('passengers')) || 0;
             const numKids = parseInt(formData.get('num-kids')) || 0;
+            const numAdults = totalPassengers - numKids;
+            const passengerType = formData.get('passenger-type') || 'Adult';
+            const kidsAboveThree = parseInt(formData.get('kids-above-three')) || 0;
             
-            // Get kids above 3 years
-            const kidsAboveThree = kidsAboveThreeInput ? 
-                (parseInt(kidsAboveThreeInput.value) || 0) : 0;
-            
-            // Calculate number of adults
-            let numAdults = totalPassengers;
-            if (passengerType === 'Kid' && numKids > 0) {
-                numAdults = totalPassengers - numKids;
-                if (numAdults < 0) numAdults = 0; // Safety check
-            }
-            
-            // Calculate fare status
-            let isFreeTravel = false;
-            let fareStatus = 'paid';
-            let fareNote = '';
-            let freeKidsCount = 0;
-            
-            if (passengerType === 'Kid' && numKids > 0) {
-                // Calculate free kids (those under 3)
-                freeKidsCount = numKids - kidsAboveThree;
-                
-                if (freeKidsCount > 0) {
-                    fareNote = `${freeKidsCount} kid${freeKidsCount > 1 ? 's' : ''} under 3 travel free`;
-                }
-                
-                if (kidsAboveThree > 0) {
-                    fareStatus = 'partial';
-                    if (fareNote) {
-                        fareNote += `, ${kidsAboveThree} kid${kidsAboveThree > 1 ? 's' : ''} above 3 require payment`;
-                    } else {
-                        fareNote = `All ${kidsAboveThree} kid${kidsAboveThree > 1 ? 's' : ''} require payment`;
-                    }
-                } else if (freeKidsCount === numKids) {
-                    isFreeTravel = true;
-                    fareStatus = 'free';
+            // Collect kids' ages
+            const kidsAges = [];
+            for (let i = 1; i <= numKids; i++) {
+                const age = formData.get(`kid-age-${i}`);
+                if (age) {
+                    kidsAges.push(parseInt(age));
                 }
             }
-            
-            // Create booking object
+
+            // Calculate free kids (under 3)
+            const freeKidsCount = kidsAges.filter(age => age < 3).length;
+
+            // Create booking object with consistent field names
             const bookingData = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                destination: formData.get('destination'),
-                travelDate: formData.get('travel-date'),
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                name: formData.get('name') || '',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                // Map form fields to admin expected names
+                destination: formData.get('destination') || '',
+                tour: formData.get('destination') || '', // Admin expects 'tour' field
+                date: formData.get('travel-date') || '',
+                travelDate: formData.get('travel-date') || '',
+                'travel-date': formData.get('travel-date') || '',
+                // Passenger details
                 totalPassengers: totalPassengers,
+                passengers: totalPassengers, // Admin expects 'passengers' field
                 numAdults: numAdults,
                 numKids: numKids,
+                kidsAges: kidsAges,
                 kidsAboveThree: kidsAboveThree,
-                kidsUnderThree: freeKidsCount,
+                freeKidsCount: freeKidsCount,
                 passengerType: passengerType,
-                passengerAge: passengerAge,
-                isFreeTravel: isFreeTravel,
-                fareStatus: fareStatus,
-                fareNote: fareNote,
-                message: formData.get('message'),
+                // Fare calculations
+                isFreeTravel: numKids > 0 && freeKidsCount === numKids,
+                fareStatus: freeKidsCount > 0 ? (freeKidsCount === numKids ? 'free' : 'mixed') : 'paid',
+                // Other details
+                message: formData.get('message') || '',
                 submittedAt: new Date().toISOString(),
+                submitted: new Date().toISOString(),
                 status: 'pending'
             };
-            
-            // Save to localStorage (simulating backend)
-            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-            bookings.push(bookingData);
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-            
-            // Show success message
-            let successMessage = 'Booking submitted successfully!';
-            if (fareNote) {
-                successMessage += ' ' + fareNote;
+
+            try {
+                // Save booking to localStorage
+                let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+                bookings.push(bookingData);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+
+                // Create success message
+                let successMessage = 'Booking submitted successfully!';
+                if (freeKidsCount > 0) {
+                    successMessage += ` ${freeKidsCount} kid${freeKidsCount > 1 ? 's' : ''} under 3 travel${freeKidsCount === 1 ? 's' : ''} free.`;
+                }
+                
+                // Show success message
+                alert(successMessage);
+                
+                // Reset form
+                this.reset();
+                kidFieldsContainer.style.display = 'none';
+                document.getElementById('kids-ages-container').innerHTML = '';
+                
+                // Trigger admin panel refresh if on same page
+                if (typeof window.renderBookings === 'function') {
+                    setTimeout(() => window.renderBookings(), 500);
+                }
+                
+                console.log('Booking saved:', bookingData);
+                
+            } catch (error) {
+                console.error('Error saving booking:', error);
+                alert('Error submitting booking. Please try again.');
             }
-            
-            alert(successMessage);
-            
-            // Reset form
-            this.reset();
-            kidFieldsContainer.style.display = 'none';
-            passengerAgeInput.required = false;
-            numKidsInput.required = false;
-            if (kidsAboveThreeInput) kidsAboveThreeInput.required = false;
         });
     }
+
+    // Initialize form if passenger type is already selected
+    if (passengerTypeSelect && passengerTypeSelect.value === 'Kid') {
+        kidFieldsContainer.style.display = 'block';
+    }
 });
+
+// Utility function for debugging - you can remove this in production
+function debugBookings() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    console.table(bookings);
+    return bookings;
+}

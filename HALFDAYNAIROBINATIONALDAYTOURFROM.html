@@ -71,7 +71,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>HALF DAY NAIROBI NATIONAL DAY TOUR FROM $149PP</h1>
+        <h1>HALF DAY NAIROBI NATIONAL DAY TOUR </h1>
         <p>Discover the wonders of Kenya's famed Masai Mara Game Reserve with Roaming Nomads' exclusive 2-day safari package. Departing from Nairobi, this immersive journey offers a perfect blend of luxury and adventure. Witness breathtaking landscapes,
             encounter iconic wildlife including the Big Five, and indulge in the comfort of luxury lodges amidst the wilderness. With expert guides and seamless logistics, our package ensures an unforgettable safari experience tailored to your convenience.
             Book now and embark on a journey filled with thrilling encounters and cherished memories.</p>
@@ -90,7 +90,6 @@
         <p>Nairobi National Park is a must-visit destination for anyone traveling to Kenya. Located just a short drive from the bustling city center, this park offers a unique opportunity to experience a safari without having to travel far from the city.</p>
         <p>The main attraction of Nairobi National Park is the game drive. This is where you will have the opportunity to see a variety of wildlife, including lions, giraffes, zebras, and more. The best time for a game drive is early in the morning or late
             in the afternoon, as this is when the animals are most active. Make sure to bring a camera and binoculars to capture the amazing sights.</p>
-        COST FROM $149 PER PERSON
         <h2>Half Day Tour : Nairobi National Park</h2>
         <p>Kenya Nairobi National park safari price starting from 149 US dollar per person(private safari, No sharing safari jeep with other tourist)</p>
         <p>The Nairobi National park tour departs daily from Nairobi city at 7.00am until 11.30pm morning tour and 2.00pm until 6.00 pm afternoon tour. Nairobi National Park is unique by being the only protected National park in the world close to a capital
@@ -144,23 +143,39 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
                         <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
                     <div class="form-group" id="age-group">
                         <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
                         <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">

@@ -70,7 +70,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>3 DAYS CAMPING AMBOSELI KENYA SAFARI FROM $750 PP</h1>
+        <h1>3 DAYS CAMPING AMBOSELI KENYA SAFARI </h1>
         <p>Camping in Amboseli is a unique Kenya camping safari experience that allows you to immerse yourself in nature. The park has designated campsites where visitors can set up their tents and spend the night under the stars. The campsites are equipped
             with basic amenities such as toilets, showers, and cooking areas. Some campsites even offer the option of hiring a cook to prepare meals for you, making your camping experience even more enjoyable.</p>
         <button class="book-now" onclick="location.href='#target-section'">Reserve Suite</button>
@@ -95,9 +95,9 @@
         <h2>Budget Plans</h2>
         <ul>
             <li>
-                <strong>Mid Luxury </strong>– Kenya Amboseli safari price starting from $750 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Mid Luxury </strong>– Kenya Amboseli safari(private safari, No sharing safari jeep with other tourist)</li>
             <li>
-                <strong>Luxury Lodge </strong>– Kenya Amboseli safari price staring from $1040 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Luxury Lodge </strong>– Kenya Amboseli safari (private safari, No sharing safari jeep with other tourist)</li>
         </ul>
         <h2>1 Day : Nairobi City – Amboseli National Park</h2>
         <p>Roaming Nomads driver and Staff will pick up the clients on arrival in the airport or hotel in the morning, a short safari briefing will be conducted then the clients depart Nairobi by road and drive through the scenic Athi Plains proceeding into
@@ -160,23 +160,39 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
                         <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
                     <div class="form-group" id="age-group">
                         <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
                         <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">

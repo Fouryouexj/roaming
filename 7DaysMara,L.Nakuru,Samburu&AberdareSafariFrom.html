@@ -71,7 +71,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>7 Days Mara, L.Nakuru, Samburu & Aberdare Safari From $2,388 PP</h1>
+        <h1>7 Days Mara, L.Nakuru, Samburu & Aberdare Safari </h1>
         <p>Embark on our Deluxe Roaming Nomads Tour Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
             and enjoyment. With inclusions like park fees, transport, accommodation, meals, and expert guides, this package guarantees an unforgettable African experience.</p>
         <button class="book-now" onclick="location.href='#target-section'">Book this package.</button>
@@ -85,8 +85,6 @@
 
         </div>
 
-
-        <h2>1 Pax 4,200 PP | 2 Pax $2,670 PP | 3 Pax $2,280 PP | 4 Pax $2,088 PP</h2>
         <h2>Day 1: Nairobi – Masai Mara Game Reserve</h2>
         <p>This morning we pick up clients from their hotel and we depart from Nairobi at 8.30 am and drive through the view point of the Great Rift Valley to the Masai Mara National Reserve. This enormous reserve is actually part of the vast Serengeti plains
             famously known for its spectacular great wildebeest’s migration and is home of the Big Five: Lion, Elephant, Leopard, Buffalo and Rhino. Lunch at the Lodge/camp and relax before departing for the afternoon game drive. The Mara Game Reserve
@@ -155,13 +153,22 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-            
                <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
-                        <option value="Kid">Adults &Kid</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
 
@@ -170,11 +177,11 @@
                         <label for="num-kids">Number of Kids:</label>
                         <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
-                   <div class="form-group" id="age-group">
-    <label>Age of Kids:</label>
-    <div id="kids-ages-container"></div>
-    <small class="text-muted">Kids under 3 travel free</small>
-</div>
+                    <div class="form-group" id="age-group">
+                        <label for="passenger-age">Age of Kids:</label>
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
+                        <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
                     <div class="form-group">
                         <label for="kids-above-three">Number of Kids Above 3 Years:</label>
                         <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">

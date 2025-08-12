@@ -30,28 +30,48 @@ const CONFIG = {
 // ======================
 // Data Service
 // ======================
+
 const DataService = {
-    getPending() {
-        return JSON.parse(localStorage.getItem(CONFIG.localStorageKeys.pending)) || [];
+    async getPending() {
+        const res = await fetch('/api/reviews?status=pending');
+        if (!res.ok) return [];
+        return await res.json();
     },
 
-    getApproved() {
-        return JSON.parse(localStorage.getItem(CONFIG.localStorageKeys.approved)) || [];
+    async getApproved() {
+        const res = await fetch('/api/reviews?status=approved');
+        if (!res.ok) return [];
+        return await res.json();
     },
 
-    savePending(reviews) {
-        localStorage.setItem(CONFIG.localStorageKeys.pending, JSON.stringify(reviews));
+    async savePending(reviews) {
+        const res = await fetch('/api/reviews/pending', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reviews)
+        });
+        if (!res.ok) throw new Error('Failed to save pending reviews');
+        return await res.json();
     },
 
-    saveApproved(reviews) {
-        localStorage.setItem(CONFIG.localStorageKeys.approved, JSON.stringify(reviews));
+    async saveApproved(reviews) {
+        const res = await fetch('/api/reviews/approved', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reviews)
+        });
+        if (!res.ok) throw new Error('Failed to save approved reviews');
+        return await res.json();
     },
 
-    addReview(review) {
-        const reviews = this.getPending();
-        reviews.push(review);
-        this.savePending(reviews);
-        return review;
+    async addReview(review) {
+        const res = await fetch('/api/reviews', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(review)
+        });
+        if (!res.ok) throw new Error('Failed to submit review');
+        return await res.json();
     }
 };
 
@@ -92,23 +112,24 @@ const ReviewUI = {
         return element;
     },
 
-    renderPending(containerId = 'reviews-list') {
+   async renderPending(containerId = 'reviews-list') {
         const container = document.getElementById(containerId);
         if (!container) return;
 
         container.innerHTML = '';
-        DataService.getPending().forEach(review => {
+        const pending = await DataService.getPending();
+        pending.forEach(review => {
             container.appendChild(this.createReviewElement(review, true));
         });
     },
 
-    updateCarousel(swiperInstance) {
+    async updateCarousel(swiperInstance) {
         swiperInstance.removeAllSlides();
-        DataService.getApproved().forEach(review => {
+        const approved = await DataService.getApproved();
+        approved.forEach(review => {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
             slide.appendChild(this.createReviewElement(review));
-            swiperInstance.update();
             swiperInstance.appendSlide(slide);
         });
         swiperInstance.update();
@@ -146,15 +167,14 @@ const PublicController = {
         });
     },
 
-    handleForm() {
+     handleForm() {
         const form = document.getElementById('reviewForm');
-        
-        form.addEventListener('submit', (e) => {
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const formData = new FormData(form);
             const review = {
-                id: Date.now().toString(),
                 name: formData.get('name'),
                 email: formData.get('email'),
                 rating: this.rating,
@@ -164,9 +184,13 @@ const PublicController = {
 
             if (!this.validateReview(review)) return;
 
-            DataService.addReview(review);
-            this.resetForm(form);
-            showToast('Review submitted for approval!', 'success');
+            try {
+                await DataService.addReview(review);
+                this.resetForm(form);
+                showToast('Review submitted for approval!', 'success');
+            } catch (err) {
+                showToast('Failed to submit review', 'error');
+            }
         });
     },
 

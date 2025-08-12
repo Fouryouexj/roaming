@@ -283,7 +283,7 @@
                             <img src="imgg/AMBOSELI NATIONAL PARK.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
-                         MAASAI MARA 4.jpg       <h3 class="tour-title">Amboseli National Park Day Trip </h3>
+                                <h3 class="tour-title">Amboseli National Park Day Trip </h3>
                                 <p class="tour-description">Embark on an early morning Roaming Nomads Tour, departing from your hotel</p>
                                 <a href="subtour-amboseli.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -373,7 +373,7 @@
                             <img src="imgg/HIDDEN GEM.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                               <div class="rating-stars">★★★★★</div>
-                                <h3 class="tour-title">4 Days 3 Nights Masai Mara Budget Safari - $590 PP</h3>
+                                <h3 class="tour-title">4 Days 3 Nights Masai Mara Budget Safari</h3>
                                 <p class="tour-description">The Nairobi to Masai Mara safari package includes a 4-day trip with game drives, accommodation at your camp</p>
                                 <a href="4days3daysmasaimara.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -385,7 +385,7 @@
                             <img src="imgg/LAKE NAIVASHA.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-starss">★★★★★</div>
-                                <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari - $690 PP</h3>
+                                <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari</h3>
                                 <p class="tour-description">The 5-day safari adventure starts with a scenic drive from Nairobi to Masai Mara, followed by extensive game viewing in the reserve</p>
                                 <a href="5DaysMasaiMara,LakeNakuru&LakeNaivashaBdgetSafari.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -397,7 +397,7 @@
                             <img src="imgg/TOURISTS.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
-                                <h3 class="tour-title">4 Days Masai Mara & Lake Nakuru Budget Safari From $580 PP</h3>
+                                <h3 class="tour-title">4 Days Masai Mara & Lake Nakuru Budget Safari</h3>
                                 <p class="tour-description">This is a four-day safari trip starting from Nairobi to Maasai Mara Game Reserve, then to Lake Nakuru...</p>
                                 <a href="4DaysMasaiMara&LakeNakuru.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -409,7 +409,7 @@
                             <img src="imgg/ZEBRA GIRRAFFE.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
-                                <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari - $690 PP</h3>
+                                <h3 class="tour-title">5 Days Masai Mara, Lake Nakuru & Lake Naivasha Budget Safari</h3>
                                 <p class="tour-description">The 5-day safari adventure starts with a scenic drive from Nairobi to Masai Mara, followed by extensive game viewing in the reserve...</p>
                                 <a href="5DaysMasaiMara,LakeNakuru&LakeNaivashaBdgetSafari.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -457,7 +457,7 @@
                             <img src="imgg/SERENGETI.jpg" class="tour-image" alt="European Castle">
                             <div class="tour-content">
                                 <div class="rating-stars">★★★★★</div>
-                                <h3 class="tour-title">6 Days Masai Mara, Lake Nakuru & Amboseli Safari - $820 PP</h3>
+                                <h3 class="tour-title">6 Days Masai Mara, Lake Nakuru & Amboseli Safari</h3>
                                 <p class="tour-description">The 6-day safari begins with a journey from Nairobi to Masai Mara...</p>
                                 <a href="6 Days Masai Mara, Lake Nakuru&AmboseliSafari.html"><button class="book-now">Book Tour</button></a>
                             </div>
@@ -1063,7 +1063,7 @@
                 </script>
                 <script src="index.js"></script>
             </main>
- <style>
+<style>
 :root {
   --gtl-primary: #FF6B35;
   --gtl-gold: #FFD700;
@@ -1072,7 +1072,6 @@
   --gtl-dark: #222;
   --gtl-shadow: 0 4px 24px rgba(0,0,0,0.13);
 }
-
 #google_translate_element {
   position: fixed;
   top: 24px;
@@ -1089,15 +1088,24 @@
   border: 2px solid var(--gtl-primary);
   min-width: 170px;
   transition: box-shadow 0.2s, border 0.2s;
+  cursor: grab;
+  user-select: none;
 }
-#google_translate_element:hover {
+#google_translate_element.dragging {
   box-shadow: 0 8px 32px rgba(255,107,53,0.18);
   border-color: var(--gtl-gold);
+  opacity: 0.92;
+  cursor: grabbing;
 }
-.goog-te-banner-frame {
+.goog-te-banner-frame, .goog-te-balloon-frame {
     display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
 }
-
+body .skiptranslate {
+    background: none !important;
+    border: none !important;
+}
 .gtl-label {
   font-weight: 700;
   color: var(--gtl-primary);
@@ -1173,7 +1181,7 @@
   </span>
 </div>
 <script type="text/javascript">
-  function googleTranslateElementInit() {
+function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'en',
         includedLanguages: 'en,fr,es,de,zh-CN,ja,ko,th,sw,ar,pt,ru,it,nl,pl,tr,hi,bn,vi,id,ms,tl,ur,fa,he,el,bg,hr,cs,da,et,fi,hu,is,ga,lv,lt,mt,no,pl,pt,ro,sk,sl,sv,uk,cy,eu,ca,gl,lb,mk,sq,be,ka,hy,az,kk,ky,mn,ne,ps,si,ta,te,ml,kn,gu,pa,bn,as,or,mr,hi,ur,sd,dv',
@@ -1194,23 +1202,18 @@ class DraggableTranslator {
         this.yOffset = 0;
         this.element = null;
         this.boundaryPadding = 10;
-        
         this.init();
     }
-    
     init() {
         this.element = document.getElementById('google_translate_element');
         this.waitForWidget();
     }
-    
     waitForWidget() {
         let attempts = 0;
         const maxAttempts = 100;
-        
         const checkWidget = setInterval(() => {
             const combo = document.querySelector('.goog-te-combo');
             attempts++;
-            
             if (combo || attempts >= maxAttempts) {
                 clearInterval(checkWidget);
                 this.element.classList.remove('loading-shimmer');
@@ -1219,165 +1222,149 @@ class DraggableTranslator {
             }
         }, 100);
     }
-    
     setupEventListeners() {
         // Mouse events
         this.element.addEventListener('mousedown', this.dragStart.bind(this));
         document.addEventListener('mousemove', this.drag.bind(this));
         document.addEventListener('mouseup', this.dragEnd.bind(this));
-        
-        // Touch events with passive: false for preventDefault
+        // Touch events
         this.element.addEventListener('touchstart', this.touchStart.bind(this), { passive: false });
         document.addEventListener('touchmove', this.touchMove.bind(this), { passive: false });
         document.addEventListener('touchend', this.dragEnd.bind(this));
-        
         // Prevent context menu on long press
         this.element.addEventListener('contextmenu', (e) => e.preventDefault());
-        
-        // Handle window resize
+        // Window resize
         window.addEventListener('resize', this.handleResize.bind(this));
     }
-    
     dragStart(e) {
         if (this.shouldIgnoreEvent(e)) return;
-        
         this.initialX = e.clientX - this.xOffset;
         this.initialY = e.clientY - this.yOffset;
         this.startDrag();
     }
-    
     touchStart(e) {
         if (this.shouldIgnoreEvent(e)) return;
-        
         e.preventDefault();
         const touch = e.touches[0];
         this.initialX = touch.clientX - this.xOffset;
         this.initialY = touch.clientY - this.yOffset;
         this.startDrag();
     }
-    
     startDrag() {
         this.isDragging = true;
         this.element.classList.add('dragging');
         document.body.style.userSelect = 'none';
     }
-    
     drag(e) {
         if (!this.isDragging) return;
-        
         e.preventDefault();
         this.currentX = e.clientX - this.initialX;
         this.currentY = e.clientY - this.initialY;
         this.updatePosition();
     }
-    
     touchMove(e) {
         if (!this.isDragging) return;
-        
         e.preventDefault();
         const touch = e.touches[0];
         this.currentX = touch.clientX - this.initialX;
         this.currentY = touch.clientY - this.initialY;
         this.updatePosition();
     }
-    
     updatePosition() {
         const rect = this.element.getBoundingClientRect();
         const maxX = window.innerWidth - rect.width - this.boundaryPadding;
         const maxY = window.innerHeight - rect.height - this.boundaryPadding;
-        
-        // Constrain to viewport with padding
         this.xOffset = Math.max(this.boundaryPadding, Math.min(maxX, this.currentX));
         this.yOffset = Math.max(this.boundaryPadding, Math.min(maxY, this.currentY));
-        
         this.setTransform(this.xOffset, this.yOffset);
     }
-    
     dragEnd() {
         if (!this.isDragging) return;
-        
         this.isDragging = false;
         this.element.classList.remove('dragging');
         document.body.style.userSelect = '';
-        
         // Snap to edges on mobile
         if (window.innerWidth <= 768) {
             this.snapToEdge();
         }
     }
-    
     snapToEdge() {
         const rect = this.element.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const viewportCenter = window.innerWidth / 2;
-        
         if (centerX < viewportCenter) {
-            // Snap to left
             this.xOffset = this.boundaryPadding;
         } else {
-            // Snap to right
             this.xOffset = window.innerWidth - rect.width - this.boundaryPadding;
         }
-        
         this.setTransform(this.xOffset, this.yOffset);
     }
-    
     setTransform(x, y) {
         this.element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     }
-    
     shouldIgnoreEvent(e) {
-        // Don't drag when interacting with dropdown
         return e.target.closest('.goog-te-combo') || 
                e.target.classList.contains('goog-te-combo');
     }
-    
     handleResize() {
-        // Ensure widget stays within bounds after resize
-        if (this.xOffset !== 0 || this.yOffset !== 0) {
-            const rect = this.element.getBoundingClientRect();
-            const maxX = window.innerWidth - rect.width - this.boundaryPadding;
-            const maxY = window.innerHeight - rect.height - this.boundaryPadding;
-            
-            this.xOffset = Math.max(this.boundaryPadding, Math.min(maxX, this.xOffset));
-            this.yOffset = Math.max(this.boundaryPadding, Math.min(maxY, this.yOffset));
-            
-            this.setTransform(this.xOffset, this.yOffset);
-        }
+        // Keep inside viewport
+        const rect = this.element.getBoundingClientRect();
+        const maxX = window.innerWidth - rect.width - this.boundaryPadding;
+        const maxY = window.innerHeight - rect.height - this.boundaryPadding;
+        this.xOffset = Math.max(this.boundaryPadding, Math.min(maxX, this.xOffset));
+        this.yOffset = Math.max(this.boundaryPadding, Math.min(maxY, this.yOffset));
+        this.setTransform(this.xOffset, this.yOffset);
     }
-    
     removeBanner() {
-        // Aggressively remove Google's banner
-        const removeBannerInterval = setInterval(() => {
-            const banner = document.querySelector('.goog-te-banner-frame');
-            if (banner) {
-                banner.remove();
-            }
-            
-            // Reset body top
-            if (document.body.style.top !== '0px') {
-                document.body.style.top = '0px';
-            }
-        }, 50);
         
-        // Clean up after 10 seconds
-        setTimeout(() => clearInterval(removeBannerInterval), 10000);
+        const banner = document.querySelector('.goog-te-banner-frame');
+        if (banner) banner.style.display = 'none';
+        const balloon = document.querySelector('.goog-te-balloon-frame');
+        if (balloon) balloon.style.display = 'none';
+        document.body.classList.remove('goog-te-banner-frame');
+        document.body.classList.remove('goog-te-balloon-frame');
+        // Remove skiptranslate background
+        const skip = document.querySelector('.skiptranslate');
+        if (skip) skip.style.background = 'none';
     }
 }
-
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new DraggableTranslator();
-});
-
-// Handle page visibility changes
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        // Remove banner when page becomes visible again
-        const banner = document.querySelector('.goog-te-banner-frame');
-        if (banner) banner.remove();
-        document.body.style.top = '0px';
+    // Flag/label update
+    const flagMap = {
+      en: 'https://flagcdn.com/gb.svg',
+      fr: 'https://flagcdn.com/fr.svg',
+      es: 'https://flagcdn.com/es.svg',
+      de: 'https://flagcdn.com/de.svg',
+      sw: 'https://flagcdn.com/tz.svg'
+    };
+    const labelMap = {
+      en: 'English',
+      fr: 'Français',
+      es: 'Español',
+      de: 'Deutsch',
+      sw: 'Kiswahili'
+    };
+    function updateFlagAndLabel(lang) {
+      const flag = flagMap[lang] || flagMap['en'];
+      const label = labelMap[lang] || 'Language';
+      document.querySelector('#google_translate_element .gtl-label').innerHTML =
+        `<img class="gtl-flag" src="${flag}" alt="${label}"> ${label}`;
     }
+    let tries = 0;
+    function attachComboListener() {
+      const combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        updateFlagAndLabel(combo.value || 'en');
+        combo.addEventListener('change', function() {
+          updateFlagAndLabel(combo.value);
+        });
+      } else if (tries < 20) {
+        tries++;
+        setTimeout(attachComboListener, 200);
+      }
+    }
+    attachComboListener();
 });
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

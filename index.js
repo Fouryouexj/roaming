@@ -282,6 +282,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+const PosterService = {
+    async getAll() {
+        const res = await fetch('/api/posters');
+        if (!res.ok) return [];
+        return await res.json();
+    },
+    async add(poster) {
+        const res = await fetch('/api/posters', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(poster)
+        });
+        if (!res.ok) throw new Error('Failed to submit poster');
+        return await res.json();
+    }
+};
+
 // Handle poster updates from admin
 window.addEventListener('postersUpdated', () => {
     PosterSliderManager.initializeSlider();

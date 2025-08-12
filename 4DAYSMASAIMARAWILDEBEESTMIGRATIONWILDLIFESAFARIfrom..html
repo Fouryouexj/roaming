@@ -71,7 +71,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>4 DAYS MASAI MARA WILDEBEEST MIGRATION WILDLIFE SAFARI from $1490pp</h1>
+        <h1>4 DAYS MASAI MARA WILDEBEEST MIGRATION WILDLIFE SAFARI</h1>
         <p>Embark on our Deluxe Roaming Nomads Tour Package for a thrilling journey through Kenya's iconic national parks. Encounter unique wildlife, enjoy luxurious accommodations, and embark on exhilarating game drives, all meticulously arranged for your comfort
             and enjoyment. With inclusions like park fees, transport, accommodation, meals, and expert guides, this package guarantees an unforgettable African experience.</p>
         <button class="book-now" onclick="location.href='#target-section'">Book this package.</button>
@@ -97,9 +97,9 @@
         <h2>Budget Plans</h2>
         <ul>
             <li>
-                <strong>Mid Luxury</strong> – Kenya masai mara wildebeest Migration safari starting from $1490 USD/PP (private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Mid Luxury</strong> – Kenya masai mara wildebeest Migration safari  (private safari, No sharing safari jeep with other tourist)</li>
             <li>
-                <strong>Luxury Lodge</strong> – Kenya Masai marai safari price staring from $1695 USD/PP (private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Luxury Lodge</strong> – Kenya Masai marai safari  (private safari, No sharing safari jeep with other tourist)</li>
         </ul>
         <h2>Day 1: Nairobi – Masai Mara Game Reserve.</h2>
         <p>Start your adventure with Roaming Nomads as our driver and staff pick you up from the airport or your hotel in the morning. <br> After a brief safari briefing, we depart Nairobi, heading through the scenic views of the Great Rift Valley escarpment.Take
@@ -161,13 +161,22 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-            
                <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
-                        <option value="Kid">Adults &Kid</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
 
@@ -176,11 +185,11 @@
                         <label for="num-kids">Number of Kids:</label>
                         <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
-                   <div class="form-group" id="age-group">
-    <label>Age of Kids:</label>
-    <div id="kids-ages-container"></div>
-    <small class="text-muted">Kids under 3 travel free</small>
-</div>
+                    <div class="form-group" id="age-group">
+                        <label for="passenger-age">Age of Kids:</label>
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
+                        <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
                     <div class="form-group">
                         <label for="kids-above-three">Number of Kids Above 3 Years:</label>
                         <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">

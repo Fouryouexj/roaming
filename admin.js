@@ -84,14 +84,15 @@ function getPassengerStats() {
     return stats;
 }
 
-// Enhanced renderBookings function with proper passenger display and stats update
+
+// Enhanced renderBookings function for admin panel
 function renderBookings() {
     const tableBody = document.getElementById('booking-table-body');
     const emptyMsg = document.getElementById('empty-message');
     if (!tableBody) return;
 
-    let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-
+    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    
     // Ensure all bookings have IDs
     let needsUpdate = false;
     bookings = bookings.map((booking, index) => {
@@ -105,10 +106,6 @@ function renderBookings() {
     if (needsUpdate) {
         localStorage.setItem('bookings', JSON.stringify(bookings));
     }
-
-    // Update passenger statistics
-    const stats = getPassengerStats();
-    updatePassengerStats(stats);
 
     tableBody.innerHTML = '';
 
@@ -129,61 +126,126 @@ function renderBookings() {
 
     bookings.forEach((booking, index) => {
         // Enhanced passengers column display
-        let passengersCol = `<strong>${booking.totalPassengers || booking.passengers || 0}</strong>`;
-
-        if (booking.numAdults !== undefined || booking.numKids !== undefined) {
-            const adults = booking.numAdults || 0;
-            const kids = booking.numKids || 0;
-            passengersCol += `<br><small class="text-muted">Adults: ${adults}, Kids: ${kids}</small>`;
-
-            // Show kid ages if available
-            if (booking.passengerAge && kids > 0) {
-                passengersCol += `<br><small class="text-info">Age: ${booking.passengerAge} yrs</small>`;
+        const totalPassengers = booking.totalPassengers || booking.passengers || 0;
+        const numAdults = booking.numAdults || 0;
+        const numKids = booking.numKids || 0;
+        const kidsAboveThree = booking.kidsAboveThree || 0;
+        const freeKidsCount = booking.freeKidsCount || 0;
+        
+        let passengersCol = `<div class="passenger-info">
+            <strong class="total-passengers">${totalPassengers} Total</strong>`;
+        
+        if (numAdults > 0 || numKids > 0) {
+            passengersCol += `
+            <div class="passenger-breakdown">
+                <small class="text-muted d-block">
+                    <i class="fas fa-user me-1"></i>Adults: ${numAdults}
+                </small>
+                <small class="text-info d-block">
+                    <i class="fas fa-child me-1"></i>Kids: ${numKids}
+                </small>`;
+            
+            // Show kids age breakdown
+            if (numKids > 0) {
+                if (kidsAboveThree > 0) {
+                    passengersCol += `
+                    <small class="text-warning d-block ms-2">
+                        <i class="fas fa-ticket-alt me-1"></i>Above 3: ${kidsAboveThree}
+                    </small>`;
+                }
+                
+                if (freeKidsCount > 0) {
+                    passengersCol += `
+                    <small class="text-success d-block ms-2">
+                        <i class="fas fa-gift me-1"></i>Under 3: ${freeKidsCount} (Free)
+                    </small>`;
+                }
+                
+                // Show individual ages if available
+                if (booking.kidsAges && Array.isArray(booking.kidsAges) && booking.kidsAges.length > 0) {
+                    const agesDisplay = booking.kidsAges.join(', ');
+                    passengersCol += `
+                    <small class="text-secondary d-block ms-2">
+                        <i class="fas fa-birthday-cake me-1"></i>Ages: ${agesDisplay} yrs
+                    </small>`;
+                }
             }
+            
+            passengersCol += `</div>`;
         } else if (booking.passengerType === 'Kid') {
-            // Legacy format
-            passengersCol += `<br><small class="text-muted">All Kids</small>`;
+            passengersCol += `
+            <div class="passenger-breakdown">
+                <small class="text-info d-block">All Kids</small>`;
+            
             if (booking.passengerAge) {
-                passengersCol += `<br><small class="text-info">Age: ${booking.passengerAge} yrs</small>`;
+                passengersCol += `
+                <small class="text-secondary d-block">Age: ${booking.passengerAge} yrs</small>`;
             }
-        } else {
-            passengersCol += `<br><small class="text-muted">All Adults</small>`;
+            
+            if (booking.isFreeTravel) {
+                passengersCol += `
+                <small class="text-success d-block">
+                    <i class="fas fa-gift me-1"></i>Free Travel
+                </small>`;
+            }
+            
+            passengersCol += `</div>`;
         }
+        
+        passengersCol += `</div>`;
 
         // Status column with improved display
         const status = booking.status || 'pending';
         let statusDisplay = '';
         if (status === 'viewed') {
-            statusDisplay = `<span class="badge bg-success mb-2 d-block">Viewed</span>`;
+            statusDisplay = `<span class="badge bg-success mb-2 d-block">
+                <i class="fas fa-check me-1"></i>Viewed
+            </span>`;
         } else {
-            statusDisplay = `<span class="badge bg-warning mb-2 d-block">Pending</span>`;
+            statusDisplay = `<span class="badge bg-warning mb-2 d-block">
+                <i class="fas fa-hourglass-half me-1"></i>Pending
+            </span>`;
         }
 
-        // Status note input
-        const statusNote = booking.statusNote || '';
-
         const row = document.createElement('tr');
+        row.className = status === 'viewed' ? 'table-light' : '';
+        
         row.innerHTML = `
             <td><strong>${index + 1}</strong></td>
-            <td>${booking.name || 'N/A'}</td>
-            <td><a href="mailto:${booking.email || ''}">${booking.email || 'N/A'}</a></td>
-            <td><a href="tel:${booking.phone || ''}">${booking.phone || 'N/A'}</a></td>
+            <td>
+                <strong>${booking.name || 'N/A'}</strong>
+                ${booking.passengerType && booking.passengerType !== 'Adult' ? 
+                    `<br><small class="badge bg-info">${booking.passengerType}</small>` : ''}
+            </td>
+            <td>
+                <a href="mailto:${booking.email || ''}" class="text-decoration-none">
+                    ${booking.email || 'N/A'}
+                </a>
+            </td>
+            <td>
+                <a href="tel:${booking.phone || ''}" class="text-decoration-none">
+                    ${booking.phone || 'N/A'}
+                </a>
+            </td>
             <td><strong>${booking.destination || booking.tour || 'N/A'}</strong></td>
             <td>${booking.travelDate || booking.date || booking['travel-date'] || 'N/A'}</td>
-            <td>${passengersCol}</td>
-            <td style="max-width:200px;word-break:break-word;">${booking.message || '<em class="text-muted">No message</em>'}</td>
+            <td class="passenger-details">${passengersCol}</td>
+            <td style="max-width:200px;word-break:break-word;">
+                ${booking.message || '<em class="text-muted">No message</em>'}
+            </td>
             <td>
                 ${statusDisplay}
                 <input type="text" class="form-control form-control-sm status-note" 
                        placeholder="Admin note..." 
-                       value="${statusNote}" 
+                       value="${booking.statusNote || ''}" 
                        data-booking-id="${booking.id}" 
                        style="min-width:120px;max-width:180px;">
             </td>
-            <td>${booking.submittedAt ? new Date(booking.submittedAt).toLocaleDateString() : (booking.submitted ? new Date(booking.submitted).toLocaleDateString() : 'N/A')}</td>
+            <td>${booking.submittedAt ? new Date(booking.submittedAt).toLocaleDateString() : 
+                 (booking.submitted ? new Date(booking.submitted).toLocaleDateString() : 'N/A')}</td>
         `;
 
-        // Add status toggle functionality
+        // Add click handlers
         const statusBadge = row.querySelector('.badge');
         if (statusBadge) {
             statusBadge.style.cursor = 'pointer';
@@ -196,26 +258,49 @@ function renderBookings() {
 
         // Save status note on change
         const statusNoteInput = row.querySelector('.status-note');
-        statusNoteInput.addEventListener('change', function() {
-            saveStatusNote(booking.id, this.value);
-        });
+        if (statusNoteInput) {
+            statusNoteInput.addEventListener('change', function() {
+                saveStatusNote(booking.id, this.value);
+            });
+        }
 
         // Add double-click to view details
         row.addEventListener('dblclick', function() {
             showBookingDetails(booking);
         });
 
-        // Add hover effect
-        row.addEventListener('mouseenter', function() {
-            this.style.backgroundColor = '#f8f9fa';
-        });
-        row.addEventListener('mouseleave', function() {
-            this.style.backgroundColor = '';
-        });
-
         tableBody.appendChild(row);
     });
 }
+
+// Add some CSS styles for better display
+const style = document.createElement('style');
+style.textContent = `
+    .passenger-info {
+        min-width: 150px;
+    }
+    
+    .passenger-breakdown {
+        margin-top: 0.25rem;
+        padding-left: 0.25rem;
+        border-left: 2px solid #dee2e6;
+    }
+    
+    .total-passengers {
+        color: #495057;
+        font-size: 1rem;
+    }
+    
+    .passenger-details small {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+    
+    .badge {
+        font-size: 0.65rem;
+    }
+`;
+document.head.appendChild(style);
 
 // Function to update booking status
 function updateBookingStatus(bookingId, newStatus) {

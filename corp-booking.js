@@ -89,5 +89,22 @@ function markCorpBookingResolved(index) {
     }
 }
 
+const CorpBookingService = {
+    async getAll() {
+        const res = await fetch('/api/corp-bookings');
+        if (!res.ok) return [];
+        return await res.json();
+    },
+    async add(booking) {
+        const res = await fetch('/api/corp-bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(booking)
+        });
+        if (!res.ok) throw new Error('Failed to submit corporate booking');
+        return await res.json();
+    }
+};
+
 // For admin panel: re-render on tab switch if needed
 window.renderCorpBookings = renderCorpBookings;

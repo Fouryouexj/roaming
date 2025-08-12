@@ -71,7 +71,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>3 DAYS SAMBURU LUXURY SAFARI IN KENYA FROM $820 PP</h1>
+        <h1>3 DAYS SAMBURU LUXURY SAFARI IN KENYA</h1>
         <p>Samburu is located in the heart of Kenya, surrounded by the stunning landscapes of the Laikipia Plateau. This region is known for its diverse wildlife, including the “Big Five” (lion, leopard, elephant, buffalo, and rhino), as well as rare and
             endangered species such as the Grevy’s zebra and the reticulated giraffe. </p>
         <button class="book-now" onclick="location.href='#target-section'">Reserve Suite</button>
@@ -104,9 +104,9 @@
         <h2>Budget Plans</h2>
         <ul>
             <li>
-                <strong>Mid Luxury</strong> – Kenya Samburu safari price starting from $820 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Mid Luxury</strong> – Kenya Samburu safari (private safari, No sharing safari jeep with other tourist)</li>
             <li>
-                <strong>Luxury Lodge</strong> – Kenya Samburu safari price staring from $990 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Luxury Lodge</strong> – Kenya Samburu safari (private safari, No sharing safari jeep with other tourist)</li>
         </ul>
         <h2> Day 1 : Nairobi – Samburu Game Reserve </h2>
         <p>Roaming Nomads driver and Staff will pick up the clients on arrival in the airport or hotel in the morning, a short safari briefing will be conducted then the clients depart Nairobi by road heading towards Kenya’s northern frontier Samburu National
@@ -171,23 +171,39 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
                         <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
                     <div class="form-group" id="age-group">
                         <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
                         <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">

@@ -645,6 +645,24 @@ window.addEventListener('scroll', function () {
     }
 });
 
+
+
+const BlogService = {
+    async getAll() {
+        const res = await fetch('/api/blog');
+        if (!res.ok) return [];
+        return await res.json();
+    },
+    async add(post) {
+        const res = await fetch('/api/blog', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post)
+        });
+        if (!res.ok) throw new Error('Failed to submit blog post');
+        return await res.json();
+    }
+};
     
   </script>
 

@@ -72,7 +72,7 @@
     </header>
     <hr>
     <section class="whole">
-        <h1>2 DAYS LAKE NAKURU AND NAIVASHA SAFARI FROM $439PP</h1>
+        <h1>2 DAYS LAKE NAKURU AND NAIVASHA SAFARI </h1>
         <p>The first stop on this camping safari is Lake Nakuru National Park, located in the Great Rift Valley of Kenya. This park is known for its large population of pink flamingos that gather along the shores of the lake. In addition to flamingos, the
             park is also home to over 450 species of birds, making it a birdwatcher’s paradise. You may also spot other wildlife such as rhinos, lions, and giraffes during your game drives.</p>
         <button class="book-now" onclick="location.href='#target-section'">Reserve Suite</button>
@@ -95,11 +95,11 @@
         <h2>Budget Plans</h2>
         <ul>
             <li>
-                <strong>Economy Budget</strong> – Lake Nakuru, and Naivasha Kenya safari price starting from $439 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Economy Budget</strong> – Lake Nakuru, and Naivasha Kenya safari (private safari, No sharing safari jeep with other tourist)</li>
             <li>
-                <strong>Mid Luxury</strong> – Lake Nakuru, and Naivasha safari price starting from $499 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Mid Luxury</strong> – Lake Nakuru, and Naivasha safari (private safari, No sharing safari jeep with other tourist)</li>
             <li>
-                <strong>Luxury Lodge </strong>-Lake Nakuru, and Naivasha safari price staring from $549 USD/PP(private safari, No sharing safari jeep with other tourist)</li>
+                <strong>Luxury Lodge </strong>-Lake Nakuru, and Naivasha safari(private safari, No sharing safari jeep with other tourist)</li>
         </ul>
         <h2>1 Day : Nairobi – Lake Nakuru National Park</h2>
         <p>Roaming Nomads driver and Staff will pick up the clients on arrival in the airport or hotel in the morning, a short safari briefing will be conducted then the clients depart Nairobi by road heading towards the Great Rift Valley arriving in Lake
@@ -158,23 +158,39 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
-                <div class="form-group">
+               <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
                         <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
                     </select>
                 </div>
+               <div class="form-group">
+                    <label for="passenger-type">Passenger Type:</label>
+                    <select id="passenger-type" name="passenger-type" class="form-control" required>
+                        <option value="">Select Passenger Type</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Kid">Kid</option>
+                        <option value="Mixed">Both Adults and Kids</option>
+                    </select>
+                </div>
+
                 <div class="form-group" id="kid-fields-container" style="display: none;">
                     <div class="form-group">
                         <label for="num-kids">Number of Kids:</label>
-                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1">
+                        <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
                     <div class="form-group" id="age-group">
                         <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17">
+                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
                         <small class="text-muted">Kids under 3 travel free</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="kids-above-three">Number of Kids Above 3 Years:</label>
+                        <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">
+                        <small class="text-muted">This helps us calculate accurate pricing</small>
                     </div>
                 </div>
                 <div class="form-group">
