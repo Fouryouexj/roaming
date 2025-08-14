@@ -105,7 +105,7 @@
         </ul>
     </section>
     <hr>
-       <section id="target-section">
+      <section id="target-section">
         <div class="form-container">
             <h6>Travel Booking Form</h6>
             <form id="bookingForm">
@@ -133,22 +133,13 @@
                     <label for="passengers">Total Number of Passengers:</label>
                     <input type="number" id="passengers" name="passengers" placeholder="Total Passengers" min="1" required>
                 </div>
+            
                <div class="form-group">
                     <label for="passenger-type">Passenger Type:</label>
                     <select id="passenger-type" name="passenger-type" class="form-control" required>
                         <option value="">Select Passenger Type</option>
                         <option value="Adult">Adult</option>
-                        <option value="Kid">Kid</option>
-                        <option value="Mixed">Both Adults and Kids</option>
-                    </select>
-                </div>
-               <div class="form-group">
-                    <label for="passenger-type">Passenger Type:</label>
-                    <select id="passenger-type" name="passenger-type" class="form-control" required>
-                        <option value="">Select Passenger Type</option>
-                        <option value="Adult">Adult</option>
-                        <option value="Kid">Kid</option>
-                        <option value="Mixed">Both Adults and Kids</option>
+                        <option value="Kid">Adults &Kid</option>
                     </select>
                 </div>
 
@@ -157,11 +148,11 @@
                         <label for="num-kids">Number of Kids:</label>
                         <input type="number" id="num-kids" name="num-kids" placeholder="Number of Kids" min="1" class="form-control">
                     </div>
-                    <div class="form-group" id="age-group">
-                        <label for="passenger-age">Age of Kids:</label>
-                        <input type="number" id="passenger-age" name="passenger-age" placeholder="Enter age" min="0" max="17" class="form-control">
-                        <small class="text-muted">Kids under 3 travel free</small>
-                    </div>
+                   <div class="form-group" id="age-group">
+    <label>Age of Kids:</label>
+    <div id="kids-ages-container"></div>
+    <small class="text-muted">Kids under 3 travel free</small>
+</div>
                     <div class="form-group">
                         <label for="kids-above-three">Number of Kids Above 3 Years:</label>
                         <input type="number" id="kids-above-three" name="kids-above-three" placeholder="Kids above 3 years" min="0" class="form-control">

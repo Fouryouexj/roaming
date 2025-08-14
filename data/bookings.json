@@ -1,0 +1,14 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "123-456-7890",
+    "destination": "Masai Mara",
+    "date": "2025-09-15",
+    "passengers": "2",
+    "message": "Family trip",
+    "id": "1755078552622",
+    "submittedAt": "2025-08-13T09:49:12.622Z",
+    "status": "pending"
+  }
+]

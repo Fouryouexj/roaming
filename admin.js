@@ -124,75 +124,14 @@ function renderBookings() {
 
     if (emptyMsg) emptyMsg.style.display = 'none';
 
-    bookings.forEach((booking, index) => {
+    let rowIndex = 0;
+    bookings.forEach((booking, bookingIndex) => {
         // Enhanced passengers column display
         const totalPassengers = booking.totalPassengers || booking.passengers || 0;
         const numAdults = booking.numAdults || 0;
         const numKids = booking.numKids || 0;
         const kidsAboveThree = booking.kidsAboveThree || 0;
         const freeKidsCount = booking.freeKidsCount || 0;
-        
-        let passengersCol = `<div class="passenger-info">
-            <strong class="total-passengers">${totalPassengers} Total</strong>`;
-        
-        if (numAdults > 0 || numKids > 0) {
-            passengersCol += `
-            <div class="passenger-breakdown">
-                <small class="text-muted d-block">
-                    <i class="fas fa-user me-1"></i>Adults: ${numAdults}
-                </small>
-                <small class="text-info d-block">
-                    <i class="fas fa-child me-1"></i>Kids: ${numKids}
-                </small>`;
-            
-            // Show kids age breakdown
-            if (numKids > 0) {
-                if (kidsAboveThree > 0) {
-                    passengersCol += `
-                    <small class="text-warning d-block ms-2">
-                        <i class="fas fa-ticket-alt me-1"></i>Above 3: ${kidsAboveThree}
-                    </small>`;
-                }
-                
-                if (freeKidsCount > 0) {
-                    passengersCol += `
-                    <small class="text-success d-block ms-2">
-                        <i class="fas fa-gift me-1"></i>Under 3: ${freeKidsCount} (Free)
-                    </small>`;
-                }
-                
-                // Show individual ages if available
-                if (booking.kidsAges && Array.isArray(booking.kidsAges) && booking.kidsAges.length > 0) {
-                    const agesDisplay = booking.kidsAges.join(', ');
-                    passengersCol += `
-                    <small class="text-secondary d-block ms-2">
-                        <i class="fas fa-birthday-cake me-1"></i>Ages: ${agesDisplay} yrs
-                    </small>`;
-                }
-            }
-            
-            passengersCol += `</div>`;
-        } else if (booking.passengerType === 'Kid') {
-            passengersCol += `
-            <div class="passenger-breakdown">
-                <small class="text-info d-block">All Kids</small>`;
-            
-            if (booking.passengerAge) {
-                passengersCol += `
-                <small class="text-secondary d-block">Age: ${booking.passengerAge} yrs</small>`;
-            }
-            
-            if (booking.isFreeTravel) {
-                passengersCol += `
-                <small class="text-success d-block">
-                    <i class="fas fa-gift me-1"></i>Free Travel
-                </small>`;
-            }
-            
-            passengersCol += `</div>`;
-        }
-        
-        passengersCol += `</div>`;
 
         // Status column with improved display
         const status = booking.status || 'pending';
@@ -207,15 +146,24 @@ function renderBookings() {
             </span>`;
         }
 
-        const row = document.createElement('tr');
-        row.className = status === 'viewed' ? 'table-light' : '';
+        // Main parent/adult row
+        const mainRow = document.createElement('tr');
+        mainRow.className = status === 'viewed' ? 'table-light parent-row' : 'parent-row';
         
-        row.innerHTML = `
-            <td><strong>${index + 1}</strong></td>
+        let passengerInfo = '';
+        if (numAdults > 0) {
+            passengerInfo = `<i class="fas fa-user me-1"></i><strong>Adult</strong> (${numAdults})`;
+        } else if (booking.passengerType === 'Adult' || !booking.passengerType) {
+            passengerInfo = `<i class="fas fa-user me-1"></i><strong>Adult</strong>`;
+        } else if (booking.passengerType === 'Kid') {
+            passengerInfo = `<i class="fas fa-child me-1"></i><strong>Kid</strong> - Age: ${booking.passengerAge || 'N/A'} ${booking.isFreeTravel ? '(Free)' : ''}`;
+        }
+        
+        mainRow.innerHTML = `
+            <td><strong>${++rowIndex}</strong></td>
             <td>
                 <strong>${booking.name || 'N/A'}</strong>
-                ${booking.passengerType && booking.passengerType !== 'Adult' ? 
-                    `<br><small class="badge bg-info">${booking.passengerType}</small>` : ''}
+                <br><small class="text-primary">Main Booker</small>
             </td>
             <td>
                 <a href="mailto:${booking.email || ''}" class="text-decoration-none">
@@ -229,7 +177,7 @@ function renderBookings() {
             </td>
             <td><strong>${booking.destination || booking.tour || 'N/A'}</strong></td>
             <td>${booking.travelDate || booking.date || booking['travel-date'] || 'N/A'}</td>
-            <td class="passenger-details">${passengersCol}</td>
+            <td class="passenger-details">${passengerInfo}</td>
             <td style="max-width:200px;word-break:break-word;">
                 ${booking.message || '<em class="text-muted">No message</em>'}
             </td>
@@ -245,8 +193,8 @@ function renderBookings() {
                  (booking.submitted ? new Date(booking.submitted).toLocaleDateString() : 'N/A')}</td>
         `;
 
-        // Add click handlers
-        const statusBadge = row.querySelector('.badge');
+        // Add click handlers for main row
+        const statusBadge = mainRow.querySelector('.badge');
         if (statusBadge) {
             statusBadge.style.cursor = 'pointer';
             statusBadge.title = 'Click to toggle status';
@@ -257,7 +205,7 @@ function renderBookings() {
         }
 
         // Save status note on change
-        const statusNoteInput = row.querySelector('.status-note');
+        const statusNoteInput = mainRow.querySelector('.status-note');
         if (statusNoteInput) {
             statusNoteInput.addEventListener('change', function() {
                 saveStatusNote(booking.id, this.value);
@@ -265,11 +213,91 @@ function renderBookings() {
         }
 
         // Add double-click to view details
-        row.addEventListener('dblclick', function() {
+        mainRow.addEventListener('dblclick', function() {
             showBookingDetails(booking);
         });
 
-        tableBody.appendChild(row);
+        tableBody.appendChild(mainRow);
+
+        // Add separate rows for each kid
+        if (numKids > 0) {
+            if (booking.kidsAges && Array.isArray(booking.kidsAges) && booking.kidsAges.length > 0) {
+                // We have individual ages for kids
+                booking.kidsAges.forEach((age, kidIndex) => {
+                    const isFree = parseInt(age) < 3;
+                    const kidRow = document.createElement('tr');
+                    kidRow.className = status === 'viewed' ? 'table-light kid-row' : 'kid-row';
+                    
+                    kidRow.innerHTML = `
+                        <td><span class="text-muted">└─ ${++rowIndex}</span></td>
+                        <td>
+                            <span class="text-muted ms-3">
+                                <i class="fas fa-arrow-turn-down me-1"></i>Kid ${kidIndex + 1} of ${booking.name}
+                            </span>
+                        </td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">Same as above</td>
+                        <td class="text-muted">Same as above</td>
+                        <td class="passenger-details">
+                            <i class="fas fa-child me-1 text-info"></i>
+                            <strong>Kid - Age: ${age} years</strong>
+                            ${isFree ? '<br><small class="badge bg-success">Free Travel</small>' : '<br><small class="badge bg-warning">Paid Travel</small>'}
+                        </td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                    `;
+
+                    tableBody.appendChild(kidRow);
+                });
+            } else {
+                // We don't have individual ages, create placeholder rows
+                for (let i = 0; i < numKids; i++) {
+                    const kidRow = document.createElement('tr');
+                    kidRow.className = status === 'viewed' ? 'table-light kid-row' : 'kid-row';
+                    
+                    let freeStatus = '';
+                    if (kidsAboveThree > 0 && freeKidsCount > 0) {
+                        // Mixed ages - show based on distribution
+                        if (i < freeKidsCount) {
+                            freeStatus = '<br><small class="badge bg-success">Free Travel (Under 3)</small>';
+                        } else {
+                            freeStatus = '<br><small class="badge bg-warning">Paid Travel (Above 3)</small>';
+                        }
+                    } else if (kidsAboveThree > 0) {
+                        freeStatus = '<br><small class="badge bg-warning">Paid Travel (Above 3)</small>';
+                    } else if (freeKidsCount > 0) {
+                        freeStatus = '<br><small class="badge bg-success">Free Travel (Under 3)</small>';
+                    }
+                    
+                    kidRow.innerHTML = `
+                        <td><span class="text-muted">└─ ${++rowIndex}</span></td>
+                        <td>
+                            <span class="text-muted ms-3">
+                                <i class="fas fa-arrow-turn-down me-1"></i>Kid ${i + 1} of ${booking.name}
+                            </span>
+                        </td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">Same as above</td>
+                        <td class="text-muted">Same as above</td>
+                        <td class="passenger-details">
+                            <i class="fas fa-child me-1 text-info"></i>
+                            <strong>Kid - Age: Not specified</strong>
+                            ${freeStatus}
+                        </td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                        <td class="text-muted">-</td>
+                    `;
+
+                    tableBody.appendChild(kidRow);
+                }
+            }
+        } else if (booking.passengerType === 'Kid' && booking.passengerAge) {
+            // Handle legacy single kid bookings - already handled in main row above
+        }
     });
 }
 
@@ -298,6 +326,47 @@ style.textContent = `
     
     .badge {
         font-size: 0.65rem;
+    }
+    
+    /* Styling for parent-child booking rows */
+    .parent-row {
+        border-left: 4px solid #007bff;
+        background: rgba(0, 123, 255, 0.02);
+    }
+    
+    .parent-row.table-light {
+        background: rgba(0, 123, 255, 0.05);
+    }
+    
+    .kid-row {
+        border-left: 4px solid #17a2b8;
+        background: rgba(23, 162, 184, 0.02);
+        font-size: 0.9em;
+    }
+    
+    .kid-row.table-light {
+        background: rgba(23, 162, 184, 0.05);
+    }
+    
+    .kid-row td {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-top: 1px dashed #dee2e6;
+    }
+    
+    /* Visual connection lines */
+    .kid-row td:first-child {
+        position: relative;
+    }
+    
+    .kid-row td:first-child::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: -8px;
+        width: 1px;
+        height: 16px;
+        background: #6c757d;
     }
 `;
 document.head.appendChild(style);

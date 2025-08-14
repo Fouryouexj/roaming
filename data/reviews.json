@@ -1,0 +1,89 @@
+{
+  "pending": [
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "rating": 5,
+      "text": "Great service",
+      "id": "1755078486835",
+      "date": "2025-08-13T09:48:06.835Z",
+      "status": "pending"
+    },
+    {
+      "name": "fours",
+      "email": "sjjs@gmail",
+      "rating": 4,
+      "text": "hell",
+      "id": "1755083851725",
+      "date": "2025-08-13T11:17:31.725Z",
+      "status": "pending"
+    },
+    {
+      "name": "Sammy Kifore",
+      "email": "fouryouex@outlook.com",
+      "rating": 5,
+      "text": "sasas",
+      "id": "1755083915358",
+      "date": "2025-08-13T11:18:35.358Z",
+      "status": "pending"
+    },
+    {
+      "name": "fours",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 5,
+      "text": "asasasa",
+      "id": "1755084176375",
+      "date": "2025-08-13T11:22:56.375Z",
+      "status": "pending"
+    },
+    {
+      "name": "fours",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 3,
+      "text": "asaasa",
+      "id": "1755084229895",
+      "date": "2025-08-13T11:23:49.895Z",
+      "status": "pending"
+    },
+    {
+      "name": "fours",
+      "email": "Jammie@gmail.com",
+      "rating": 2,
+      "text": "dasdsa",
+      "id": "1755084321507",
+      "date": "2025-08-13T11:25:21.507Z",
+      "status": "pending"
+    },
+    {
+      "name": "hamesb",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 1,
+      "text": "sand",
+      "id": "1755084403777",
+      "date": "2025-08-13T11:26:43.777Z",
+      "status": "pending"
+    }
+  ],
+  "approved": [
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "rating": 5,
+      "text": "This is a test review to verify the review system is working correctly!",
+      "id": "1755083628172",
+      "date": "2025-08-13T11:13:48.172Z",
+      "status": "approved",
+      "approvedDate": "2025-08-13T11:13:48.243Z"
+    },
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "rating": 4,
+      "text": "Great safari experience. The guides were knowledgeable and the animals were amazing.",
+      "id": "1755203576917",
+      "date": "2025-08-14T20:32:56.917Z",
+      "status": "approved",
+      "approvedDate": "2025-08-14T20:33:07.109Z"
+    }
+  ]
+}

@@ -320,6 +320,28 @@
     </style>
 </head>
 <body>
+    <script>
+        // Check authentication before loading admin panel
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const expiry = localStorage.getItem('authExpiry');
+            
+            if (!token || !expiry || Date.now() >= parseInt(expiry)) {
+                // Clear expired tokens
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('authExpiry');
+                // Redirect to login
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Run auth check immediately
+        if (!checkAuth()) {
+            document.body.style.display = 'none'; // Hide content while redirecting
+        }
+    </script>
 
     <div class="container py-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
@@ -362,12 +384,16 @@
                     <div class="mb-3">
                       <label class="form-label">Image</label>
                       <input type="file" class="form-control" id="blogImage" required>
+                      <img id="imagePreview" style="display: none; width: 100%; max-width: 200px; height: auto; border-radius: 5px; margin-top: 10px;">
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Content</label>
                       <textarea class="form-control" id="blogContent" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-paper-plane me-2"></i>Publish Post</button>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-primary flex-grow-1"><i class="fa-solid fa-paper-plane me-2"></i>Publish Post</button>
+                      <button type="button" id="cancelEditBtn" class="btn btn-secondary" onclick="cancelEdit()" style="display: none;"><i class="fa-solid fa-times me-2"></i>Cancel</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -394,9 +420,10 @@
       <th>Tour</th>
       <th>Date</th>
       <th>Passengers</th>
+      <th>Kids Info</th>
       <th>Message</th>
-      <th>status</th>
-      <th>Date</th>
+      <th>Status</th>
+      <th>Submitted</th>
     </tr>
 </thead>
                     <tbody id="booking-table-body"></tbody>
@@ -622,6 +649,7 @@
                 document.querySelectorAll('.logout-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         localStorage.removeItem('authToken');
+                        localStorage.removeItem('authExpiry');
                         window.location.href = 'login.html';
                     });
                 });
@@ -633,8 +661,25 @@
                     }
                 });
             },
-            renderPendingReviews() {
-                const pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+            async renderPendingReviews() {
+                let pendingReviews = [];
+                
+                try {
+                    const response = await fetch('/api/reviews?status=pending');
+                    if (response.ok) {
+                        pendingReviews = await response.json();
+                        console.log('Fetched pending reviews from server:', pendingReviews);
+                    } else {
+                        // Fallback to localStorage if server fails
+                        pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+                        console.log('Using localStorage fallback for pending reviews');
+                    }
+                } catch (error) {
+                    console.error('Error fetching pending reviews:', error);
+                    // Fallback to localStorage
+                    pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+                }
+                
                 const container = document.getElementById('reviews-list');
                 container.innerHTML = pendingReviews.map(review => `
                     <div class="review-card" data-id="${review.id}">
@@ -653,18 +698,54 @@
             }
         };
 
-        function approveReview(id) {
-            let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
-            let approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
-            const review = pendingReviews.find(r => r.id === id);
-            if (review) {
-                review.approvedDate = new Date().toISOString();
-                approvedReviews.push(review); // This preserves the name field
-                pendingReviews = pendingReviews.filter(r => r.id !== id);
-                localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
-                localStorage.setItem('approvedReviews', JSON.stringify(approvedReviews));
-                AdminController.renderPendingReviews();
-                showToast('Review approved and published!', 'success');
+        async function approveReview(id) {
+            try {
+                const response = await fetch(`/api/reviews/approve/${id}`, { method: 'POST' });
+                if (response.ok) {
+                    const result = await response.json();
+                    await AdminController.renderPendingReviews();
+                    showToast('Review approved and published!', 'success');
+                    
+                    // Dispatch custom event to update all pages
+                    window.dispatchEvent(new CustomEvent('reviewsUpdated'));
+                    
+                    // Also dispatch to other windows/tabs
+                    if (typeof BroadcastChannel !== 'undefined') {
+                        const bc = new BroadcastChannel('reviews_channel');
+                        bc.postMessage({ type: 'reviewsUpdated' });
+                    }
+                } else {
+                    throw new Error('Server not available');
+                }
+            } catch (error) {
+                console.warn('Using localStorage fallback for approving review:', error);
+                
+                let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+                let approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
+                const review = pendingReviews.find(r => r.id === id);
+                if (review) {
+                    // Ensure name is preserved
+                    if (!review.name || !review.name.trim()) {
+                        review.name = 'Anonymous Customer';
+                    }
+                    
+                    review.approvedDate = new Date().toISOString();
+                    review.status = 'approved';
+                    approvedReviews.push(review);
+                    pendingReviews = pendingReviews.filter(r => r.id !== id);
+                    
+                    localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+                    localStorage.setItem('approvedReviews', JSON.stringify(approvedReviews));
+                    
+                    AdminController.renderPendingReviews();
+                    showToast('Review approved and published!', 'success');
+                    
+                    // Trigger storage event to update index page
+                    window.dispatchEvent(new StorageEvent('storage', {
+                        key: 'approvedReviews',
+                        newValue: JSON.stringify(approvedReviews)
+                    }));
+                }
             }
         }
 
@@ -693,42 +774,140 @@
             renderBlogPosts();
             renderBookings(); // Call the function to render bookings
 
-            // Remove logout event listener from the publish button
-            document.getElementById('blogForm').addEventListener('submit', function(e) {
+            // Blog form submission handler for both create and update
+            document.getElementById('blogForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const title = document.getElementById('blogTitle').value;
                 const imageInput = document.getElementById('blogImage');
                 const content = document.getElementById('blogContent').value;
 
-                if (imageInput.files.length === 0) {
-                    showToast('Please select an image!', 'error');
-                    return;
-                }
+                try {
+                    if (window.editingPostId) {
+                        // Updating existing post
+                        const formData = new FormData();
+                        formData.append('title', title);
+                        formData.append('content', content);
+                        
+                        if (imageInput.files.length > 0) {
+                            formData.append('image', imageInput.files[0]);
+                        }
+                        
+                        const response = await fetch(`/api/blog/${window.editingPostId}`, {
+                            method: 'PUT',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            showToast('Post updated successfully!', 'success');
+                            renderBlogPosts();
+                            document.getElementById('blogForm').reset();
+                            window.editingPostId = null;
+                        } else {
+                            throw new Error('Failed to update post');
+                        }
+                    } else {
+                        // Creating new post
+                        if (imageInput.files.length === 0) {
+                            showToast('Please select an image!', 'error');
+                            return;
+                        }
 
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const image = event.target.result;
-                    const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-                    const newPost = {
-                        id: Date.now().toString(),
-                        title,
-                        image,
-                        content
-                    };
-                    blogPosts.push(newPost);
-                    localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-                    renderBlogPosts();
-                    showToast('Post published successfully!', 'success');
-                    document.getElementById('blogForm').reset();
-                };
-                reader.readAsDataURL(imageInput.files[0]);
+                        const formData = new FormData();
+                        formData.append('title', title);
+                        formData.append('content', content);
+                        formData.append('image', imageInput.files[0]);
+                        
+                        const response = await fetch('/api/blog', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            showToast('Post published successfully!', 'success');
+                            renderBlogPosts();
+                            document.getElementById('blogForm').reset();
+                        } else {
+                            throw new Error('Failed to create post');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Blog API error, using localStorage fallback:', error);
+                    // Fallback to localStorage logic as before
+                    if (window.editingPostId) {
+                        const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+                        const existingPost = blogPosts.find(post => post.id === window.editingPostId);
+                        
+                        if (existingPost) {
+                            existingPost.title = title;
+                            existingPost.content = content;
+                            existingPost.updatedAt = new Date().toISOString();
+                            
+                            if (imageInput.files.length > 0) {
+                                const reader = new FileReader();
+                                reader.onload = function(event) {
+                                    existingPost.image = event.target.result;
+                                    localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                                    renderBlogPosts();
+                                    showToast('Post updated successfully (locally)!', 'success');
+                                    document.getElementById('blogForm').reset();
+                                    window.editingPostId = null;
+                                };
+                                reader.readAsDataURL(imageInput.files[0]);
+                            } else {
+                                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                                renderBlogPosts();
+                                showToast('Post updated successfully (locally)!', 'success');
+                                document.getElementById('blogForm').reset();
+                                window.editingPostId = null;
+                            }
+                        }
+                    } else {
+                        if (imageInput.files.length === 0) {
+                            showToast('Please select an image!', 'error');
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const image = event.target.result;
+                            const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+                            const newPost = {
+                                id: Date.now().toString(),
+                                title,
+                                image,
+                                content,
+                                createdAt: new Date().toISOString()
+                            };
+                            blogPosts.push(newPost);
+                            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                            renderBlogPosts();
+                            showToast('Post published successfully (locally)!', 'success');
+                            document.getElementById('blogForm').reset();
+                        };
+                        reader.readAsDataURL(imageInput.files[0]);
+                    }
+                }
             });
         });
 
-        function renderBlogPosts() {
+        async function renderBlogPosts() {
             const container = document.getElementById('blogPosts');
-            const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-            container.innerHTML = ''; // Clear the container before rendering
+            let blogPosts = [];
+            
+            try {
+                const response = await fetch('/api/blog');
+                if (response.ok) {
+                    blogPosts = await response.json();
+                } else {
+                    // Fallback to localStorage
+                    blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+                }
+            } catch (error) {
+                console.error('Error fetching blog posts:', error);
+                // Fallback to localStorage
+                blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+            }
+            
             container.innerHTML = blogPosts.map(post => `
                 <div class="blog-card" data-id="${post.id}">
                     <h3>${post.title}</h3>
@@ -745,10 +924,97 @@
         function editBlogPost(id) {
             const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
             const post = blogPosts.find(post => post.id === id);
+            
+            if (!post) {
+                showToast('Post not found!', 'error');
+                return;
+            }
+            
+            // Fill the form with existing data
             document.getElementById('blogTitle').value = post.title;
-            document.getElementById('blogImage').value = post.image;
             document.getElementById('blogContent').value = post.content;
-            deleteBlogPost(id);
+            
+            // Create preview of current image
+            const imagePreview = document.getElementById('imagePreview');
+            if (imagePreview) {
+                imagePreview.src = post.image;
+                imagePreview.style.display = 'block';
+            }
+            
+            // Store the ID for updating
+            window.editingPostId = id;
+            
+            // Change form button to "Update Post"
+            const submitBtn = document.querySelector('#blogForm button[type="submit"]');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fa-solid fa-save me-2"></i>Update Post';
+                submitBtn.classList.remove('btn-primary');
+                submitBtn.classList.add('btn-warning');
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.style.display = 'block';
+            }
+            
+            // Make image field optional during edit
+            const imageInput = document.getElementById('blogImage');
+            if (imageInput) {
+                imageInput.required = false;
+            }
+            
+            // Scroll to form
+            document.querySelector('.tab-pane[role="tabpanel"]').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function cancelEdit() {
+            // Reset form
+            document.getElementById('blogForm').reset();
+            
+            // Clear editing state
+            delete window.editingPostId;
+            
+            // Reset button
+            const submitBtn = document.querySelector('#blogForm button[type="submit"]');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Publish Post';
+                submitBtn.classList.remove('btn-warning');
+                submitBtn.classList.add('btn-primary');
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.style.display = 'none';
+            }
+            
+            // Reset image field requirement
+            const imageInput = document.getElementById('blogImage');
+            if (imageInput) {
+                imageInput.required = true;
+            }
+            
+            // Hide image preview
+            const imagePreview = document.getElementById('imagePreview');
+            if (imagePreview) {
+                imagePreview.style.display = 'none';
+            }
+        }
+        
+        function updateBlogPost(id, updatedPost) {
+            let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+            const postIndex = blogPosts.findIndex(post => post.id === id);
+            
+            if (postIndex !== -1) {
+                blogPosts[postIndex] = { ...blogPosts[postIndex], ...updatedPost };
+                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                renderBlogPosts();
+                cancelEdit();
+                showToast('Post updated successfully!', 'success');
+                return true;
+            }
+            return false;
         }
 
         function confirmDelete(id) {
@@ -767,7 +1033,7 @@
             blogPosts = blogPosts.filter(post => post.id !== id);
             localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
             renderBlogPosts();
-            showToast('Post deleted successfully!', 'error');
+            showToast('Post deleted successfully!', 'success');
         }
 
         // Navigation between sections
@@ -780,22 +1046,51 @@
             });
         });
 
-        function renderBookings() {
-            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        async function renderBookings() {
+            let bookings = [];
+            try {
+                const response = await fetch('/api/bookings');
+                if (response.ok) {
+                    bookings = await response.json();
+                } else {
+                    throw new Error('Server not available');
+                }
+            } catch (error) {
+                console.warn('Loading bookings from localStorage fallback:', error);
+                bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            }
+
             const container = document.getElementById('bookings-list');
-            container.innerHTML = bookings.map(booking => `
-                <div class="review-card">
-                    <div class="review-meta">
-                        <span>Name: ${booking.name}</span>
-                        <span>Email: ${booking.email}</span>
-                        <span>Phone: ${booking.phone}</span>
+            container.innerHTML = bookings.map(booking => {
+                let kidsInfo = '';
+                if (booking.numKids && parseInt(booking.numKids) > 0) {
+                    kidsInfo += `<p><strong>Number of Kids:</strong> ${booking.numKids}</p>`;
+                    if (booking.kidsAboveThree) {
+                        kidsInfo += `<p><strong>Kids Above 3 Years:</strong> ${booking.kidsAboveThree}</p>`;
+                    }
+                    if (booking.kidsAges && booking.kidsAges.length > 0) {
+                        kidsInfo += `<p><strong>Kids Ages:</strong> ${booking.kidsAges.join(', ')} years</p>`;
+                    }
+                }
+
+                const submittedDate = booking.submitted || booking.submittedAt;
+                return `
+                    <div class="review-card">
+                        <div class="review-meta">
+                            <span><strong>Name:</strong> ${booking.name}</span>
+                            <span><strong>Email:</strong> ${booking.email}</span>
+                            <span><strong>Phone:</strong> ${booking.phone}</span>
+                        </div>
+                        <p><strong>Destination:</strong> ${booking.tour || booking.destination || 'N/A'}</p>
+                        <p><strong>Travel Date:</strong> ${booking.date || booking.travelDate || 'N/A'}</p>
+                        <p><strong>Passengers:</strong> ${booking.passengers}</p>
+                        ${kidsInfo}
+                        <p><strong>Comments:</strong> ${booking.message || 'No comments'}</p>
+                        ${submittedDate ? `<p><strong>Submitted:</strong> ${new Date(submittedDate).toLocaleString()}</p>` : ''}
+                        <p><strong>Status:</strong> <span class="badge bg-${booking.status === 'confirmed' ? 'success' : 'warning'}">${booking.status || 'pending'}</span></p>
                     </div>
-                    <p>Destination: ${booking.destination}</p>
-                    <p>Travel Date: ${booking.travelDate}</p>
-                    <p>Passengers: ${booking.passengers}</p>
-                    <p>Comments: ${booking.message}</p>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function deleteBooking(id) {
@@ -1028,6 +1323,23 @@ function renderBookingsWithStatus() {
             row.classList.add('table-light');
         }
         
+        // Format kids information
+        let kidsInfo = '';
+        if (booking.numKids && parseInt(booking.numKids) > 0) {
+            kidsInfo = `<span class="badge bg-info">${booking.numKids} kids</span>`;
+            
+            if (booking.kidsAges && booking.kidsAges.length > 0) {
+                const ages = Array.isArray(booking.kidsAges) ? booking.kidsAges : [booking.kidsAges];
+                kidsInfo += `<br><small class="text-muted">Ages: ${ages.join(', ')}</small>`;
+            }
+            
+            if (booking.kidsAboveThree && parseInt(booking.kidsAboveThree) > 0) {
+                kidsInfo += `<br><small class="text-success">${booking.kidsAboveThree} above 3yrs</small>`;
+            }
+        } else {
+            kidsInfo = '<small class="text-muted">No kids</small>';
+        }
+
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${booking.name || ''}</td>
@@ -1036,6 +1348,7 @@ function renderBookingsWithStatus() {
             <td>${booking.tour || booking.destination || ''}</td>
             <td>${booking.date || booking['travel-date'] || booking.travelDate || ''}</td>
             <td>${booking.passengers || ''}</td>
+            <td>${kidsInfo}</td>
             <td>${booking.message || ''}</td>
             <td>
                 <div class="d-flex align-items-center">
@@ -1049,6 +1362,76 @@ function renderBookingsWithStatus() {
     });
 }
 
+// Contact form functions
+async function renderContactForms() {
+    let contacts = [];
+    try {
+        const response = await fetch('/api/contacts');
+        if (response.ok) {
+            contacts = await response.json();
+        } else {
+            throw new Error('Server not available');
+        }
+    } catch (error) {
+        console.warn('Loading contacts from localStorage fallback:', error);
+        contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+    }
+
+    const tableBody = document.getElementById('contact-table-body');
+    const emptyMessage = document.getElementById('contact-empty-message');
+    
+    if (contacts.length === 0) {
+        tableBody.innerHTML = '';
+        emptyMessage.style.display = 'block';
+        return;
+    }
+    
+    emptyMessage.style.display = 'none';
+    tableBody.innerHTML = contacts.map((contact, index) => `
+        <tr>
+            <td><strong>${contact.name}</strong></td>
+            <td>${contact.email}</td>
+            <td>${contact.phone}</td>
+            <td>${contact.subject}</td>
+            <td>${contact.message}</td>
+            <td>${new Date(contact.submitted).toLocaleString()}</td>
+            <td>
+                <button class="btn btn-sm btn-danger" onclick="deleteContact('${contact.id}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function deleteContact(id) {
+    try {
+        const response = await fetch(`/api/contacts/${id}`, { method: 'DELETE' });
+        if (response.ok) {
+            renderContactForms();
+            showToast('Contact deleted successfully!', 'success');
+            return;
+        }
+    } catch (error) {
+        console.warn('Server not available, using localStorage fallback:', error);
+    }
+    
+    // Fallback to localStorage
+    let contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+    contacts = contacts.filter(contact => contact.id !== id);
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+    renderContactForms();
+    showToast('Contact deleted successfully!', 'success');
+}
+
+function clearContactForms() {
+    if (confirm('Are you sure you want to delete all contact form submissions?')) {
+        localStorage.removeItem('contacts');
+        renderContactForms();
+        showToast('All contact forms cleared!', 'success');
+    }
+}
+
 // Replace the existing renderBookings call
 document.addEventListener('DOMContentLoaded', function() {
     // Replace existing renderBookings calls with renderBookingsWithStatus
@@ -1056,6 +1439,19 @@ document.addEventListener('DOMContentLoaded', function() {
         window.renderBookings = renderBookingsWithStatus;
     }
     renderBookingsWithStatus();
+    renderContactForms();
+    
+    // Also load passenger stats when bookings tab is shown
+    const bookingsTab = document.getElementById('bookings-tab');
+    if (bookingsTab) {
+        bookingsTab.addEventListener('shown.bs.tab', function() {
+            renderBookingsWithStatus();
+            if (typeof getPassengerStats !== 'undefined' && typeof updatePassengerStats !== 'undefined') {
+                const stats = getPassengerStats();
+                updatePassengerStats(stats);
+            }
+        });
+    }
 }); 
 </script>
 </body>

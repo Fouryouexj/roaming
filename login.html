@@ -3,115 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Admin Login - Roaming Nomads Tours</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #FF6B35 0%, #FFFCF2 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .form-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #F7C59F;
+            --dark: #2D3047;
+            --light: #FFFCF2;
         }
-        .form-container h2 {
-            margin-bottom: 1.5rem;
-            color: #FF6B35;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            margin-top: 0.5rem;
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
-        .form-input input {
-            border: none;
-            outline: none;
-            flex: 1;
+
+        .login-container {
+            background: var(--light);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
-        .form-input i {
-            margin-right: 0.5rem;
-            color: #FF6B35;
+
+        .login-header {
+            margin-bottom: 2rem;
         }
-        .form-btn {
-            background: #FF6B35;
+
+        .login-header h2 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .login-btn {
+            background: var(--primary);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.875rem 2rem;
             border: none;
-            border-radius: 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            margin-top: 1rem;
         }
-        .form-btn:hover {
+
+        .login-btn:hover {
+            background: #e55a2b;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
         }
-        .form-footer {
-            text-align: center;
+
+        .login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: #ffe6e6;
+            color: #d63031;
+            padding: 0.75rem;
+            border-radius: 10px;
             margin-top: 1rem;
+            display: none;
         }
-        .form-footer a {
-            color: #FF6B35;
+
+        .success-message {
+            background: #e8f5e8;
+            color: #27ae60;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .back-home {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-home a {
+            color: var(--primary);
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
-        .form-footer a:hover {
-            text-decoration: underline;
+
+        .back-home a:hover {
+            color: var(--dark);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Login</h2>
+    <div class="login-container">
+        <div class="login-header">
+            <h2><i class="fas fa-shield-alt"></i> Admin Login</h2>
+            <p>Access the admin panel</p>
+        </div>
+
         <form id="loginForm">
             <div class="form-group">
-                <label for="username">Username</label>
-                <div class="form-input">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" required>
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="password">Password</label>
-                <div class="form-input">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password" required>
-                </div>
+                <input type="password" class="form-control" id="password" placeholder="Enter admin password" required>
             </div>
-            <button type="submit" class="form-btn">Login</button>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
         </form>
-        <div class="form-footer">
-            <p>Don't have an account? <a href="sign.html">Sign Up</a></p>
+
+        <div class="back-home">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
         </div>
     </div>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const username = document.getElementById('username').value;
+            
             const password = document.getElementById('password').value;
-            const auth = JSON.parse(localStorage.getItem('auth'));
-            if (auth && auth.username === username && auth.password === password) {
-                localStorage.setItem('authToken', 'authenticated');
-                window.location.href = 'admin.html';
-            } else {
-                alert('Invalid credentials');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store auth token
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('authExpiry', Date.now() + data.expiresIn);
+                    
+                    // Show success message
+                    successMessage.textContent = 'Login successful! Redirecting...';
+                    successMessage.style.display = 'block';
+                    
+                    // Redirect to admin panel
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message || 'Login failed. Please try again.';
+                errorMessage.style.display = 'block';
+                
+                // Re-enable button
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             }
         });
+
+        // Check if already logged in
+        function checkExistingAuth() {
+            const token = localStorage.getItem('authToken');
+            const expiry = localStorage.getItem('authExpiry');
+            
+            if (token && expiry && Date.now() < parseInt(expiry)) {
+                window.location.href = 'admin.html';
+            }
+        }
+        
+        checkExistingAuth();
     </script>
 </body>
 </html>

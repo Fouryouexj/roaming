@@ -1,5 +1,23 @@
 {
+  "name": "roaming-nomads-tour",
+  "version": "1.0.0",
+  "description": "Safari tour booking and management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "install-deps": "npm install"
+  },
   "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1",
     "swiper": "^11.0.7"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "keywords": ["safari", "tour", "booking", "tourism", "kenya"],
+  "author": "Roaming Nomads Tours",
+  "license": "ISC"
 }

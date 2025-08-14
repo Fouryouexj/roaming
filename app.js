@@ -33,45 +33,128 @@ const CONFIG = {
 
 const DataService = {
     async getPending() {
-        const res = await fetch('/api/reviews?status=pending');
-        if (!res.ok) return [];
-        return await res.json();
+        try {
+            const res = await fetch('/api/reviews?status=pending');
+            if (!res.ok) {
+                // Fallback to localStorage if server is not available
+                return JSON.parse(localStorage.getItem('pendingReviews')) || [];
+            }
+            return await res.json();
+        } catch (error) {
+            console.warn('Server not available, using localStorage:', error);
+            return JSON.parse(localStorage.getItem('pendingReviews')) || [];
+        }
     },
 
     async getApproved() {
-        const res = await fetch('/api/reviews?status=approved');
-        if (!res.ok) return [];
-        return await res.json();
+        try {
+            const res = await fetch('/api/reviews?status=approved');
+            if (!res.ok) {
+                return JSON.parse(localStorage.getItem('approvedReviews')) || [];
+            }
+            return await res.json();
+        } catch (error) {
+            console.warn('Server not available, using localStorage:', error);
+            return JSON.parse(localStorage.getItem('approvedReviews')) || [];
+        }
     },
 
     async savePending(reviews) {
-        const res = await fetch('/api/reviews/pending', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(reviews)
-        });
-        if (!res.ok) throw new Error('Failed to save pending reviews');
-        return await res.json();
+        try {
+            const res = await fetch('/api/reviews/pending', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reviews)
+            });
+            if (!res.ok) throw new Error('Failed to save pending reviews');
+            return await res.json();
+        } catch (error) {
+            // Fallback to localStorage
+            localStorage.setItem('pendingReviews', JSON.stringify(reviews));
+            return { success: true };
+        }
     },
 
     async saveApproved(reviews) {
-        const res = await fetch('/api/reviews/approved', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(reviews)
-        });
-        if (!res.ok) throw new Error('Failed to save approved reviews');
-        return await res.json();
+        try {
+            const res = await fetch('/api/reviews/approved', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reviews)
+            });
+            if (!res.ok) throw new Error('Failed to save approved reviews');
+            return await res.json();
+        } catch (error) {
+            // Fallback to localStorage
+            localStorage.setItem('approvedReviews', JSON.stringify(reviews));
+            return { success: true };
+        }
     },
 
     async addReview(review) {
-        const res = await fetch('/api/reviews', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(review)
-        });
-        if (!res.ok) throw new Error('Failed to submit review');
-        return await res.json();
+        try {
+            const res = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(review)
+            });
+            if (!res.ok) throw new Error('Failed to submit review');
+            return await res.json();
+        } catch (error) {
+            // Fallback to localStorage
+            const pending = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+            review.id = Date.now().toString();
+            review.date = new Date().toISOString();
+            review.status = 'pending';
+            pending.push(review);
+            localStorage.setItem('pendingReviews', JSON.stringify(pending));
+            return { review, message: 'Review submitted successfully' };
+        }
+    },
+
+    async approveReview(id) {
+        try {
+            const res = await fetch(`/api/reviews/approve/${id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (!res.ok) throw new Error('Failed to approve review');
+            return await res.json();
+        } catch (error) {
+            // Fallback to localStorage
+            let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+            let approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
+            
+            const reviewIndex = pendingReviews.findIndex(r => r.id === id);
+            if (reviewIndex !== -1) {
+                const [review] = pendingReviews.splice(reviewIndex, 1);
+                review.approvedDate = new Date().toISOString();
+                review.status = 'approved';
+                approvedReviews.push(review);
+                
+                localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+                localStorage.setItem('approvedReviews', JSON.stringify(approvedReviews));
+                
+                return { review, message: 'Review approved successfully' };
+            }
+            throw error;
+        }
+    },
+
+    async rejectReview(id) {
+        try {
+            const res = await fetch(`/api/reviews/${id}`, {
+                method: 'DELETE'
+            });
+            if (!res.ok) throw new Error('Failed to reject review');
+            return await res.json();
+        } catch (error) {
+            // Fallback to localStorage
+            let pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+            pendingReviews = pendingReviews.filter(r => r.id !== id);
+            localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+            return { message: 'Review rejected successfully' };
+        }
     }
 };
 
@@ -221,24 +304,31 @@ const PublicController = {
 const AdminController = {
     swiper: null,
 
-    initialize() {
+    async initialize() {
         AuthService.verifySession();
-        this.initUI();
+        await this.initUI();
         this.initSwiper();
         this.setupLogout();
     },
 
-    initUI() {
-        ReviewUI.renderPending();
-        document.getElementById('pending-count').textContent = 
-            DataService.getPending().length;
-        document.getElementById('approved-count').textContent = 
-            DataService.getApproved().length;
+    async initUI() {
+        await ReviewUI.renderPending();
+        try {
+            const pending = await DataService.getPending();
+            const approved = await DataService.getApproved();
+            const pendingCount = document.getElementById('pending-count');
+            const approvedCount = document.getElementById('approved-count');
+            
+            if (pendingCount) pendingCount.textContent = pending.length;
+            if (approvedCount) approvedCount.textContent = approved.length;
+        } catch (error) {
+            console.error('Error updating UI counts:', error);
+        }
     },
 
-    initSwiper() {
+    async initSwiper() {
         this.swiper = new Swiper('.swiper-container', CONFIG.swiperConfig);
-        ReviewUI.updateCarousel(this.swiper);
+        await ReviewUI.updateCarousel(this.swiper);
     },
 
     setupLogout() {
@@ -255,30 +345,27 @@ const AdminController = {
 // Admin Actions
 // ======================
 const AdminActions = {
-    approve(id) {
-        const pending = DataService.getPending();
-        const approved = DataService.getApproved();
-        const index = pending.findIndex(r => r.id === id);
-
-        if (index === -1) return;
-
-        const [review] = pending.splice(index, 1);
-        review.approvedDate = new Date().toISOString();
-        approved.push(review);
-
-        DataService.savePending(pending);
-        DataService.saveApproved(approved);
-        
-        AdminController.initUI();
-        ReviewUI.updateCarousel(AdminController.swiper);
-        showToast('Review approved successfully!', 'success');
+    async approve(id) {
+        try {
+            await DataService.approveReview(id);
+            await AdminController.initUI();
+            await ReviewUI.updateCarousel(AdminController.swiper);
+            showToast('Review approved successfully!', 'success');
+        } catch (error) {
+            console.error('Error approving review:', error);
+            showToast('Failed to approve review', 'error');
+        }
     },
 
-    reject(id) {
-        const pending = DataService.getPending().filter(r => r.id !== id);
-        DataService.savePending(pending);
-        AdminController.initUI();
-        showToast('Review rejected successfully!', 'error');
+    async reject(id) {
+        try {
+            await DataService.rejectReview(id);
+            await AdminController.initUI();
+            showToast('Review rejected successfully!', 'error');
+        } catch (error) {
+            console.error('Error rejecting review:', error);
+            showToast('Failed to reject review', 'error');
+        }
     }
 };
 
