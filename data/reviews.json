@@ -1,69 +1,5 @@
 {
-  "pending": [
-    {
-      "name": "Test User",
-      "email": "test@example.com",
-      "rating": 5,
-      "text": "Great service",
-      "id": "1755078486835",
-      "date": "2025-08-13T09:48:06.835Z",
-      "status": "pending"
-    },
-    {
-      "name": "fours",
-      "email": "sjjs@gmail",
-      "rating": 4,
-      "text": "hell",
-      "id": "1755083851725",
-      "date": "2025-08-13T11:17:31.725Z",
-      "status": "pending"
-    },
-    {
-      "name": "Sammy Kifore",
-      "email": "fouryouex@outlook.com",
-      "rating": 5,
-      "text": "sasas",
-      "id": "1755083915358",
-      "date": "2025-08-13T11:18:35.358Z",
-      "status": "pending"
-    },
-    {
-      "name": "fours",
-      "email": "elvisodhiambo66@gmail.com",
-      "rating": 5,
-      "text": "asasasa",
-      "id": "1755084176375",
-      "date": "2025-08-13T11:22:56.375Z",
-      "status": "pending"
-    },
-    {
-      "name": "fours",
-      "email": "elvisodhiambo66@gmail.com",
-      "rating": 3,
-      "text": "asaasa",
-      "id": "1755084229895",
-      "date": "2025-08-13T11:23:49.895Z",
-      "status": "pending"
-    },
-    {
-      "name": "fours",
-      "email": "Jammie@gmail.com",
-      "rating": 2,
-      "text": "dasdsa",
-      "id": "1755084321507",
-      "date": "2025-08-13T11:25:21.507Z",
-      "status": "pending"
-    },
-    {
-      "name": "hamesb",
-      "email": "elvisodhiambo66@gmail.com",
-      "rating": 1,
-      "text": "sand",
-      "id": "1755084403777",
-      "date": "2025-08-13T11:26:43.777Z",
-      "status": "pending"
-    }
-  ],
+  "pending": [],
   "approved": [
     {
       "name": "Test User",
@@ -84,6 +20,126 @@
       "date": "2025-08-14T20:32:56.917Z",
       "status": "approved",
       "approvedDate": "2025-08-14T20:33:07.109Z"
+    },
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "rating": 5,
+      "text": "Great service",
+      "id": "1755078486835",
+      "date": "2025-08-13T09:48:06.835Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:52:52.896Z"
+    },
+    {
+      "name": "fours",
+      "email": "sjjs@gmail",
+      "rating": 4,
+      "text": "hell",
+      "id": "1755083851725",
+      "date": "2025-08-13T11:17:31.725Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:19.429Z"
+    },
+    {
+      "name": "Sammy Kifore",
+      "email": "fouryouex@outlook.com",
+      "rating": 5,
+      "text": "sasas",
+      "id": "1755083915358",
+      "date": "2025-08-13T11:18:35.358Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:20.666Z"
+    },
+    {
+      "name": "fours",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 5,
+      "text": "asasasa",
+      "id": "1755084176375",
+      "date": "2025-08-13T11:22:56.375Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:21.449Z"
+    },
+    {
+      "name": "fours",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 3,
+      "text": "asaasa",
+      "id": "1755084229895",
+      "date": "2025-08-13T11:23:49.895Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:22.129Z"
+    },
+    {
+      "name": "fours",
+      "email": "Jammie@gmail.com",
+      "rating": 2,
+      "text": "dasdsa",
+      "id": "1755084321507",
+      "date": "2025-08-13T11:25:21.507Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:22.848Z"
+    },
+    {
+      "name": "hamesb",
+      "email": "elvisodhiambo66@gmail.com",
+      "rating": 1,
+      "text": "sand",
+      "id": "1755084403777",
+      "date": "2025-08-13T11:26:43.777Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T07:55:24.872Z"
+    },
+    {
+      "name": "Test User",
+      "email": "test@test.com",
+      "rating": 5,
+      "text": "API Test Review",
+      "id": "1755271171255",
+      "date": "2025-08-15T15:19:31.255Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T16:42:22.675Z"
+    },
+    {
+      "name": "Brian Munyalo",
+      "email": "Fouryouex@outlook.com",
+      "rating": 3,
+      "text": "Yelloz",
+      "id": "1755278789610",
+      "date": "2025-08-15T17:26:29.610Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T17:28:35.287Z"
+    },
+    {
+      "name": "Brian Munyalo",
+      "email": "Fouryouex@outlook.com",
+      "rating": 5,
+      "text": "Yoh yoh",
+      "id": "1755279180383",
+      "date": "2025-08-15T17:33:00.383Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T17:38:07.642Z"
+    },
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "rating": 5,
+      "text": "Great service and amazing tours!",
+      "id": "1755278105646",
+      "date": "2025-08-15T17:15:05.646Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T17:38:09.420Z"
+    },
+    {
+      "name": "Frontend Test User",
+      "email": "frontend@test.com",
+      "rating": 4,
+      "text": "Testing frontend integration fix",
+      "id": "1755278615024",
+      "date": "2025-08-15T17:23:35.024Z",
+      "status": "approved",
+      "approvedDate": "2025-08-15T17:38:11.278Z"
     }
   ]
 }

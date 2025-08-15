@@ -10,7 +10,15 @@ async function saveCorpBooking(booking) {
         });
         
         if (response.ok) {
-            return await response.json();
+            const result = await response.json();
+            
+            // Notify other pages about corporate booking update
+            if (typeof BroadcastChannel !== 'undefined') {
+                const bc = new BroadcastChannel('corpbookings_channel');
+                bc.postMessage({ type: 'corpBookingsUpdated' });
+            }
+            
+            return result;
         } else {
             throw new Error('Server request failed');
         }

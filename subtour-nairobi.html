@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/IMG-20250222-WA0014.jpg" type="image">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap@5.0.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/bootstrap@5.2.3/dist/js/bootstrap.bundler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+IT+Moderna:wght@100..400&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
@@ -99,7 +99,7 @@
     <section id="target-section">
         <div class="form-container">
             <h6>Travel Booking Form</h6>
-            <form id="bookingForm">
+            <form id="bookingForm" class="booking-form">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" placeholder="Name" required>
@@ -200,9 +200,116 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script src="form.js"></script>
+    <script src="passenger-types.js"></script>
+    <script src="booking-form-handler.js"></script>
+    <script>
+        // Enhanced booking form logic for adults and kids
+        document.addEventListener('DOMContentLoaded', function() {
+            const passengerTypeSelect = document.getElementById('passenger-type');
+            const kidFieldsContainer = document.getElementById('kid-fields-container');
+            const numKidsInput = document.getElementById('num-kids');
+            const kidsAgesContainer = document.getElementById('kids-ages-container');
+            const kidsAboveThreeInput = document.getElementById('kids-above-three');
+            
+            // Show/hide kids fields based on passenger type
+            passengerTypeSelect.addEventListener('change', function() {
+                if (this.value === 'Kid') {
+                    kidFieldsContainer.style.display = 'block';
+                    kidFieldsContainer.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    kidFieldsContainer.style.display = 'none';
+                    // Clear kids fields when hidden
+                    numKidsInput.value = '';
+                    kidsAgesContainer.innerHTML = '';
+                    kidsAboveThreeInput.value = '';
+                }
+            });
+            
+            // Generate age input fields when number of kids changes
+            numKidsInput.addEventListener('input', function() {
+                const numKids = parseInt(this.value) || 0;
+                kidsAgesContainer.innerHTML = '';
+                
+                if (numKids > 0) {
+                    for (let i = 0; i < numKids; i++) {
+                        const ageDiv = document.createElement('div');
+                        ageDiv.className = 'kid-age-input-group mb-2';
+                        ageDiv.innerHTML = `
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-child" style="color: #FF6B35;"></i>
+                                </span>
+                                <input type="number" 
+                                       class="form-control kid-age-input" 
+                                       name="kid-age-${i + 1}" 
+                                       placeholder="Age of kid ${i + 1}" 
+                                       min="0" 
+                                       max="17"
+                                       style="border-radius: 0 8px 8px 0;">
+                            </div>
+                        `;
+                        kidsAgesContainer.appendChild(ageDiv);
+                    }
+                    
+                    // Add event listeners to calculate kids above 3
+                    const ageInputs = kidsAgesContainer.querySelectorAll('.kid-age-input');
+                    ageInputs.forEach(input => {
+                        input.addEventListener('input', calculateKidsAboveThree);
+                    });
+                }
+            });
+            
+            // Calculate number of kids above 3 years
+            function calculateKidsAboveThree() {
+                const ageInputs = kidsAgesContainer.querySelectorAll('.kid-age-input');
+                let kidsAboveThree = 0;
+                
+                ageInputs.forEach(input => {
+                    const age = parseInt(input.value) || 0;
+                    if (age >= 3) {
+                        kidsAboveThree++;
+                    }
+                });
+                
+                kidsAboveThreeInput.value = kidsAboveThree;
+            }
+        });
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .kid-age-input-group {
+            transition: all 0.3s ease;
+        }
+        
+        .kid-age-input-group:hover {
+            transform: translateX(5px);
+        }
+        
+        .input-group-text {
+            background: linear-gradient(135deg, #FF6B35, #FFD700);
+            border: none;
+            color: white;
+        }
+        
+        #kid-fields-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #FF6B35;
+            margin-top: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+    </style>
 
-    </body>
+        <script src="translator.js"></script>
+</body>
 
 </html>

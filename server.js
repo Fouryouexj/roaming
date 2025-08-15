@@ -438,6 +438,7 @@ app.delete('/api/posters/:id', async (req, res) => {
     }
 });
 
+
 // Statistics API
 app.get('/api/stats', async (req, res) => {
     try {

@@ -350,7 +350,7 @@
       </div>
       <ul class="nav nav-pills mb-4 bg-light rounded-4 p-2 shadow-sm d-flex justify-content-between flex-row gap-3" id="adminTab" role="tablist" style="gap:2rem;">
         <li class="nav-item flex-fill text-center" role="presentation">
-          <button class="nav-link w-100" id="reviews-tab" data-bs-toggle="pill" data-bs-target="#reviews" type="button" role="tab">Reviews</button>
+          <button class="nav-link w-100 active" id="reviews-tab" data-bs-toggle="pill" data-bs-target="#reviews" type="button" role="tab">Reviews</button>
         </li>
         <li class="nav-item flex-fill text-center" role="presentation">
           <button class="nav-link w-100" id="blog-tab" data-bs-toggle="pill" data-bs-target="#blog" type="button" role="tab">Blog</button>
@@ -370,37 +370,158 @@
         <h2 class="mb-4"><i class="fa-solid fa-star text-warning"></i> Pending Reviews</h2>
         <div id="reviews-list" class="row g-4"></div>
     </div>
+        <!-- Modern Blog Management Section -->
         <div class="tab-pane fade" id="blog" role="tabpanel">
-          <div class="row">
-            <div class="col-lg-5 mb-4 mb-lg-0">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                  <h2 class="mb-3"><i class="fa-solid fa-pen-nib text-primary"></i> Create New Post</h2>
-                  <form id="blogForm">
-                    <div class="mb-3">
-                      <label class="form-label">Title</label>
-                      <input type="text" class="form-control" id="blogTitle" required>
+          <div class="container-fluid px-0">
+            <!-- Header with Actions -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h2 class="mb-1"><i class="fas fa-blog text-primary me-2"></i> Blog Management</h2>
+                <p class="text-muted mb-0">Create, edit, and manage your blog posts</p>
+              </div>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openCreateModal()">
+                <i class="fas fa-plus me-2"></i>Create New Post
+              </button>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="card mb-4 border-0 shadow-sm">
+              <div class="card-body py-3">
+                <div class="row g-3 align-items-center">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <span class="input-group-text border-end-0 bg-transparent">
+                        <i class="fas fa-search text-muted"></i>
+                      </span>
+                      <input type="text" class="form-control border-start-0" placeholder="Search posts..." id="blogSearch">
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label">Image</label>
-                      <input type="file" class="form-control" id="blogImage" required>
-                      <img id="imagePreview" style="display: none; width: 100%; max-width: 200px; height: auto; border-radius: 5px; margin-top: 10px;">
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-select" id="blogFilter">
+                      <option value="all">All Posts</option>
+                      <option value="recent">Recent Posts</option>
+                      <option value="older">Older Posts</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="text-end">
+                      <span class="text-muted small">Total Posts: <span id="totalPosts" class="fw-bold text-primary">0</span></span>
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label">Content</label>
-                      <textarea class="form-control" id="blogContent" rows="5" required></textarea>
-                    </div>
-                    <div class="d-flex gap-2">
-                      <button type="submit" class="btn btn-primary flex-grow-1"><i class="fa-solid fa-paper-plane me-2"></i>Publish Post</button>
-                      <button type="button" id="cancelEditBtn" class="btn btn-secondary" onclick="cancelEdit()" style="display: none;"><i class="fa-solid fa-times me-2"></i>Cancel</button>
-                    </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-7">
-              <h2 class="mb-3"><i class="fa-solid fa-newspaper text-secondary"></i> Existing Posts</h2>
-              <div id="blogPosts" class="row g-4"></div>
+
+            <!-- Posts Grid -->
+            <div id="blogPostsContainer" class="row g-4">
+              <!-- Posts will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-5" style="display: none;">
+              <div class="empty-illustration mb-4">
+                <i class="fas fa-blog" style="font-size: 4rem; color: #e9ecef;"></i>
+              </div>
+              <h4 class="text-muted">No blog posts yet</h4>
+              <p class="text-muted mb-4">Start creating engaging content for your audience</p>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openCreateModal()">
+                <i class="fas fa-plus me-2"></i>Create Your First Post
+              </button>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-5" style="display: none;">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="text-muted mt-3">Loading blog posts...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog Create/Edit Modal -->
+        <div class="modal fade" id="blogModal" tabindex="-1" aria-labelledby="blogModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0">
+              <div class="modal-header border-bottom-0 pb-0">
+                <h1 class="modal-title h4" id="blogModalLabel">
+                  <i class="fas fa-edit text-primary me-2"></i>
+                  <span id="modalTitle">Create New Post</span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body pt-2">
+                <form id="blogForm" enctype="multipart/form-data">
+                  <input type="hidden" id="postId">
+                  
+                  <div class="mb-4">
+                    <label for="blogTitle" class="form-label fw-medium">Post Title</label>
+                    <input type="text" class="form-control form-control-lg" id="blogTitle" required 
+                           placeholder="Enter an engaging title for your post">
+                    <div class="form-text">Keep it concise and descriptive</div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="blogImage" class="form-label fw-medium">Featured Image</label>
+                    <div class="image-upload-container">
+                      <input type="file" class="form-control" id="blogImage" accept="image/*" required>
+                      <div class="form-text mb-3">Upload a high-quality image (JPG, PNG, or WebP)</div>
+                      
+                      <!-- Image Preview -->
+                      <div id="imagePreviewContainer" class="mt-3" style="display: none;">
+                        <div class="position-relative d-inline-block">
+                          <img id="imagePreview" class="rounded shadow-sm" style="max-width: 100%; max-height: 200px;">
+                          <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" 
+                                  onclick="removeImage()" title="Remove image">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="blogContent" class="form-label fw-medium">Content</label>
+                    <textarea class="form-control" id="blogContent" rows="8" required 
+                              placeholder="Write your blog post content here..."></textarea>
+                    <div class="form-text">Share your thoughts, experiences, and insights</div>
+                  </div>
+
+                  <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
+                      <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4" id="submitBtn">
+                      <i class="fas fa-save me-2"></i>
+                      <span id="submitBtnText">Create Post</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content border-0">
+              <div class="modal-header border-bottom-0 pb-2">
+                <h1 class="modal-title h5" id="deleteModalLabel">
+                  <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                  Confirm Delete
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body pt-0">
+                <p class="mb-0">Are you sure you want to delete this blog post? This action cannot be undone.</p>
+              </div>
+              <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                  <i class="fas fa-trash me-2"></i>Delete Post
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -436,10 +557,27 @@
           <div id="corp-bookings-section"></div>
           <script>
           // Render corporate bookings in the admin panel
-          function renderCorpBookings() {
+          async function renderCorpBookings() {
               const container = document.getElementById('corp-bookings-section');
-              const corpBookings = JSON.parse(localStorage.getItem('corpBookings') || '[]');
               if (!container) return;
+              
+              let corpBookings = [];
+              
+              try {
+                  const response = await fetch('/api/corp-bookings');
+                  if (response.ok) {
+                      corpBookings = await response.json();
+                      console.log('Loading corp bookings from server:', corpBookings);
+                  } else {
+                      // Fallback to localStorage
+                      corpBookings = JSON.parse(localStorage.getItem('corpBookings') || '[]');
+                      console.log('Loading corp bookings from localStorage:', corpBookings);
+                  }
+              } catch (error) {
+                  console.error('Error fetching corp bookings:', error);
+                  // Fallback to localStorage
+                  corpBookings = JSON.parse(localStorage.getItem('corpBookings') || '[]');
+              }
               if (corpBookings.length === 0) {
                   container.innerHTML = `<div class="text-center text-muted py-4">No corporate bookings yet.</div>`;
                   return;
@@ -771,280 +909,27 @@
             AdminController.setupLogout();
             AdminController.setupStorageListener();
             AdminController.renderPendingReviews();
-            renderBlogPosts();
             renderBookings(); // Call the function to render bookings
 
-            // Blog form submission handler for both create and update
-            document.getElementById('blogForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const title = document.getElementById('blogTitle').value;
-                const imageInput = document.getElementById('blogImage');
-                const content = document.getElementById('blogContent').value;
-
-                try {
-                    if (window.editingPostId) {
-                        // Updating existing post
-                        const formData = new FormData();
-                        formData.append('title', title);
-                        formData.append('content', content);
-                        
-                        if (imageInput.files.length > 0) {
-                            formData.append('image', imageInput.files[0]);
-                        }
-                        
-                        const response = await fetch(`/api/blog/${window.editingPostId}`, {
-                            method: 'PUT',
-                            body: formData
-                        });
-                        
-                        if (response.ok) {
-                            showToast('Post updated successfully!', 'success');
-                            renderBlogPosts();
-                            document.getElementById('blogForm').reset();
-                            window.editingPostId = null;
-                        } else {
-                            throw new Error('Failed to update post');
-                        }
-                    } else {
-                        // Creating new post
-                        if (imageInput.files.length === 0) {
-                            showToast('Please select an image!', 'error');
-                            return;
-                        }
-
-                        const formData = new FormData();
-                        formData.append('title', title);
-                        formData.append('content', content);
-                        formData.append('image', imageInput.files[0]);
-                        
-                        const response = await fetch('/api/blog', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        if (response.ok) {
-                            showToast('Post published successfully!', 'success');
-                            renderBlogPosts();
-                            document.getElementById('blogForm').reset();
-                        } else {
-                            throw new Error('Failed to create post');
-                        }
+            // Initialize modern blog CRUD interface when blog tab is clicked
+            const blogTab = document.getElementById('blog-tab');
+            if (blogTab) {
+                blogTab.addEventListener('shown.bs.tab', function() {
+                    if (!BlogManager.initialized) {
+                        BlogManager.init();
+                        BlogManager.initialized = true;
                     }
-                } catch (error) {
-                    console.error('Blog API error, using localStorage fallback:', error);
-                    // Fallback to localStorage logic as before
-                    if (window.editingPostId) {
-                        const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-                        const existingPost = blogPosts.find(post => post.id === window.editingPostId);
-                        
-                        if (existingPost) {
-                            existingPost.title = title;
-                            existingPost.content = content;
-                            existingPost.updatedAt = new Date().toISOString();
-                            
-                            if (imageInput.files.length > 0) {
-                                const reader = new FileReader();
-                                reader.onload = function(event) {
-                                    existingPost.image = event.target.result;
-                                    localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-                                    renderBlogPosts();
-                                    showToast('Post updated successfully (locally)!', 'success');
-                                    document.getElementById('blogForm').reset();
-                                    window.editingPostId = null;
-                                };
-                                reader.readAsDataURL(imageInput.files[0]);
-                            } else {
-                                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-                                renderBlogPosts();
-                                showToast('Post updated successfully (locally)!', 'success');
-                                document.getElementById('blogForm').reset();
-                                window.editingPostId = null;
-                            }
-                        }
-                    } else {
-                        if (imageInput.files.length === 0) {
-                            showToast('Please select an image!', 'error');
-                            return;
-                        }
+                });
+            }
 
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            const image = event.target.result;
-                            const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-                            const newPost = {
-                                id: Date.now().toString(),
-                                title,
-                                image,
-                                content,
-                                createdAt: new Date().toISOString()
-                            };
-                            blogPosts.push(newPost);
-                            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-                            renderBlogPosts();
-                            showToast('Post published successfully (locally)!', 'success');
-                            document.getElementById('blogForm').reset();
-                        };
-                        reader.readAsDataURL(imageInput.files[0]);
-                    }
-                }
-            });
-        });
+            // Also initialize if blog tab is already active
+            const blogTabActive = document.querySelector('#blog-tab.active');
+            if (blogTabActive || window.location.hash === '#blog') {
+                BlogManager.init();
+                BlogManager.initialized = true;
+            }
 
-        async function renderBlogPosts() {
-            const container = document.getElementById('blogPosts');
-            let blogPosts = [];
-            
-            try {
-                const response = await fetch('/api/blog');
-                if (response.ok) {
-                    blogPosts = await response.json();
-                } else {
-                    // Fallback to localStorage
-                    blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-                }
-            } catch (error) {
-                console.error('Error fetching blog posts:', error);
-                // Fallback to localStorage
-                blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-            }
-            
-            container.innerHTML = blogPosts.map(post => `
-                <div class="blog-card" data-id="${post.id}">
-                    <h3>${post.title}</h3>
-                    <img src="${post.image}" alt="${post.title}" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 1rem;">
-                    <p>${post.content}</p>
-                    <div class="blog-actions">
-                        <button class="action-btn edit-btn" onclick="editBlogPost('${post.id}')">Edit</button>
-                        <button class="action-btn delete-btn" onclick="confirmDelete('${post.id}')">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function editBlogPost(id) {
-            const blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-            const post = blogPosts.find(post => post.id === id);
-            
-            if (!post) {
-                showToast('Post not found!', 'error');
-                return;
-            }
-            
-            // Fill the form with existing data
-            document.getElementById('blogTitle').value = post.title;
-            document.getElementById('blogContent').value = post.content;
-            
-            // Create preview of current image
-            const imagePreview = document.getElementById('imagePreview');
-            if (imagePreview) {
-                imagePreview.src = post.image;
-                imagePreview.style.display = 'block';
-            }
-            
-            // Store the ID for updating
-            window.editingPostId = id;
-            
-            // Change form button to "Update Post"
-            const submitBtn = document.querySelector('#blogForm button[type="submit"]');
-            const cancelBtn = document.getElementById('cancelEditBtn');
-            
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fa-solid fa-save me-2"></i>Update Post';
-                submitBtn.classList.remove('btn-primary');
-                submitBtn.classList.add('btn-warning');
-            }
-            
-            if (cancelBtn) {
-                cancelBtn.style.display = 'block';
-            }
-            
-            // Make image field optional during edit
-            const imageInput = document.getElementById('blogImage');
-            if (imageInput) {
-                imageInput.required = false;
-            }
-            
-            // Scroll to form
-            document.querySelector('.tab-pane[role="tabpanel"]').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function cancelEdit() {
-            // Reset form
-            document.getElementById('blogForm').reset();
-            
-            // Clear editing state
-            delete window.editingPostId;
-            
-            // Reset button
-            const submitBtn = document.querySelector('#blogForm button[type="submit"]');
-            const cancelBtn = document.getElementById('cancelEditBtn');
-            
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane me-2"></i>Publish Post';
-                submitBtn.classList.remove('btn-warning');
-                submitBtn.classList.add('btn-primary');
-            }
-            
-            if (cancelBtn) {
-                cancelBtn.style.display = 'none';
-            }
-            
-            // Reset image field requirement
-            const imageInput = document.getElementById('blogImage');
-            if (imageInput) {
-                imageInput.required = true;
-            }
-            
-            // Hide image preview
-            const imagePreview = document.getElementById('imagePreview');
-            if (imagePreview) {
-                imagePreview.style.display = 'none';
-            }
-        }
-        
-        function updateBlogPost(id, updatedPost) {
-            let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-            const postIndex = blogPosts.findIndex(post => post.id === id);
-            
-            if (postIndex !== -1) {
-                blogPosts[postIndex] = { ...blogPosts[postIndex], ...updatedPost };
-                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-                renderBlogPosts();
-                cancelEdit();
-                showToast('Post updated successfully!', 'success');
-                return true;
-            }
-            return false;
-        }
-
-        function confirmDelete(id) {
-            document.getElementById('modal').style.display = 'flex';
-            document.getElementById('confirmDelete').onclick = function() {
-                deleteBlogPost(id);
-                document.getElementById('modal').style.display = 'none';
-            };
-            document.getElementById('cancelDelete').onclick = function() {
-                document.getElementById('modal').style.display = 'none';
-            };
-        }
-
-        function deleteBlogPost(id) {
-            let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-            blogPosts = blogPosts.filter(post => post.id !== id);
-            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
-            renderBlogPosts();
-            showToast('Post deleted successfully!', 'success');
-        }
-
-        // Navigation between sections
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
-                document.getElementById(this.dataset.target).classList.add('active');
-            });
-        });
+        // Bootstrap tabs handle navigation automatically - no custom code needed
 
         async function renderBookings() {
             let bookings = [];
@@ -1105,10 +990,617 @@
             AdminController.setupLogout();
             AdminController.setupStorageListener();
             AdminController.renderPendingReviews();
-            renderBlogPosts();
             renderBookings(); // Call the function to render bookings
+            
+            // Cross-tab communication for corporate bookings
+            if (typeof BroadcastChannel !== 'undefined') {
+                const corpBC = new BroadcastChannel('corpbookings_channel');
+                corpBC.addEventListener('message', async function(event) {
+                    if (event.data.type === 'corpBookingsUpdated') {
+                        console.log('Corp bookings updated via BroadcastChannel, reloading...');
+                        await renderCorpBookings();
+                    }
+                });
+            }
+        });
+
+        // Modern Blog Management System
+        const BlogManager = {
+            currentPosts: [],
+            isEditing: false,
+            editingId: null,
+            initialized: false,
+
+            init() {
+                this.bindEvents();
+                this.loadPosts();
+                this.setupImagePreview();
+                this.setupSearch();
+            },
+
+            bindEvents() {
+                // Form submission
+                const form = document.getElementById('blogForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => this.handleSubmit(e));
+                }
+
+                // Delete confirmation
+                const deleteBtn = document.getElementById('confirmDeleteBtn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', () => this.performDelete());
+                }
+
+                // Search and filter
+                const searchInput = document.getElementById('blogSearch');
+                const filterSelect = document.getElementById('blogFilter');
+                
+                if (searchInput) {
+                    searchInput.addEventListener('input', () => this.filterPosts());
+                }
+                
+                if (filterSelect) {
+                    filterSelect.addEventListener('change', () => this.filterPosts());
+                }
+            },
+
+            setupImagePreview() {
+                const imageInput = document.getElementById('blogImage');
+                if (!imageInput) return;
+
+                imageInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    const previewContainer = document.getElementById('imagePreviewContainer');
+                    const preview = document.getElementById('imagePreview');
+
+                    if (file && preview && previewContainer) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            preview.src = e.target.result;
+                            previewContainer.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            },
+
+            setupSearch() {
+                const searchInput = document.getElementById('blogSearch');
+                if (!searchInput) return;
+
+                // Debounce search
+                let searchTimeout;
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => this.filterPosts(), 300);
+                });
+            },
+
+            async loadPosts() {
+                this.showLoading();
+                
+                try {
+                    const response = await fetch('/api/blog');
+                    if (response.ok) {
+                        this.currentPosts = await response.json();
+                    } else {
+                        // Fallback to localStorage
+                        this.currentPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+                    }
+                } catch (error) {
+                    console.error('Error loading posts:', error);
+                    this.currentPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+                }
+
+                this.renderPosts(this.currentPosts);
+                this.updateTotalCount(this.currentPosts.length);
+                this.hideLoading();
+            },
+
+            renderPosts(posts) {
+                const container = document.getElementById('blogPostsContainer');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (!container) return;
+
+                if (posts.length === 0) {
+                    container.innerHTML = '';
+                    if (emptyState) emptyState.style.display = 'block';
+                    return;
+                }
+
+                if (emptyState) emptyState.style.display = 'none';
+
+                container.innerHTML = posts.map(post => this.createPostCard(post)).join('');
+            },
+
+            createPostCard(post) {
+                const createdDate = new Date(post.createdAt || post.date).toLocaleDateString();
+                const updatedDate = post.updatedAt ? new Date(post.updatedAt).toLocaleDateString() : null;
+                
+                return `
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 border-0 shadow-sm post-card" data-id="${post.id}">
+                            <div class="position-relative">
+                                <img src="${post.image}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="${post.title}">
+                                <div class="position-absolute top-0 end-0 m-2">
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-sm rounded-circle" type="button" data-bs-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#" onclick="BlogManager.editPost('${post.id}')">
+                                                <i class="fas fa-edit me-2"></i>Edit
+                                            </a></li>
+                                            <li><a class="dropdown-item text-danger" href="#" onclick="BlogManager.confirmDelete('${post.id}')">
+                                                <i class="fas fa-trash me-2"></i>Delete
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-2">${post.title}</h5>
+                                <p class="card-text text-muted flex-grow-1">${this.truncateText(post.content, 120)}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        ${createdDate}
+                                        ${updatedDate ? `<br><i class="fas fa-edit me-1"></i>Updated: ${updatedDate}` : ''}
+                                    </small>
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="BlogManager.editPost('${post.id}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="BlogManager.confirmDelete('${post.id}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            truncateText(text, maxLength) {
+                if (text.length <= maxLength) return text;
+                return text.substr(0, maxLength) + '...';
+            },
+
+            filterPosts() {
+                const searchTerm = document.getElementById('blogSearch')?.value.toLowerCase() || '';
+                const filter = document.getElementById('blogFilter')?.value || 'all';
+                
+                let filteredPosts = this.currentPosts;
+
+                // Apply search filter
+                if (searchTerm) {
+                    filteredPosts = filteredPosts.filter(post =>
+                        post.title.toLowerCase().includes(searchTerm) ||
+                        post.content.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Apply date filter
+                if (filter === 'recent') {
+                    const oneWeekAgo = new Date();
+                    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                    filteredPosts = filteredPosts.filter(post => 
+                        new Date(post.createdAt || post.date) > oneWeekAgo
+                    );
+                } else if (filter === 'older') {
+                    const oneWeekAgo = new Date();
+                    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                    filteredPosts = filteredPosts.filter(post => 
+                        new Date(post.createdAt || post.date) <= oneWeekAgo
+                    );
+                }
+
+                this.renderPosts(filteredPosts);
+                this.updateTotalCount(filteredPosts.length, this.currentPosts.length);
+            },
+
+            updateTotalCount(filtered, total = null) {
+                const countElement = document.getElementById('totalPosts');
+                if (countElement) {
+                    countElement.textContent = total ? `${filtered} of ${total}` : filtered;
+                }
+            },
+
+            showLoading() {
+                const loading = document.getElementById('loadingState');
+                const container = document.getElementById('blogPostsContainer');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (loading) loading.style.display = 'block';
+                if (container) container.innerHTML = '';
+                if (emptyState) emptyState.style.display = 'none';
+            },
+
+            hideLoading() {
+                const loading = document.getElementById('loadingState');
+                if (loading) loading.style.display = 'none';
+            },
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('submitBtn');
+                const originalText = submitBtn?.innerHTML;
+                
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                }
+
+                try {
+                    const formData = new FormData();
+                    const title = document.getElementById('blogTitle').value;
+                    const content = document.getElementById('blogContent').value;
+                    
+                    formData.append('title', title);
+                    formData.append('content', content);
+                    
+                    const imageInput = document.getElementById('blogImage');
+                    
+                    if (imageInput?.files?.[0]) {
+                        formData.append('image', imageInput.files[0]);
+                    } else if (!this.isEditing) {
+                        showToast('Please select an image for your blog post', 'error');
+                        return;
+                    }
+
+                    let response;
+                    if (this.isEditing && this.editingId) {
+                        response = await fetch(`/api/blog/${this.editingId}`, {
+                            method: 'PUT',
+                            body: formData
+                        });
+                    } else {
+                        response = await fetch('/api/blog', {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        const message = this.isEditing ? 'Post updated successfully!' : 'Post created successfully!';
+                        showToast(message, 'success');
+                        
+                        this.closeModal();
+                        this.resetForm();
+                        this.loadPosts();
+                        
+                        // Notify other pages
+                        this.broadcastUpdate();
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (error) {
+                    console.error('Error saving post:', error);
+                    showToast('Error saving post. Please try again.', 'error');
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }
+                }
+            },
+
+            editPost(id) {
+                const post = this.currentPosts.find(p => p.id === id);
+                if (!post) {
+                    showToast('Post not found!', 'error');
+                    return;
+                }
+
+                this.isEditing = true;
+                this.editingId = id;
+
+                // Fill form
+                document.getElementById('blogTitle').value = post.title;
+                document.getElementById('blogContent').value = post.content;
+                document.getElementById('postId').value = id;
+
+                // Update modal
+                document.getElementById('modalTitle').textContent = 'Edit Post';
+                document.getElementById('submitBtnText').textContent = 'Update Post';
+
+                // Show current image
+                if (post.image) {
+                    const preview = document.getElementById('imagePreview');
+                    const container = document.getElementById('imagePreviewContainer');
+                    if (preview && container) {
+                        preview.src = post.image;
+                        container.style.display = 'block';
+                    }
+                }
+
+                // Make image optional for editing
+                const imageInput = document.getElementById('blogImage');
+                if (imageInput) imageInput.required = false;
+
+                // Open modal
+                const modal = new bootstrap.Modal(document.getElementById('blogModal'));
+                modal.show();
+            },
+
+            confirmDelete(id) {
+                this.deletingId = id;
+                const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                modal.show();
+            },
+
+            async performDelete() {
+                if (!this.deletingId) return;
+
+                const deleteBtn = document.getElementById('confirmDeleteBtn');
+                const originalText = deleteBtn?.innerHTML;
+
+                if (deleteBtn) {
+                    deleteBtn.disabled = true;
+                    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Deleting...';
+                }
+
+                try {
+                    const response = await fetch(`/api/blog/${this.deletingId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        showToast('Post deleted successfully!', 'success');
+                        this.loadPosts();
+                        
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                        modal.hide();
+                        
+                        this.broadcastUpdate();
+                    } else {
+                        throw new Error('Failed to delete post');
+                    }
+                } catch (error) {
+                    console.error('Error deleting post:', error);
+                    showToast('Error deleting post. Please try again.', 'error');
+                } finally {
+                    if (deleteBtn) {
+                        deleteBtn.disabled = false;
+                        deleteBtn.innerHTML = originalText;
+                    }
+                    this.deletingId = null;
+                }
+            },
+
+            resetForm() {
+                const form = document.getElementById('blogForm');
+                if (form) form.reset();
+
+                this.isEditing = false;
+                this.editingId = null;
+
+                // Reset modal
+                document.getElementById('modalTitle').textContent = 'Create New Post';
+                document.getElementById('submitBtnText').textContent = 'Create Post';
+                document.getElementById('postId').value = '';
+
+                // Hide image preview
+                const container = document.getElementById('imagePreviewContainer');
+                if (container) container.style.display = 'none';
+
+                // Make image required for new posts
+                const imageInput = document.getElementById('blogImage');
+                if (imageInput) imageInput.required = true;
+            },
+
+            closeModal() {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('blogModal'));
+                if (modal) modal.hide();
+            },
+
+            broadcastUpdate() {
+                if (typeof BroadcastChannel !== 'undefined') {
+                    const bc = new BroadcastChannel('blog_channel');
+                    bc.postMessage({ type: 'blogUpdated' });
+                }
+            }
+        };
+
+        // Global functions for modal actions
+        window.openCreateModal = function() {
+            BlogManager.resetForm();
+            const modal = new bootstrap.Modal(document.getElementById('blogModal'));
+            modal.show();
+        };
+
+        window.removeImage = function() {
+            const container = document.getElementById('imagePreviewContainer');
+            const input = document.getElementById('blogImage');
+            if (container) container.style.display = 'none';
+            if (input) input.value = '';
+        };
+
         });
     </script>
+
+    <!-- Blog Management Custom Styles -->
+    <style>
+        /* Blog Management Enhancements */
+        .post-card {
+            transition: all 0.3s ease;
+            border-radius: 12px !important;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        }
+
+        .post-card .card-img-top {
+            border-radius: 12px 12px 0 0 !important;
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        /* Search and Filter Bar */
+        .input-group-text {
+            border: 1px solid #dee2e6 !important;
+        }
+
+        .form-control:focus {
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        .form-select:focus {
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        /* Modal Enhancements */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #FF6B35, #FF8C42);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        /* Button Enhancements */
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #FF8C42);
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #E55A28, #FF6B35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-outline-primary:hover {
+            background: #FF6B35;
+            border-color: #FF6B35;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-danger:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Loading States */
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /* Empty State */
+        .empty-illustration {
+            opacity: 0.7;
+        }
+
+        /* Card Action Buttons */
+        .btn-group .btn {
+            border-radius: 6px;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background-color: #f8d7da;
+            color: #721c24 !important;
+        }
+
+        /* Form Enhancements */
+        .form-control-lg {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-lg:focus {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        /* Image Preview */
+        #imagePreview {
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        #imagePreview:hover {
+            border-color: #FF6B35;
+        }
+
+        /* Stats Enhancement */
+        #totalPosts {
+            font-size: 1.1em;
+        }
+
+        /* Responsive Enhancements */
+        @media (max-width: 768px) {
+            .post-card:hover {
+                transform: none;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-group .btn {
+                border-radius: 6px !important;
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        /* Animation Classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .post-card {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        /* Success Toast Enhancement */
+        .toast-success {
+            background: linear-gradient(135deg, #28a745, #20c997) !important;
+        }
+
+        .toast-error {
+            background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
+        }
+    </style>
+
     <script>
   // Add this to the existing adminTab navigation
   document.addEventListener('DOMContentLoaded', function() {
@@ -1135,10 +1627,11 @@
     // Handle form submission
     const posterForm = document.getElementById('posterForm');
     if (posterForm) {
-      posterForm.addEventListener('submit', function(e) {
+      posterForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const title = document.getElementById('posterTitle').value;
+        const description = document.getElementById('posterDescription')?.value || '';
         const imageInput = document.getElementById('posterImage');
         const order = parseInt(document.getElementById('posterOrder').value) || 1;
         
@@ -1147,36 +1640,89 @@
           return;
         }
         
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const imageUrl = event.target.result;
-          const posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
+        try {
+          const formData = new FormData();
+          formData.append('title', title);
+          formData.append('description', description);
+          formData.append('order', order);
+          formData.append('image', imageInput.files[0]);
           
-          // Sort by order
-          posters.sort((a, b) => (a.order || 1) - (b.order || 1));
+          const response = await fetch('/api/posters', {
+            method: 'POST',
+            body: formData
+          });
           
-          // Save poster images to localStorage
-          localStorage.setItem('tourPosters', JSON.stringify(posters));
+          if (response.ok) {
+            const result = await response.json();
+            renderPosters();
+            posterForm.reset();
+            showAdminToast('Poster added successfully!', 'success');
+            
+            // Notify other pages about poster update
+            if (typeof BroadcastChannel !== 'undefined') {
+              const bc = new BroadcastChannel('posters_channel');
+              bc.postMessage({ type: 'postersUpdated' });
+            }
+          } else {
+            throw new Error('Failed to create poster');
+          }
+        } catch (error) {
+          console.error('Poster API error, using localStorage fallback:', error);
           
-          // Save poster URLs separately for the frontend
-          const posterUrls = posters.map(p => p.image);
-          localStorage.setItem('tourPosterUrls', JSON.stringify(posterUrls));
+          // Fallback to localStorage
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const imageUrl = event.target.result;
+            const posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
+            
+            const newPoster = {
+              id: Date.now().toString(),
+              title,
+              description,
+              image: imageUrl,
+              order,
+              addedAt: new Date().toISOString()
+            };
+            
+            posters.push(newPoster);
+            // Sort by order
+            posters.sort((a, b) => (a.order || 1) - (b.order || 1));
+            
+            localStorage.setItem('tourPosters', JSON.stringify(posters));
+            localStorage.setItem('posters', JSON.stringify(posters)); // Also save with the key the API uses
+            
+            renderPosters();
+            posterForm.reset();
+            showAdminToast('Poster added successfully (locally)!', 'success');
+          };
           
-          renderPosters();
-          posterForm.reset();
-          showAdminToast('Poster added successfully!', 'success');
-        };
-        
-        reader.readAsDataURL(imageInput.files[0]);
+          reader.readAsDataURL(imageInput.files[0]);
+        }
       });
     }
   }
   
-  function renderPosters() {
+  async function renderPosters() {
     const postersContainer = document.getElementById('postersList');
     if (!postersContainer) return;
     
-    const posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
+    let posters = [];
+    
+    try {
+      const response = await fetch('/api/posters');
+      if (response.ok) {
+        posters = await response.json();
+        console.log('Loading posters from server:', posters);
+      } else {
+        // Fallback to localStorage
+        posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
+        console.log('Loading posters from localStorage:', posters);
+      }
+    } catch (error) {
+      console.error('Error fetching posters:', error);
+      // Fallback to localStorage
+      posters = JSON.parse(localStorage.getItem('tourPosters')) || [];
+    }
     
     if (posters.length === 0) {
       postersContainer.innerHTML = `
@@ -1276,12 +1822,26 @@ function updateBookingStatus(bookingId, newStatus) {
 }
 
 // Enhanced booking rendering with status management
-function renderBookingsWithStatus() {
+async function renderBookingsWithStatus() {
     const tableBody = document.getElementById('booking-table-body');
     const emptyMsg = document.getElementById('empty-message');
     if (!tableBody) return;
     
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    let bookings = [];
+    
+    // Try to fetch from server first
+    try {
+        const response = await fetch('/api/bookings');
+        if (response.ok) {
+            bookings = await response.json();
+            console.log('Loading bookings from server:', bookings);
+        } else {
+            throw new Error('Server not available');
+        }
+    } catch (error) {
+        console.warn('Server not available, using localStorage fallback:', error);
+        bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    }
     
     // Ensure all bookings have IDs
     bookings.forEach((booking, index) => {

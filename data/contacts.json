@@ -7,14 +7,5 @@
     "message": "hey there",
     "submitted": "2025-08-13T10:03:08.595Z",
     "id": "1755079388595"
-  },
-  {
-    "name": "Test Contact",
-    "email": "test@contact.com",
-    "phone": "123456789",
-    "subject": "Test Subject",
-    "message": "This is a test contact message.",
-    "id": "1755203607144",
-    "submitted": "2025-08-14T20:33:27.144Z"
   }
 ]

@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "company": "Test Corp",
+    "contact": "John Doe",
+    "email": "john@testcorp.com",
+    "phone": "555-0123",
+    "service": "Safari Package",
+    "date": "2025-09-15",
+    "passengers": "10",
+    "message": "Corporate team building event",
+    "id": "1755280649451",
+    "submitted": "2025-08-15T17:57:29.451Z"
+  }
+]

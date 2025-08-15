@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "1755245183535",
+    "title": "Updated Blog Post Title",
+    "content": "This post has been updated using the new blog management system with full CRUD operations!",
+    "image": "/uploads/1755245183410-918014483.png",
+    "createdAt": "2025-08-15T08:06:23.535Z",
+    "updatedAt": "2025-08-15T17:36:11.281Z"
+  },
+  {
+    "id": "1755281049990",
+    "title": "This one",
+    "content": "Wotheheli",
+    "image": "/uploads/1755281038466-693405999.png",
+    "createdAt": "2025-08-15T18:04:09.990Z"
+  }
+]

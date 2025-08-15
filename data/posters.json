@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "1755248558183",
+    "title": "Masai Mara Adventure",
+    "description": "Experience the best wildlife safari in Kenya",
+    "image": "/uploads/1755248558173-796190072.jpg",
+    "order": 1,
+    "addedAt": "2025-08-15T09:02:38.183Z"
+  },
+  {
+    "id": "1755253156239",
+    "title": "maasai",
+    "description": "maraa",
+    "image": "/uploads/1755253155155-506971530.png",
+    "order": 1,
+    "addedAt": "2025-08-15T10:19:16.239Z"
+  }
+]

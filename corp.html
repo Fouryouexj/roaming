@@ -1301,7 +1301,7 @@ html {
     <footer>
         <div class="mwanzo" style="color: white;flex: 1; ">
             <h2>
-                Roaming Nomads Tour Info
+                Roaming Nomads Safari
             </h2>
             <p>
                 One of the great advantages of Kenyan tours is that you effortlessly gain enriching experiences, often without even realizing it. 
@@ -1314,8 +1314,8 @@ html {
         <div class="pili" style="flex: 1.3;">
             <h3>Contact Us</h3>
             <ul>
-                <li><a href="tel:+254740596771"><i class="fa-solid fa-phone"></i> +254 740 596771 <style color:red;></style> </a></li>
-                <li><a href="mailto:roamingnomadsafaris@gmail.com"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i>roamingnomadsafaris@gmail.com </a></li>
+                <li><a href="tel:+254794183530"><i class="fa-solid fa-phone"></i> +254 794 183 530 <style color:red;></style> </a></li>
+                <li><a href="mailto:tours@roamingnomads.co.ke"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i>tours@roamingnomads.co.ke</a></li>
                 <li><i class="fa-solid fa-location-dot"></i> Nairobi Wabera St, Salama Hse 3rd Floor suit 305</i></li>
             </ul>
             <div class="icons">
@@ -1508,30 +1508,10 @@ window.addEventListener('scroll', function () {
 
    <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const corpForm = document.getElementById('corpBookingForm');
-    if (corpForm) {
-        corpForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(corpForm);
-            const booking = {
-                id: Date.now().toString(),
-                company: formData.get('company'),
-                contact: formData.get('contact'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                service: formData.get('service'),
-                date: formData.get('date'),
-                message: formData.get('message'),
-                submitted: new Date().toISOString()
-            };
-            // Save to 'corpBookings' in localStorage
-            const corpBookings = JSON.parse(localStorage.getItem('corpBookings') || '[]');
-            corpBookings.push(booking);
-            localStorage.setItem('corpBookings', JSON.stringify(corpBookings));
-            alert('Corporate booking submitted successfully!');
-            corpForm.reset();
-        });
-    }
+    // Initialize corporate booking form handler from corp-booking.js
+    attachCorpBookingFormHandler();
+    
+    console.log('Corporate booking form initialized with API integration');
 });
 </script> 
 </body>
